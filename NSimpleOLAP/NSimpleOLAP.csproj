@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DA5630EE-AF68-4E65-8A7F-4E68C6ABE155}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NSimpleOLAP</RootNamespace>
+    <AssemblyName>NSimpleOLAP</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Common\Collections\TSDictionary.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Utils\KeyStreamer.cs" />
+    <Compile Include="Common\Utils\MurmurHash2.cs" />
+    <Compile Include="Configuration\DimensionElemCollection.cs" />
+    <Compile Include="Configuration\DimensionElement.cs" />
+    <Compile Include="Configuration\Fluent\ConfigBuilder.cs" />
+    <Compile Include="Configuration\Fluent\DataSourceBuilder.cs" />
+    <Compile Include="Configuration\Fluent\DimensionBuilder.cs" />
+    <Compile Include="Configuration\Fluent\MeasureBuilder.cs" />
+    <Compile Include="Configuration\Fluent\MetaDataBuilder.cs" />
+    <Compile Include="Configuration\Fluent\MetricBuilder.cs" />
+    <Compile Include="Configuration\Fluent\StorageConfigBuilder.cs" />
+    <Compile Include="Configuration\Interfaces\ICubeConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IDataSourceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IMetaDataConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IStoreConfig.cs" />
+    <Compile Include="Configuration\MeasureElemCollection.cs" />
+    <Compile Include="Configuration\MeasureElement.cs" />
+    <Compile Include="Configuration\MetadaConfigElement.cs" />
+    <Compile Include="Configuration\MetricElemCollection.cs" />
+    <Compile Include="Configuration\MetricElement.cs" />
+    <Compile Include="CubeDefinitions\Cell.cs" />
+    <Compile Include="CubeDefinitions\CellCollection.cs" />
+    <Compile Include="CubeDefinitions\Cube.cs" />
+    <Compile Include="CubeDefinitions\Interfaces\ICell.cs" />
+    <Compile Include="CubeDefinitions\Interfaces\ICellCollection.cs" />
+    <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
+    <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
+    <Compile Include="CubeDefinitions\ValuesCollection.cs" />
+    <Compile Include="Schema\BaseDataMemberCollection.cs" />
+    <Compile Include="Schema\DataSchema.cs" />
+    <Compile Include="Schema\Dimension.cs" />
+    <Compile Include="Schema\DimensionCollection.cs" />
+    <Compile Include="Schema\Interfaces\IDataItem.cs" />
+    <Compile Include="Schema\Interfaces\IDataItemCollection.cs" />
+    <Compile Include="Schema\Interfaces\IDimension.cs" />
+    <Compile Include="Schema\Interfaces\IMeasure.cs" />
+    <Compile Include="Schema\Interfaces\IMember.cs" />
+    <Compile Include="Schema\Interfaces\IMetric.cs" />
+    <Compile Include="Schema\Measure.cs" />
+    <Compile Include="Schema\MeasuresCollection.cs" />
+    <Compile Include="Schema\Member.cs" />
+    <Compile Include="Schema\MemberCollection.cs" />
+    <Compile Include="Schema\Metric.cs" />
+    <Compile Include="Schema\MetricsCollection.cs" />
+    <Compile Include="Storage\Interfaces\IStorage.cs" />
+    <Compile Include="Storage\Interfaces\IVarData.cs" />
+    <Compile Include="Storage\Molap\Graph\Graph.cs" />
+    <Compile Include="Storage\Molap\Graph\Node.cs" />
+    <Compile Include="Storage\Molap\Graph\NodeCollection.cs" />
+    <Compile Include="Storage\Molap\MolapConfig.cs" />
+    <Compile Include="Storage\Molap\MolapStorage.cs" />
+    <Compile Include="Storage\VarsCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\Interfaces" />
+    <Folder Include="Configuration\Fluent" />
+    <Folder Include="CubeDefinitions\Interfaces" />
+    <Folder Include="CubeDefinitions" />
+    <Folder Include="Configuration" />
+    <Folder Include="Schema" />
+    <Folder Include="Schema\Interfaces" />
+    <Folder Include="Storage" />
+    <Folder Include="Storage\Interfaces" />
+    <Folder Include="Storage\Molap" />
+    <Folder Include="Storage\Molap\Graph" />
+  </ItemGroup>
+</Project>
