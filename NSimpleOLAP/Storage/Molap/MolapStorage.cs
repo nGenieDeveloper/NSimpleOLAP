@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Molap.Graph;
 using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Configuration.Interfaces;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -24,7 +24,7 @@ namespace NSimpleOLAP.Storage.Molap
 	{
 		private Graph<T,U> _graph;
 		
-		public MolapStorage(T cubeid, IStoreConfig<T> config)
+		public MolapStorage(T cubeid, StorageElement config)
 		{
 			_graph = new Graph<T, U>(cubeid, config);
 		}

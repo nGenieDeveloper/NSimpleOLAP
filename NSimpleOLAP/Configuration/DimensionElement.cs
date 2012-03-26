@@ -1,71 +1,77 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 23-02-2012
- * Time: 00:41
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;   
 using System.Configuration;
 
 namespace NSimpleOLAP.Configuration
 {
 	/// <summary>
-	/// Description of DimensionElement.
+	/// Represents a single XML tag inside a ConfigurationSection
+	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public class DimensionElement
+	public sealed class DimensionElement : ConfigurationElement
 	{
-		public DimensionElement()
-		{
-		}
-		
+		/// <summary>
+		/// The attribute <c>name</c> of a <c>DimensionElement</c>.
+		/// </summary>
+		[ConfigurationProperty("name", IsKey = true, IsRequired = true)]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\.,", MinLength = 1, MaxLength = 120)]
 		public string Name
 		{
-			get;
-			set;
+			get { return (string)this["name"]; }
+			set { this["name"] = value; }
 		}
-		
+	
+		[ConfigurationProperty("id")]
 		public ValueType ID
 		{
-			get;
-			set;
+			get { return (ValueType)this["id"]; }
+			set { this["id"] = value; }
 		}
 		
+		[ConfigurationProperty("source", IsRequired = true)]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
 		public string Source
 		{
-			get;
-			set;
+			get { return (string)this["source"]; }
+			set { this["source"] = value; }
 		}
 		
+		[ConfigurationProperty("descFieldName")]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
 		public string DesFieldName
 		{
-			get;
-			set;
+			get { return (string)this["descFieldName"]; }
+			set { this["descFieldName"] = value; }
 		}
 		
+		[ConfigurationProperty("valueFieldName")]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
 		public string ValueFieldName
 		{
-			get;
-			set;
+			get { return (string)this["valueFieldName"]; }
+			set { this["valueFieldName"] = value; }
 		}
 		
+		[ConfigurationProperty("descFieldIndex")]
 		public int? DesFieldIndex
 		{
-			get;
-			set;
+			get { return (int?)this["descFieldIndex"]; }
+			set { this["descFieldIndex"] = value; }
 		}
 		
+		[ConfigurationProperty("valueFieldIndex")]
 		public int? ValueFieldIndex
 		{
-			get;
-			set;
+			get { return (int?)this["valueFieldIndex"]; }
+			set { this["valueFieldIndex"] = value; }
 		}
 		
+		[ConfigurationProperty("allowsNameDuplicates",  DefaultValue = false)]
 		public bool AllowsMembersWithSameName
 		{
-			get;
-			set;
+			get { return (bool)this["allowsNameDuplicates"]; }
+			set { this["allowsNameDuplicates"] = value; }
 		}
 	}
+	
 }
+

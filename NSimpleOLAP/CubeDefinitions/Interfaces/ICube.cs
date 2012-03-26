@@ -9,7 +9,7 @@
 using System;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Configuration.Interfaces;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Interfaces
 {
@@ -23,7 +23,6 @@ namespace NSimpleOLAP.Interfaces
 		T Key { get; set; }
 		string Name { get; set; }
 		DataSchema<T> Schema { get; }
-		IStoreConfig<T> StorageConfig { get; set; }
 		IStorage<T,U> Storage { get; }
 		ICellCollection<T, U> Cells { get; }
 		object DataSource { get; set; }

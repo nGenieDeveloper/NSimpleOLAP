@@ -10,7 +10,8 @@ using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Configuration.Interfaces;
+using NSimpleOLAP.Configuration;
+
 
 namespace NSimpleOLAP.Storage.Molap.Graph
 {
@@ -26,14 +27,14 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		private Func<KeyValuePair<T,T>[], T> _hashPairsFunction;
 		private Action<object, IVarData<T>> _varDataMergeFunc;
 		
-		public Graph(T root, IStoreConfig<T> config)
+		public Graph(T root, StorageElement config)
 		{
 			this.Root = new ImpNode() { 
 				Coords = new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))},
 				IsRootDim = true
 			};
-			_hashPairsFunction = config.HashingFunction;
-			_varDataMergeFunc = config.VarMergeFunction;
+			_hashPairsFunction = config.GetHashingFunction<T>();
+			_varDataMergeFunc = config.GetVarMergeFunction<T>();
 			this.Root.Key = _hashPairsFunction(this.Root.Coords);
 		}
 		

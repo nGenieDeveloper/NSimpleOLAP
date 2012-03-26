@@ -69,8 +69,15 @@
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Utils\KeyStreamer.cs" />
     <Compile Include="Common\Utils\MurmurHash2.cs" />
-    <Compile Include="Configuration\DimensionElemCollection.cs" />
+    <Compile Include="Configuration\CubeElementCollection.cs" />
+    <Compile Include="Configuration\OlapConfigSectionSettings.cs" />
+    <Compile Include="Configuration\CubeElement.cs" />
+    <Compile Include="Configuration\DataSourceElement.cs" />
+    <Compile Include="Configuration\DataSourceElementCollection.cs" />
     <Compile Include="Configuration\DimensionElement.cs" />
+    <Compile Include="Configuration\DimensionElementCollection.cs" />
+    <Compile Include="Configuration\FieldElementCollection.cs" />
+    <Compile Include="Configuration\FieldElement.cs" />
     <Compile Include="Configuration\Fluent\ConfigBuilder.cs" />
     <Compile Include="Configuration\Fluent\DataSourceBuilder.cs" />
     <Compile Include="Configuration\Fluent\DimensionBuilder.cs" />
@@ -78,15 +85,12 @@
     <Compile Include="Configuration\Fluent\MetaDataBuilder.cs" />
     <Compile Include="Configuration\Fluent\MetricBuilder.cs" />
     <Compile Include="Configuration\Fluent\StorageConfigBuilder.cs" />
-    <Compile Include="Configuration\Interfaces\ICubeConfig.cs" />
-    <Compile Include="Configuration\Interfaces\IDataSourceConfig.cs" />
-    <Compile Include="Configuration\Interfaces\IMetaDataConfig.cs" />
-    <Compile Include="Configuration\Interfaces\IStoreConfig.cs" />
-    <Compile Include="Configuration\MeasureElemCollection.cs" />
+    <Compile Include="Configuration\MeasureElementCollection.cs" />
     <Compile Include="Configuration\MeasureElement.cs" />
-    <Compile Include="Configuration\MetadaConfigElement.cs" />
-    <Compile Include="Configuration\MetricElemCollection.cs" />
+    <Compile Include="Configuration\MetaDataElement.cs" />
+    <Compile Include="Configuration\MetricElementCollection.cs" />
     <Compile Include="Configuration\MetricElement.cs" />
+    <Compile Include="Configuration\StorageElement.cs" />
     <Compile Include="CubeDefinitions\Cell.cs" />
     <Compile Include="CubeDefinitions\CellCollection.cs" />
     <Compile Include="CubeDefinitions\Cube.cs" />
@@ -116,7 +120,6 @@
     <Compile Include="Storage\Molap\Graph\Graph.cs" />
     <Compile Include="Storage\Molap\Graph\Node.cs" />
     <Compile Include="Storage\Molap\Graph\NodeCollection.cs" />
-    <Compile Include="Storage\Molap\MolapConfig.cs" />
     <Compile Include="Storage\Molap\MolapStorage.cs" />
     <Compile Include="Storage\VarsCollection.cs" />
   </ItemGroup>
@@ -158,6 +161,8 @@
     <Folder Include="CubeDefinitions\Interfaces" />
     <Folder Include="CubeDefinitions" />
     <Folder Include="Configuration" />
+    <Folder Include="Parsers" />
+    <Folder Include="Parsers\Expressions" />
     <Folder Include="Schema" />
     <Folder Include="Schema\Interfaces" />
     <Folder Include="Storage" />

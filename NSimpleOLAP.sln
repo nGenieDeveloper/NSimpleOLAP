@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-# SharpDevelop 4.2.0.8528-beta
+# SharpDevelop 4.2.0.8649-Beta 2
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSimpleOLAP", "NSimpleOLAP\NSimpleOLAP.csproj", "{DA5630EE-AF68-4E65-8A7F-4E68C6ABE155}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp", "ExampleApp\ExampleApp.csproj", "{2528FE10-1FE8-4800-AC7E-C116EFDD8A9C}"

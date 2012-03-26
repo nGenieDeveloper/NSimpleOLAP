@@ -1,37 +1,40 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 23-02-2012
- * Time: 01:08
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;   
 using System.Configuration;
 using System.Linq.Expressions;
-
 
 namespace NSimpleOLAP.Configuration
 {
 	/// <summary>
-	/// Description of MetricElement.
+	/// Represents a single XML tag inside a ConfigurationSection
+	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public class MetricElement
+	public sealed class MetricElement : ConfigurationElement
 	{
-		public MetricElement()
-		{
-		}
-		
+		/// <summary>
+		/// The attribute <c>name</c> of a <c>MetricElement</c>.
+		/// </summary>
+		[ConfigurationProperty("name", IsKey = true, IsRequired = true)]
 		public string Name
 		{
-			get;
-			set;
+			get { return (string)this["name"]; }
+			set { this["name"] = value; }
+		}
+	
+	
+		/// <summary>
+		/// A demonstration of how to use a boolean property.
+		/// </summary>
+		[ConfigurationProperty("special")]
+		public bool IsSpecial {
+			get { return (bool)this["special"]; }
+			set { this["special"] = value; }
 		}
 		
+		[ConfigurationProperty("id")]
 		public ValueType ID
 		{
-			get;
-			set;
+			get { return (ValueType)this["id"]; }
+			set { this["id"] = value; }
 		}
 		
 		public Type DataType
@@ -45,6 +48,7 @@ namespace NSimpleOLAP.Configuration
 			get;
 			set;
 		}
-		
 	}
+	
 }
+

@@ -12,7 +12,7 @@ using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Configuration.Interfaces;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP
 {
@@ -39,11 +39,6 @@ namespace NSimpleOLAP
 		public DataSchema<T> Schema {
 			get;
 			private set;
-		}
-		
-		public IStoreConfig<T> StorageConfig {
-			get;
-			set;
 		}
 		
 		public IStorage<T, Cell<T>> Storage {

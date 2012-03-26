@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Configuration;
-using NSimpleOLAP.Configuration.Interfaces;
 
 namespace NSimpleOLAP.Configuration.Fluent
 {
@@ -49,11 +48,10 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public IMetaDataConfig<T> Create<T>() 
-			where T: struct, IComparable
+		public MetaDataElement Create() 
 		{
-			MetadaConfigElement<T> metadata = new MetadaConfigElement<T>();
-			
+		//	MetadaConfigElement<T> metadata = new MetadaConfigElement<T>();
+			/*
 			foreach (var item in this.GetDimensions())
 				metadata.Dimensions.Add(item);
 			
@@ -63,7 +61,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 			foreach (var item in this.GetMetrics())
 				metadata.Metrics.Add(item);
 		
-			return metadata;
+			return metadata;*/
+			
+			return null;
 		}
 		
 		#endregion

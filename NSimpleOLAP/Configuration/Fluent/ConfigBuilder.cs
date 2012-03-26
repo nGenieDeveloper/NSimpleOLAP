@@ -7,7 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using NSimpleOLAP.Configuration.Interfaces;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Configuration.Fluent
 {
@@ -47,8 +47,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public ICubeConfig<T> Create<T>()
-			where T: struct, IComparable
+		public CubeElement Create()
 		{
 			return null;
 		}
