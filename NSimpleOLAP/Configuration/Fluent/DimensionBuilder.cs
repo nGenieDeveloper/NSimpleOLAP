@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 23-02-2012
- * Time: 00:11
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Configuration.Fluent

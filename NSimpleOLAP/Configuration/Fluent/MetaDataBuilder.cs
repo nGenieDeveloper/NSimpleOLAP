@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 22-02-2012
- * Time: 16:59
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Configuration;
 
@@ -50,8 +42,12 @@ namespace NSimpleOLAP.Configuration.Fluent
 		
 		public MetaDataElement Create() 
 		{
-		//	MetadaConfigElement<T> metadata = new MetadaConfigElement<T>();
-			/*
+			MetaDataElement metadata = new MetaDataElement();
+			
+			metadata.Dimensions = new DimensionElementCollection();
+			metadata.Measures = new MeasureElementCollection();
+			metadata.Metrics = new MetricElementCollection();
+		
 			foreach (var item in this.GetDimensions())
 				metadata.Dimensions.Add(item);
 			
@@ -61,9 +57,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			foreach (var item in this.GetMetrics())
 				metadata.Metrics.Add(item);
 		
-			return metadata;*/
-			
-			return null;
+			return metadata;
 		}
 		
 		#endregion

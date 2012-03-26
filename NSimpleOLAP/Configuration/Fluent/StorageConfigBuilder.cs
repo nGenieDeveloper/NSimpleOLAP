@@ -1,12 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 22-02-2012
- * Time: 16:58
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
+using System.Collections.Generic;
+using NSimpleOLAP.Common;
+using NSimpleOLAP.Configuration;
+
 
 namespace NSimpleOLAP.Configuration.Fluent
 {
@@ -15,8 +11,26 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class StorageConfigBuilder
 	{
+		private StorageElement _element;
+		
 		public StorageConfigBuilder()
 		{
+			_element = new StorageElement();
 		}
+		
+		#region public methods
+		
+		public StorageConfigBuilder SetStoreType(StorageType storetype)
+		{
+			_element.StoreType = storetype;
+			return this;
+		}
+		
+		public StorageElement Create()
+		{
+			return _element;
+		}
+		
+		#endregion
 	}
 }

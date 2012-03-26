@@ -78,7 +78,7 @@
     <Compile Include="Configuration\DimensionElementCollection.cs" />
     <Compile Include="Configuration\FieldElementCollection.cs" />
     <Compile Include="Configuration\FieldElement.cs" />
-    <Compile Include="Configuration\Fluent\ConfigBuilder.cs" />
+    <Compile Include="Configuration\Fluent\CubeConfigBuilder.cs" />
     <Compile Include="Configuration\Fluent\DataSourceBuilder.cs" />
     <Compile Include="Configuration\Fluent\DimensionBuilder.cs" />
     <Compile Include="Configuration\Fluent\MeasureBuilder.cs" />
@@ -156,7 +156,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Configuration\Interfaces" />
     <Folder Include="Configuration\Fluent" />
     <Folder Include="CubeDefinitions\Interfaces" />
     <Folder Include="CubeDefinitions" />
