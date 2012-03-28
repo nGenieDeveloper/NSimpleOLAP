@@ -26,7 +26,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public StorageElement Create()
+		internal StorageElement Create()
 		{
 			return _element;
 		}

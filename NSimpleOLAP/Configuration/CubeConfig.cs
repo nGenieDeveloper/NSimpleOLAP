@@ -7,18 +7,29 @@ namespace NSimpleOLAP.Configuration
 	/// Represents a single XML tag inside a ConfigurationSection
 	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public sealed class CubeElement : ConfigurationElement
+	public sealed class CubeConfig : ConfigurationElement
 	{
 		/// <summary>
 		/// The attribute <c>name</c> of a <c>CubeElement</c>.
 		/// </summary>
 		[ConfigurationProperty("name", IsKey = true, IsRequired = true)]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
 		public string Name
 		{
 			get { return (string)this["name"]; }
 			set { this["name"] = value; }
 		}
 	
+		/// <summary>
+		/// 
+		/// </summary>
+		[ConfigurationProperty("source", IsRequired = true)]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
+		public string Source
+		{
+			get { return (string)this["source"]; }
+			set { this["source"] = value; }
+		}
 	
 		/// <summary>
 		/// 
@@ -30,8 +41,8 @@ namespace NSimpleOLAP.Configuration
 		}
 		
 		[ConfigurationProperty("MetaData")]
-		public MetaDataElement MetaData {
-			get { return (MetaDataElement)this["MetaData"]; }
+		public MetaDataConfig MetaData {
+			get { return (MetaDataConfig)this["MetaData"]; }
 			set { this["MetaData"] = value; }
 		}
 		

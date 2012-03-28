@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP;
 using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Configuration.Fluent
@@ -7,14 +8,15 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// <summary>
 	/// Description of ConfigBuilder.
 	/// </summary>
-	public class CubeConfigBuilder
+	public class CubeBuilder
 	{
 		private string _name = string.Empty;
+		private string _source = string.Empty;
 		private StorageConfigBuilder _storeconfig;
 		private List<DataSourceBuilder> _datasourceconfigs;
 		private MetaDataBuilder _metadataconfig;
 		
-		public CubeConfigBuilder()
+		public CubeBuilder()
 		{
 			_storeconfig = new StorageConfigBuilder();
 			_datasourceconfigs = new List<DataSourceBuilder>();
@@ -23,19 +25,25 @@ namespace NSimpleOLAP.Configuration.Fluent
 		
 		#region public methods
 		
-		public CubeConfigBuilder SetName(string name)
+		public CubeBuilder SetName(string name)
 		{
 			_name = name;
 			return this;
 		}
 		
-		public CubeConfigBuilder Storage(Action<StorageConfigBuilder> storeconfig)
+		public CubeBuilder SetSource(string source)
+		{
+			_source = source;
+			return this;
+		}
+		
+		public CubeBuilder Storage(Action<StorageConfigBuilder> storeconfig)
 		{
 			storeconfig(_storeconfig);
 			return this;
 		}
 		
-		public CubeConfigBuilder AddDataSource(Action<DataSourceBuilder> datasourceconfig)
+		public CubeBuilder AddDataSource(Action<DataSourceBuilder> datasourceconfig)
 		{
 			DataSourceBuilder builder = new DataSourceBuilder();
 			
@@ -45,15 +53,15 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public CubeConfigBuilder MetaData(Action<MetaDataBuilder> medataconfig)
+		public CubeBuilder MetaData(Action<MetaDataBuilder> medataconfig)
 		{
 			medataconfig(_metadataconfig);
 			return this;
 		}
 		
-		public CubeElement Create()
+		public CubeConfig Create()
 		{
-			CubeElement cube = new CubeElement();
+			CubeConfig cube = new CubeConfig();
 			
 			cube.Name = _name;
 			cube.Storage = _storeconfig.Create();

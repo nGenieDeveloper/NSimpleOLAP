@@ -14,7 +14,7 @@ namespace NSimpleOLAP.Configuration
 		/// The attribute <c>name</c> of a <c>MeasureElement</c>.
 		/// </summary>
 		[ConfigurationProperty("name", IsKey = true, IsRequired = true)]
-		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\.,", MinLength = 1, MaxLength = 120)]
+		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\.,", MinLength = 0, MaxLength = 120)]
 		public string Name
 		{
 			get { return (string)this["name"]; }
@@ -27,14 +27,6 @@ namespace NSimpleOLAP.Configuration
 		{
 			get { return (ValueType)this["id"]; }
 			set { this["id"] = value; }
-		}
-		
-		[ConfigurationProperty("source", IsRequired = true)]
-		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
-		public string Source
-		{
-			get { return (string)this["source"]; }
-			set { this["source"] = value; }
 		}
 		
 		[ConfigurationProperty("valueFieldName")]

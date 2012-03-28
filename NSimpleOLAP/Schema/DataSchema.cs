@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 00:47
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Schema.Interfaces;
 
 namespace NSimpleOLAP.Schema
@@ -23,6 +16,11 @@ namespace NSimpleOLAP.Schema
 			Dimensions = new DimensionCollection<T>();
 			Measures = new MeasuresCollection<T>();
 			Metrics = new MetricsCollection<T>();
+		}
+		
+		public DataSchema(CubeConfig config):this()
+		{
+			this.Initialize(config);
 		}
 		
 		public DimensionCollection<T> Dimensions 
@@ -50,6 +48,15 @@ namespace NSimpleOLAP.Schema
 			this.Dimensions.Dispose();
 			this.Measures.Dispose();
 			this.Metrics.Dispose();
+		}
+		
+		#endregion
+		
+		#region private members
+		
+		private void Initialize(CubeConfig config)
+		{
+			
 		}
 		
 		#endregion

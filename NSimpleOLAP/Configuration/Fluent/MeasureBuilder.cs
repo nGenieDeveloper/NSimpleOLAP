@@ -52,19 +52,13 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public MeasureBuilder Source(string name)
-		{
-			_element.Source = name;
-			return this;
-		}
-		
 		public MeasureBuilder SetMergeExpression(Expression expression)
 		{
 			_element.MergeFunction = expression;
 			return this;
 		}
 		
-		public MeasureElement Create()
+		internal MeasureElement Create()
 		{
 			return _element;
 		}

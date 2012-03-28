@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 21-02-2012
- * Time: 00:19
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Schema;
@@ -24,6 +16,7 @@ namespace NSimpleOLAP
 	{
 		public Cube()
 		{
+			
 		}
 		
 		public T Key {
@@ -61,6 +54,11 @@ namespace NSimpleOLAP
 			private set;
 		}
 		
+		public CubeConfig Config { 
+			get; 
+			internal set;
+		}
+		
 		#region IDisposable implementations
 		
 		public void Dispose()
@@ -70,6 +68,11 @@ namespace NSimpleOLAP
 		}
 		
 		#endregion
+		
+		public void Init()
+		{
+			throw new NotImplementedException();
+		}
 		
 		public void Process()
 		{

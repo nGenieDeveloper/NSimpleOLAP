@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Configuration
 	/// <summary>
 	/// A collection of CubeElement(s).
 	/// </summary>
-	public sealed class CubeElementCollection : ConfigurationElementCollection
+	public sealed class CubeConfigCollection : ConfigurationElementCollection
 	{
 		#region Properties
 
@@ -32,9 +32,9 @@ namespace NSimpleOLAP.Configuration
 		/// <summary>
 		/// Retrieve and item in the collection by index.
 		/// </summary>
-		public CubeElement this[int index]
+		public CubeConfig this[int index]
 		{
-			get   { return (CubeElement)BaseGet(index); }
+			get   { return (CubeConfig)BaseGet(index); }
 			set
 			{
 				if (BaseGet(index) != null)
@@ -52,7 +52,7 @@ namespace NSimpleOLAP.Configuration
 		/// Adds a CubeElement to the configuration file.
 		/// </summary>
 		/// <param name="element">The CubeElement to add.</param>
-		public void Add(CubeElement element)
+		public void Add(CubeConfig element)
 		{
 			BaseAdd(element);
 		}
@@ -64,7 +64,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>A new <c>CubeElement</c></returns>
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new CubeElement();
+			return new CubeConfig();
 		}
 
 	   
@@ -76,7 +76,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>The key of <c>element</c>.</returns>
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((CubeElement)element).Name;
+			return ((CubeConfig)element).Name;
 		}
 	   
 	   

@@ -22,8 +22,8 @@ namespace NSimpleOLAP.Configuration
 		/// A custom XML section for an applications configuration file.
 		/// </summary>
 		[ConfigurationProperty("Cubes")]
-		public CubeElementCollection Cubes {
-			get { return (CubeElementCollection) this["Cubes"]; }
+		public CubeConfigCollection Cubes {
+			get { return (CubeConfigCollection) this["Cubes"]; }
 			set { this["Cubes"] = value; }
 		}
 

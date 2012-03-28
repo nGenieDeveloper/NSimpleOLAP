@@ -26,7 +26,7 @@ namespace NSimpleOLAP.Configuration
 		[ConfigurationProperty("type", IsRequired = true, DefaultValue = StorageType.Molap)]
 		public StorageType StoreType {
 			get { return (StorageType)this["type"]; }
-			set { this["special"] = value; }
+			set { this["type"] = value; }
 		}
 		
 		internal Func<KeyValuePair<T,T>[], T> GetHashingFunction<T>()

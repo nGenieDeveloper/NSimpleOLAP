@@ -11,6 +11,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 	public class DataSourceBuilder
 	{
 		private DataSourceElement _element;
+		private Action<CSVConfigBuilder> _csvconfig;
+		private Action<DBConfigBuilder> _dbconfig;
+		private Action<DataTableConfigBuilder> _dtconfig;
 		
 		public DataSourceBuilder()
 		{
@@ -26,21 +29,21 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public DataSourceBuilder SetConnection(string connection)
+		public DataSourceBuilder SetCSVConfig(Action<CSVConfigBuilder> config)
 		{
-			_element.Connection = connection;
+			_csvconfig = config;
 			return this;
 		}
 		
-		public DataSourceBuilder SetQuery(string query)
+		public DataSourceBuilder SetDBConfig(Action<DBConfigBuilder> config)
 		{
-			_element.Connection = query;
+			_dbconfig = config;
 			return this;
 		}
 		
-		public DataSourceBuilder SetFilePath(string path)
+		public DataSourceBuilder SetDBConfig(Action<DataTableConfigBuilder> config)
 		{
-			_element.FilePath = path;
+			_dtconfig = config;
 			return this;
 		}
 		
@@ -57,8 +60,27 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public DataSourceElement Create()
+		internal DataSourceElement Create()
 		{
+			if (_element.SourceType == DataSourceType.CSV)
+			{
+				CSVConfigBuilder csvbuilder = new CSVConfigBuilder();
+				_csvconfig(csvbuilder);
+				_element.CSVConfig = csvbuilder.Create();
+			}
+			else if (_element.SourceType == DataSourceType.DataBase)
+			{
+				DBConfigBuilder dbbuilder = new DBConfigBuilder();
+				_dbconfig(dbbuilder);
+				_element.DBConfig = dbbuilder.Create();
+			}
+			else if (_element.SourceType == DataSourceType.DataSet)
+			{
+				DataTableConfigBuilder dtbuilder = new DataTableConfigBuilder();
+				_dtconfig(dtbuilder);
+				_element.DTableConfig = dtbuilder.Create();
+			}
+			
 			return _element;
 		}
 		

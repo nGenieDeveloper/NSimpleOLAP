@@ -40,7 +40,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public MetricElement Create()
+		internal MetricElement Create()
 		{
 			return _element;
 		}

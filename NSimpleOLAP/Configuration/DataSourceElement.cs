@@ -36,25 +36,25 @@ namespace NSimpleOLAP.Configuration
 			set { this["type"] = value; }
 		}
 		
-		[ConfigurationProperty("connection")]
-		public string Connection
+		[ConfigurationProperty("DBConfig")]
+		public DBConfigElement DBConfig
 		{
-			get { return (string)this["connection"]; }
-			set { this["connection"] = value; }
+			get { return (DBConfigElement)this["DBConfig"]; }
+			set { this["DBConfig"] = value; }
 		}
 		
-		[ConfigurationProperty("query")]
-		public string Query
+		[ConfigurationProperty("CSVConfig")]
+		public CSVElement CSVConfig
 		{
-			get { return (string)this["query"]; }
-			set { this["query"] = value; }
+			get { return (CSVElement)this["CSVConfig"]; }
+			set { this["CSVConfig"] = value; }
 		}
 		
-		[ConfigurationProperty("path")]
-		public string FilePath
+		[ConfigurationProperty("DTableConfig")]
+		internal DataTableConfig DTableConfig
 		{
-			get { return (string)this["path"]; }
-			set { this["path"] = value; }
+			get { return (DataTableConfig)this["DTableConfig"]; }
+			set { this["DTableConfig"] = value; }
 		}
 	}
 	

@@ -40,9 +40,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public MetaDataElement Create() 
+		internal MetaDataConfig Create() 
 		{
-			MetaDataElement metadata = new MetaDataElement();
+			MetaDataConfig metadata = new MetaDataConfig();
 			
 			metadata.Dimensions = new DimensionElementCollection();
 			metadata.Measures = new MeasureElementCollection();

@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Configuration
 	/// Represents a single XML tag inside a ConfigurationSection
 	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public sealed class MetaDataElement : ConfigurationElement
+	public sealed class MetaDataConfig : ConfigurationElement
 	{
 		/// <summary>
 		/// The attribute <c>name</c> of a <c>MetaDataConfigElement</c>.

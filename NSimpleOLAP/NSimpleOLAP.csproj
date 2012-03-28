@@ -69,9 +69,16 @@
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Utils\KeyStreamer.cs" />
     <Compile Include="Common\Utils\MurmurHash2.cs" />
+    <Compile Include="Configuration\CSVElement.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
+    <Compile Include="Configuration\DataTableConfigElement.cs" />
+    <Compile Include="Configuration\DBConfigElement.cs" />
+    <Compile Include="Configuration\Extensions\ConfigExtensions.cs" />
+    <Compile Include="Configuration\Fluent\CSVConfigBuilder.cs" />
+    <Compile Include="Configuration\Fluent\DataTableConfigBuilder.cs" />
+    <Compile Include="Configuration\Fluent\DBConfigBuilder.cs" />
     <Compile Include="Configuration\OlapConfigSectionSettings.cs" />
-    <Compile Include="Configuration\CubeElement.cs" />
+    <Compile Include="Configuration\CubeConfig.cs" />
     <Compile Include="Configuration\DataSourceElement.cs" />
     <Compile Include="Configuration\DataSourceElementCollection.cs" />
     <Compile Include="Configuration\DimensionElement.cs" />
@@ -99,6 +106,12 @@
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
     <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
     <Compile Include="CubeDefinitions\ValuesCollection.cs" />
+    <Compile Include="Data\Providers\DBFactory.cs" />
+    <Compile Include="Data\Readers\AbsReader.cs" />
+    <Compile Include="Data\Readers\AbsRowData.cs" />
+    <Compile Include="Data\Readers\CSVReader.cs" />
+    <Compile Include="Data\Readers\DTableReader.cs" />
+    <Compile Include="Data\Readers\DBReader.cs" />
     <Compile Include="Schema\BaseDataMemberCollection.cs" />
     <Compile Include="Schema\DataSchema.cs" />
     <Compile Include="Schema\Dimension.cs" />
@@ -157,9 +170,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\Fluent" />
+    <Folder Include="Configuration\Extensions" />
     <Folder Include="CubeDefinitions\Interfaces" />
     <Folder Include="CubeDefinitions" />
     <Folder Include="Configuration" />
+    <Folder Include="Data" />
+    <Folder Include="Data\Providers" />
+    <Folder Include="Data\Readers" />
     <Folder Include="Parsers" />
     <Folder Include="Parsers\Expressions" />
     <Folder Include="Schema" />

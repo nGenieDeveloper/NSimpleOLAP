@@ -27,7 +27,9 @@ namespace NSimpleOLAP.Interfaces
 		ICellCollection<T, U> Cells { get; }
 		object DataSource { get; set; }
 		bool IsProcessing { get; }
+		CubeConfig Config { get; }
 		
+		void Init();
 		void Process();
 		void Refresh();
 	}
