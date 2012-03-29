@@ -1,15 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 00:27
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Data;
 
 namespace NSimpleOLAP.Interfaces
 {
@@ -25,7 +18,7 @@ namespace NSimpleOLAP.Interfaces
 		DataSchema<T> Schema { get; }
 		IStorage<T,U> Storage { get; }
 		ICellCollection<T, U> Cells { get; }
-		object DataSource { get; set; }
+		DataSourceCollection DataSources { get; }
 		bool IsProcessing { get; }
 		CubeConfig Config { get; }
 		

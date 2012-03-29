@@ -1,14 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 20:25
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Data.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
@@ -23,6 +17,12 @@ namespace NSimpleOLAP.Schema
 			Members = new MemberCollection<T>();
 		}
 		
+		public Dimension(DimensionConfig dimconfig, IDataSource datasource): this()
+		{
+			this.Config = dimconfig;
+			this.DataSource = datasource;
+		}
+		
 		public string Name {
 			get;
 			set;
@@ -34,6 +34,16 @@ namespace NSimpleOLAP.Schema
 		}
 		
 		public MemberCollection<T> Members {
+			get;
+			private set;
+		}
+		
+		public DimensionConfig Config {
+			get;
+			set;
+		}
+		
+		public IDataSource DataSource {
 			get;
 			private set;
 		}

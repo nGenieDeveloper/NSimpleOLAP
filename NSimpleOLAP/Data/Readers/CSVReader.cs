@@ -18,7 +18,7 @@ namespace NSimpleOLAP.Data.Readers
 		private Row _row;
 		private TextReader _reader;
 
-		public CSVReader(DataSourceElement config)
+		public CSVReader(DataSourceConfig config)
 		{
 			this.Config = config;
 			this.Init();

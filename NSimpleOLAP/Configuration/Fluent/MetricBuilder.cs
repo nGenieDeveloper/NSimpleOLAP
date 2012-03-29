@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 23-02-2012
- * Time: 00:21
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using NSimpleOLAP.Configuration;
@@ -18,11 +10,11 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class MetricBuilder
 	{
-		private MetricElement _element;
+		private MetricConfig _element;
 		
 		public MetricBuilder()
 		{
-			_element = new MetricElement();
+			_element = new MetricConfig();
 		}
 		
 		#region public methods
@@ -40,7 +32,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		internal MetricElement Create()
+		internal MetricConfig Create()
 		{
 			return _element;
 		}

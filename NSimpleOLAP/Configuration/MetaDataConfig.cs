@@ -13,23 +13,23 @@ namespace NSimpleOLAP.Configuration
 		/// The attribute <c>name</c> of a <c>MetaDataConfigElement</c>.
 		/// </summary>
 		[ConfigurationProperty("Dimensions", IsRequired = true)]
-		public DimensionElementCollection  Dimensions
+		public DimensionConfigCollection  Dimensions
 		{
-			get { return (DimensionElementCollection)this["Dimensions"]; }
+			get { return (DimensionConfigCollection)this["Dimensions"]; }
 			set { this["Dimensions"] = value; }
 		}
 		
 		[ConfigurationProperty("Measures")]
-		public MeasureElementCollection  Measures
+		public MeasureConfigCollection  Measures
 		{
-			get { return (MeasureElementCollection)this["Measures"]; }
+			get { return (MeasureConfigCollection)this["Measures"]; }
 			set { this["Measures"] = value; }
 		}
 		
 		[ConfigurationProperty("Metrics")]
-		public MetricElementCollection  Metrics
+		public MetricConfigCollection  Metrics
 		{
-			get { return (MetricElementCollection)this["Metrics"]; }
+			get { return (MetricConfigCollection)this["Metrics"]; }
 			set { this["Metrics"] = value; }
 		}
 	}

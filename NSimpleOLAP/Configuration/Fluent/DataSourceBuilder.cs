@@ -10,14 +10,14 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class DataSourceBuilder
 	{
-		private DataSourceElement _element;
+		private DataSourceConfig _element;
 		private Action<CSVConfigBuilder> _csvconfig;
 		private Action<DBConfigBuilder> _dbconfig;
 		private Action<DataTableConfigBuilder> _dtconfig;
 		
 		public DataSourceBuilder()
 		{
-			_element = new DataSourceElement();
+			_element = new DataSourceConfig();
 			_element.Fields = new FieldElementCollection();
 		}
 		
@@ -60,7 +60,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		internal DataSourceElement Create()
+		internal DataSourceConfig Create()
 		{
 			if (_element.SourceType == DataSourceType.CSV)
 			{

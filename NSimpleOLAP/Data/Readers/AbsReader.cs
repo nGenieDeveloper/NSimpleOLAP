@@ -11,7 +11,7 @@ namespace NSimpleOLAP.Data.Readers
 	public abstract class AbsReader: IDisposable
 	{
 		
-		protected DataSourceElement Config
+		protected DataSourceConfig Config
 		{
 			get;
 			set;
@@ -27,7 +27,7 @@ namespace NSimpleOLAP.Data.Readers
 		
 		public abstract bool Next();
 		
-		public static AbsReader Create(DataSourceElement config)
+		public static AbsReader Create(DataSourceConfig config)
 		{
 			AbsReader reader = null;
 			

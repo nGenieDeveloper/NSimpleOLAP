@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Schema.Interfaces
 {
@@ -6,5 +8,6 @@ namespace NSimpleOLAP.Schema.Interfaces
         where T: struct, IComparable
     {
         Type DataType { get; set; }
+        MeasureConfig Config { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace NSimpleOLAP.Data.Readers
 		private DataTable _table;
 		private DataTableReader _reader;
 		
-		public DTableReader(DataSourceElement config)
+		public DTableReader(DataSourceConfig config)
 		{
 			this.Config = config;
 			this.Init();

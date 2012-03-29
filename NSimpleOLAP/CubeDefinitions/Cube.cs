@@ -5,6 +5,7 @@ using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Data;
 
 namespace NSimpleOLAP
 {
@@ -16,7 +17,12 @@ namespace NSimpleOLAP
 	{
 		public Cube()
 		{
-			
+			this.DataSources = new DataSourceCollection();
+		}
+		
+		public Cube(CubeConfig config): this()
+		{
+			this.Config = config;
 		}
 		
 		public T Key {
@@ -44,9 +50,9 @@ namespace NSimpleOLAP
 			private set;
 		}
 		
-		public object DataSource {
+		public DataSourceCollection DataSources {
 			get;
-			set;
+			private set;
 		}
 		
 		public bool IsProcessing {
@@ -65,6 +71,7 @@ namespace NSimpleOLAP
 		{
 			this.Schema.Dispose();
 			this.Storage.Dispose();
+			this.DataSources = null;
 		}
 		
 		#endregion

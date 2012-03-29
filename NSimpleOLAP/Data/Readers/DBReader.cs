@@ -20,7 +20,7 @@ namespace NSimpleOLAP.Data.Readers
 		private IDataReader _reader;
 		private IDbConnection _connection;
 		
-		public DBReader(DataSourceElement config)
+		public DBReader(DataSourceConfig config)
 		{
 			this.Config = config;
 			this.Init();

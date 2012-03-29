@@ -44,9 +44,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 		{
 			MetaDataConfig metadata = new MetaDataConfig();
 			
-			metadata.Dimensions = new DimensionElementCollection();
-			metadata.Measures = new MeasureElementCollection();
-			metadata.Metrics = new MetricElementCollection();
+			metadata.Dimensions = new DimensionConfigCollection();
+			metadata.Measures = new MeasureConfigCollection();
+			metadata.Metrics = new MetricConfigCollection();
 		
 			foreach (var item in this.GetDimensions())
 				metadata.Dimensions.Add(item);
@@ -64,7 +64,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 		
 		#region private members
 		
-		private IEnumerable<DimensionElement> GetDimensions()
+		private IEnumerable<DimensionConfig> GetDimensions()
 		{
 			int c = 1;
 			
@@ -77,7 +77,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			}
 		}
 		
-		private IEnumerable<MeasureElement> GetMeasures()
+		private IEnumerable<MeasureConfig> GetMeasures()
 		{
 			int c = 1;
 			
@@ -90,7 +90,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			}
 		}
 		
-		private IEnumerable<MetricElement> GetMetrics()
+		private IEnumerable<MetricConfig> GetMetrics()
 		{
 			int c = 1;
 			

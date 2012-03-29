@@ -18,11 +18,11 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class MeasureBuilder
 	{
-		private MeasureElement _element;
+		private MeasureConfig _element;
 		
 		public MeasureBuilder()
 		{
-			_element = new MeasureElement();
+			_element = new MeasureConfig();
 		}
 		
 		#region public methods
@@ -58,7 +58,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		internal MeasureElement Create()
+		internal MeasureConfig Create()
 		{
 			return _element;
 		}

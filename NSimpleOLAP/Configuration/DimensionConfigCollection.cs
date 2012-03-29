@@ -1,13 +1,21 @@
-﻿using System;
+﻿/*
+ * Created by SharpDevelop.
+ * User: calex
+ * Date: 21-03-2012
+ * Time: 16:33
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+using System;
 using System.Configuration;
 
 
 namespace NSimpleOLAP.Configuration
 {
 	/// <summary>
-	/// A collection of MeasureElement(s).
+	/// A collection of DimensionElement(s).
 	/// </summary>
-	public sealed class MeasureElementCollection : ConfigurationElementCollection
+	public sealed class DimensionConfigCollection : ConfigurationElementCollection
 	{
 		#region Properties
 
@@ -25,16 +33,16 @@ namespace NSimpleOLAP.Configuration
 		/// </summary>
 		protected override string ElementName
 		{
-		get { return "Measure"; }
+			get { return "DimensionElementCollection"; }
 		}
 			   
 	   
 		/// <summary>
 		/// Retrieve and item in the collection by index.
 		/// </summary>
-		public MeasureElement this[int index]
+		public DimensionConfig this[int index]
 		{
-			get   { return (MeasureElement)BaseGet(index); }
+			get   { return (DimensionConfig)BaseGet(index); }
 			set
 			{
 				if (BaseGet(index) != null)
@@ -45,27 +53,25 @@ namespace NSimpleOLAP.Configuration
 			}
 		}
 
-
 		#endregion
 
 		/// <summary>
-		/// Adds a MeasureElement to the configuration file.
+		/// Adds a DimensionElement to the configuration file.
 		/// </summary>
-		/// <param name="element">The MeasureElement to add.</param>
-		public void Add(MeasureElement element)
+		/// <param name="element">The DimensionElement to add.</param>
+		public void Add(DimensionConfig element)
 		{
 			BaseAdd(element);
 		}
 	   
 	   
 		/// <summary>
-		/// Creates a new MeasureElement.
+		/// Creates a new DimensionElement.
 		/// </summary>
-		/// <returns>A new <c>MeasureElement</c></returns>
+		/// <returns>A new <c>DimensionElement</c></returns>
 		protected override ConfigurationElement CreateNewElement()
 		{
-			//ConfigurationProperty dd = new ConfigurationProperty(
-			return new MeasureElement();
+			return new DimensionConfig();
 		}
 
 	   
@@ -77,14 +83,14 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>The key of <c>element</c>.</returns>
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((MeasureElement)element).Name;
+			return ((DimensionConfig)element).Name;
 		}
 	   
 	   
 		/// <summary>
-		/// Removes a MeasureElement with the given name.
+		/// Removes a DimensionElement with the given name.
 		/// </summary>
-		/// <param name="name">The name of the MeasureElement to remove.</param>
+		/// <param name="name">The name of the DimensionElement to remove.</param>
 		public void Remove (string name) {
 			base.BaseRemove(name);
 		}

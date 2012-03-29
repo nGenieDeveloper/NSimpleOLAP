@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Configuration
 	/// <summary>
 	/// A collection of MetricElement(s).
 	/// </summary>
-	public sealed class MetricElementCollection : ConfigurationElementCollection
+	public sealed class MetricConfigCollection : ConfigurationElementCollection
 	{
 		#region Properties
 
@@ -32,9 +32,9 @@ namespace NSimpleOLAP.Configuration
 		/// <summary>
 		/// Retrieve and item in the collection by index.
 		/// </summary>
-		public MetricElement this[int index]
+		public MetricConfig this[int index]
 		{
-			get   { return (MetricElement)BaseGet(index); }
+			get   { return (MetricConfig)BaseGet(index); }
 			set
 			{
 				if (BaseGet(index) != null)
@@ -52,7 +52,7 @@ namespace NSimpleOLAP.Configuration
 		/// Adds a MetricElement to the configuration file.
 		/// </summary>
 		/// <param name="element">The MetricElement to add.</param>
-		public void Add(MetricElement element)
+		public void Add(MetricConfig element)
 		{
 			BaseAdd(element);
 		}
@@ -64,7 +64,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>A new <c>MetricElement</c></returns>
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new MetricElement();
+			return new MetricConfig();
 		}
 
 	   
@@ -76,7 +76,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>The key of <c>element</c>.</returns>
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((MetricElement)element).Name;
+			return ((MetricConfig)element).Name;
 		}
 	   
 	   

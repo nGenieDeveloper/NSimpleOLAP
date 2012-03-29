@@ -8,7 +8,7 @@ namespace NSimpleOLAP.Configuration
 	/// Represents a single XML tag inside a ConfigurationSection
 	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public sealed class MeasureElement : ConfigurationElement
+	public sealed class MeasureConfig : ConfigurationElement
 	{
 		/// <summary>
 		/// The attribute <c>name</c> of a <c>MeasureElement</c>.

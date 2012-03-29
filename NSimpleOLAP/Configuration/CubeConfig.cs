@@ -35,8 +35,8 @@ namespace NSimpleOLAP.Configuration
 		/// 
 		/// </summary>
 		[ConfigurationProperty("DataSources")]
-		public DataSourceElementCollection DataSources {
-			get { return (DataSourceElementCollection)this["DataSources"]; }
+		public DataSourceConfigCollection DataSources {
+			get { return (DataSourceConfigCollection)this["DataSources"]; }
 			set { this["DataSources"] = value; }
 		}
 		

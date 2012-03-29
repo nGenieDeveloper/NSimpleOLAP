@@ -8,11 +8,11 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class DimensionBuilder
 	{
-		private DimensionElement _element;
+		private DimensionConfig _element;
 		
 		public DimensionBuilder()
 		{
-			_element = new DimensionElement();
+			_element = new DimensionConfig();
 		}
 		
 		#region public methods
@@ -66,7 +66,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public DimensionElement Create()
+		public DimensionConfig Create()
 		{
 			return _element;
 		}

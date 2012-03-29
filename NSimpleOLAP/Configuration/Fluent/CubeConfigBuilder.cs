@@ -66,7 +66,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			cube.Name = _name;
 			cube.Storage = _storeconfig.Create();
 			cube.MetaData = _metadataconfig.Create();
-			cube.DataSources = new DataSourceElementCollection();
+			cube.DataSources = new DataSourceConfigCollection();
 			
 			foreach (var item in _datasourceconfigs)
 				cube.DataSources.Add(item.Create());

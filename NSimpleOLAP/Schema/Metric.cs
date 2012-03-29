@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 23:52
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Configuration;
 
 namespace NSimpleOLAP.Schema
 {
@@ -19,6 +12,11 @@ namespace NSimpleOLAP.Schema
 	{
 		public Metric()
 		{
+		}
+		
+		public Metric(MetricConfig config)
+		{
+			this.Config = config;
 		}
 		
 		public object Expression {
@@ -34,6 +32,11 @@ namespace NSimpleOLAP.Schema
 		public T ID {
 			get;
 			set;
+		}
+		
+		public MetricConfig Config { 
+			get; 
+			set; 
 		}
 	}
 }
