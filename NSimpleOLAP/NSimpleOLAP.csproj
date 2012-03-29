@@ -190,4 +190,7 @@
     <Folder Include="Storage\Molap" />
     <Folder Include="Storage\Molap\Graph" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="license.txt" />
+  </ItemGroup>
 </Project>
