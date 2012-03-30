@@ -21,14 +21,6 @@ namespace NSimpleOLAP.Configuration
 			set { this["name"] = value; }
 		}
 	
-	
-		[ConfigurationProperty("id")]
-		public ValueType ID
-		{
-			get { return (ValueType)this["id"]; }
-			set { this["id"] = value; }
-		}
-		
 		[ConfigurationProperty("valueFieldName")]
 		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
 		public string ValueFieldName

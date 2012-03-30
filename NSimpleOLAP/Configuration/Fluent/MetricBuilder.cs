@@ -25,13 +25,6 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public MetricBuilder SetID<T>(T id)
-			where T: struct, IComparable
-		{
-			_element.ID = id;
-			return this;
-		}
-		
 		internal MetricConfig Create()
 		{
 			return _element;

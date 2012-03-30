@@ -6,13 +6,14 @@ using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Common.Interfaces;
 
 namespace NSimpleOLAP
 {
 	/// <summary>
 	/// Description of Cube.
 	/// </summary>
-	public class Cube<T> : ICube<T, Cell<T>>
+	public class Cube<T> : ICube<T, Cell<T>>, IProcess
 		where T: struct, IComparable
 	{
 		public Cube()

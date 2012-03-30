@@ -1,15 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 23:24
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Collections;
 
 namespace NSimpleOLAP.Schema
@@ -23,6 +16,7 @@ namespace NSimpleOLAP.Schema
 	{
 		private TSDictionary<T,D> _innerDictionary;
 		private TSDictionary<string, T> _mapName;
+		protected AbsIdentityKey<T> _keyBuilder;
 		
 		protected void Init()
 		{
@@ -61,6 +55,10 @@ namespace NSimpleOLAP.Schema
 		
 		public void Add(D item)
 		{
+			//mudar
+			if (item.ID.Equals(default(T)))
+				item.ID = _keyBuilder.GetNextKey();
+			
 			_mapName.Add(item.Name, item.ID);
 			_innerDictionary.Add(item.ID, item);
 		}

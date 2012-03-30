@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data.Interfaces;
+using NSimpleOLAP.Common.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
 	/// <summary>
 	/// Description of Dimension.
 	/// </summary>
-	public class Dimension<T> : IDimension<T>
+	public class Dimension<T> : IDimension<T>, IProcess
 		where T: struct, IComparable
 	{
 		public Dimension()
@@ -46,6 +47,16 @@ namespace NSimpleOLAP.Schema
 		public IDataSource DataSource {
 			get;
 			private set;
+		}
+		
+		public void Process()
+		{
+			throw new NotImplementedException();
+		}
+		
+		public void Refresh()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

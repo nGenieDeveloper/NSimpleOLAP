@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 21-02-2012
- * Time: 00:02
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema.Interfaces;
 
 namespace NSimpleOLAP.Schema
@@ -18,8 +11,9 @@ namespace NSimpleOLAP.Schema
 	public class MetricsCollection<T> : BaseDataMemberCollection<T, Metric<T>>
 		where T: struct, IComparable
 	{
-		public MetricsCollection()
+		public MetricsCollection(AbsIdentityKey<T> keybuilder)
 		{
+			_keyBuilder = keybuilder;
 			base.Init();
 		}
 	}

@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Common.Interfaces;
+
 
 namespace NSimpleOLAP.Schema
 {
 	/// <summary>
 	/// Description of DataSchema.
 	/// </summary>
-	public class DataSchema<T> : IDisposable
+	public class DataSchema<T> : IDisposable, IProcess
 		where T: struct, IComparable
 	{
 		private DataSourceCollection _datasources;
 		
 		public DataSchema()
 		{
-			Dimensions = new DimensionCollection<T>();
-			Measures = new MeasuresCollection<T>();
-			Metrics = new MetricsCollection<T>();
+			Dimensions = new DimensionCollection<T>(AbsIdentityKey<T>.Create());
+			Measures = new MeasuresCollection<T>(AbsIdentityKey<T>.Create());
+			Metrics = new MetricsCollection<T>(AbsIdentityKey<T>.Create());
 		}
 		
 		public DataSchema(CubeConfig config, DataSourceCollection datasources):this()
@@ -113,5 +116,18 @@ namespace NSimpleOLAP.Schema
 		
 		
 		#endregion
+		
+		#region IProcess implementation
+		#endregion
+		
+		public void Process()
+		{
+			throw new NotImplementedException();
+		}
+		
+		public void Refresh()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

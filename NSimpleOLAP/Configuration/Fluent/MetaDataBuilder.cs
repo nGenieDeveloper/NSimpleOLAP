@@ -66,40 +66,31 @@ namespace NSimpleOLAP.Configuration.Fluent
 		
 		private IEnumerable<DimensionConfig> GetDimensions()
 		{
-			int c = 1;
-			
 			foreach (var item in _dimensions)
 			{
-				DimensionBuilder builder = new DimensionBuilder().SetName(item.Key).SetID<int>(c);
+				DimensionBuilder builder = new DimensionBuilder().SetName(item.Key);
 				item.Value(builder);
 				yield return builder.Create();
-				c++;
 			}
 		}
 		
 		private IEnumerable<MeasureConfig> GetMeasures()
 		{
-			int c = 1;
-			
 			foreach (var item in _measures)
 			{
-				MeasureBuilder builder = new MeasureBuilder().SetName(item.Key).SetID<int>(c);
+				MeasureBuilder builder = new MeasureBuilder().SetName(item.Key);
 				item.Value(builder);
 				yield return builder.Create();
-				c++;
 			}
 		}
 		
 		private IEnumerable<MetricConfig> GetMetrics()
 		{
-			int c = 1;
-			
 			foreach (var item in _metrics)
 			{
-				MetricBuilder builder = new MetricBuilder().SetName(item.Key).SetID<int>(c);
+				MetricBuilder builder = new MetricBuilder().SetName(item.Key);
 				item.Value(builder);
 				yield return builder.Create();
-				c++;
 			}
 		}
 		

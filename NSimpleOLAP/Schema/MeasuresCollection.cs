@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 21-02-2012
- * Time: 00:00
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema.Interfaces;
 
 namespace NSimpleOLAP.Schema
@@ -18,8 +11,9 @@ namespace NSimpleOLAP.Schema
 	public class MeasuresCollection<T> : BaseDataMemberCollection<T, Measure<T>>
 		where T: struct, IComparable
 	{
-		public MeasuresCollection()
+		public MeasuresCollection(AbsIdentityKey<T> keybuilder)
 		{
+			_keyBuilder = keybuilder;
 			base.Init();
 		}
 	}

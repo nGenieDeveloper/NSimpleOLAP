@@ -33,13 +33,6 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public MeasureBuilder SetID<T>(T id)
-			where T: struct, IComparable
-		{
-			_element.ID = id;
-			return this;
-		}
-		
 		public MeasureBuilder ValueField(string name)
 		{
 			_element.ValueFieldName = name;

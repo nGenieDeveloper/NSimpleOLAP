@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 23:27
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema.Interfaces;
 
 namespace NSimpleOLAP.Schema

@@ -65,8 +65,12 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Common\AbsIdentityKey.cs" />
     <Compile Include="Common\Collections\TSDictionary.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\GuidIdentityKey.cs" />
+    <Compile Include="Common\Interfaces\IProcess.cs" />
+    <Compile Include="Common\IntIdentityKey.cs" />
     <Compile Include="Common\Utils\KeyStreamer.cs" />
     <Compile Include="Common\Utils\MurmurHash2.cs" />
     <Compile Include="Configuration\CSVElement.cs" />
@@ -172,6 +176,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Common\Interfaces" />
     <Folder Include="Configuration\Fluent" />
     <Folder Include="Configuration\Extensions" />
     <Folder Include="CubeDefinitions\Interfaces" />
