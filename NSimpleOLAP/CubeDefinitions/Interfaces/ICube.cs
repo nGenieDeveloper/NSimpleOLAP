@@ -3,18 +3,20 @@ using NSimpleOLAP.Schema;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Common.Interfaces;
 
 namespace NSimpleOLAP.Interfaces
 {
 	/// <summary>
 	/// Description of ICube.
 	/// </summary>
-	public interface ICube<T,U>: IDisposable
+	public interface ICube<T,U>: IDisposable, IProcess
 		where T: struct, IComparable
 		where U: class, ICell<T>, new()
 	{
 		T Key { get; set; }
 		string Name { get; set; }
+		NameSpace<T> NameSpace { get; }
 		DataSchema<T> Schema { get; }
 		IStorage<T,U> Storage { get; }
 		ICellCollection<T, U> Cells { get; }
@@ -23,7 +25,5 @@ namespace NSimpleOLAP.Interfaces
 		CubeConfig Config { get; }
 		
 		void Init();
-		void Process();
-		void Refresh();
 	}
 }

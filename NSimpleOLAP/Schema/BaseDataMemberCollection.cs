@@ -16,7 +16,7 @@ namespace NSimpleOLAP.Schema
 	{
 		private TSDictionary<T,D> _innerDictionary;
 		private TSDictionary<string, T> _mapName;
-		protected AbsIdentityKey<T> _keyBuilder;
+		protected INamespace<T> _namespace;
 		
 		protected void Init()
 		{
@@ -55,10 +55,7 @@ namespace NSimpleOLAP.Schema
 		
 		public void Add(D item)
 		{
-			//mudar
-			if (item.ID.Equals(default(T)))
-				item.ID = _keyBuilder.GetNextKey();
-			
+			_namespace.Add(item);
 			_mapName.Add(item.Name, item.ID);
 			_innerDictionary.Add(item.ID, item);
 		}

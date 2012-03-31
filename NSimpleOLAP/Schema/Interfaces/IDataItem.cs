@@ -1,4 +1,5 @@
 ﻿using System;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Schema.Interfaces
 {
@@ -10,5 +11,6 @@ namespace NSimpleOLAP.Schema.Interfaces
 	{
 		string Name { get; set; }
         T ID { get; set; }
+        ItemType ItemType { get; }
 	}
 }

@@ -11,9 +11,9 @@ namespace NSimpleOLAP.Schema
 	public class DimensionCollection<T> : BaseDataMemberCollection<T, Dimension<T>>
 		where T: struct, IComparable
 	{
-		public DimensionCollection(AbsIdentityKey<T> keybuilder)
+		public DimensionCollection(INamespace<T> nameSpace)
 		{
-			_keyBuilder = keybuilder;
+			_namespace = nameSpace;
 			base.Init();
 		}
 	}

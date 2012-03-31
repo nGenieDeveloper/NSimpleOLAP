@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NSimpleOLAP.Data.Interfaces;
+using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Common.Collections;
 
 namespace NSimpleOLAP.Data
@@ -16,6 +17,11 @@ namespace NSimpleOLAP.Data
 		public DataSourceCollection()
 		{
 			_innerdict = new TSDictionary<string, IDataSource>();
+		}
+		
+		public DataSourceCollection(CubeConfig config) : this()
+		{
+			this.Initialize(config.DataSources);
 		}
 		
 		public IDataSource this[string key]
@@ -72,6 +78,22 @@ namespace NSimpleOLAP.Data
 		{
 			foreach (var item in _innerdict.Values)
 				yield return item;
+		}
+		
+		#endregion
+		
+		#region private methods
+		
+		private void Initialize(DataSourceConfigCollection collconfig)
+		{
+			foreach (DataSourceConfig item in collconfig)
+				this.Add(this.CreateDataSource(item));
+		}
+		
+		private IDataSource CreateDataSource(DataSourceConfig config)
+		{
+			IDataSource datasource = new DefaultDataSource(config);
+			return datasource;
 		}
 		
 		#endregion

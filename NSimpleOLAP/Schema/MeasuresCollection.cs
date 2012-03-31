@@ -11,9 +11,9 @@ namespace NSimpleOLAP.Schema
 	public class MeasuresCollection<T> : BaseDataMemberCollection<T, Measure<T>>
 		where T: struct, IComparable
 	{
-		public MeasuresCollection(AbsIdentityKey<T> keybuilder)
+		public MeasuresCollection(INamespace<T> nameSpace)
 		{
-			_keyBuilder = keybuilder;
+			_namespace = nameSpace;
 			base.Init();
 		}
 	}

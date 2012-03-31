@@ -1,13 +1,6 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 20:25
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Schema
 {
@@ -29,6 +22,10 @@ namespace NSimpleOLAP.Schema
 		public T ID {
 			get;
 			set;
+		}
+		
+		public ItemType ItemType { 
+			get { return ItemType.Member; }
 		}
 	}
 }

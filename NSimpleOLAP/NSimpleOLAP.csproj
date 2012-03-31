@@ -129,12 +129,14 @@
     <Compile Include="Schema\Interfaces\IMeasure.cs" />
     <Compile Include="Schema\Interfaces\IMember.cs" />
     <Compile Include="Schema\Interfaces\IMetric.cs" />
+    <Compile Include="Schema\Interfaces\INamespace.cs" />
     <Compile Include="Schema\Measure.cs" />
     <Compile Include="Schema\MeasuresCollection.cs" />
     <Compile Include="Schema\Member.cs" />
     <Compile Include="Schema\MemberCollection.cs" />
     <Compile Include="Schema\Metric.cs" />
     <Compile Include="Schema\MetricsCollection.cs" />
+    <Compile Include="Schema\NameSpace.cs" />
     <Compile Include="Storage\Interfaces\IStorage.cs" />
     <Compile Include="Storage\Interfaces\IVarData.cs" />
     <Compile Include="Storage\Molap\Graph\Graph.cs" />

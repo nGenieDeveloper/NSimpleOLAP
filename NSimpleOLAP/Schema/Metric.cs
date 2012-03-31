@@ -1,6 +1,7 @@
 ﻿using System;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Schema
 {
@@ -32,6 +33,10 @@ namespace NSimpleOLAP.Schema
 		public T ID {
 			get;
 			set;
+		}
+		
+		public ItemType ItemType { 
+			get { return ItemType.Metric; }
 		}
 		
 		public MetricConfig Config { 

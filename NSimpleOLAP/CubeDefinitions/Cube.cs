@@ -6,6 +6,7 @@ using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Interfaces;
 
 namespace NSimpleOLAP
@@ -13,12 +14,12 @@ namespace NSimpleOLAP
 	/// <summary>
 	/// Description of Cube.
 	/// </summary>
-	public class Cube<T> : ICube<T, Cell<T>>, IProcess
+	public class Cube<T> : ICube<T, Cell<T>>
 		where T: struct, IComparable
 	{
 		public Cube()
 		{
-			this.DataSources = new DataSourceCollection();
+			this.NameSpace = new NameSpace<T>(AbsIdentityKey<T>.Create());
 		}
 		
 		public Cube(CubeConfig config): this()
@@ -34,6 +35,11 @@ namespace NSimpleOLAP
 		public string Name {
 			get;
 			set;
+		}
+		
+		public NameSpace<T> NameSpace { 
+			get; 
+			private set;
 		}
 		
 		public DataSchema<T> Schema {
@@ -72,6 +78,7 @@ namespace NSimpleOLAP
 		{
 			this.Schema.Dispose();
 			this.Storage.Dispose();
+			this.NameSpace.Dispose();
 			this.DataSources = null;
 		}
 		
@@ -79,8 +86,11 @@ namespace NSimpleOLAP
 		
 		public void Init()
 		{
-			throw new NotImplementedException();
+			this.DataSources = new DataSourceCollection(this.Config);
+			this.Schema = new DataSchema<T>(this.Config,this.DataSources,this.NameSpace);
 		}
+		
+		#region IProcess implementation
 		
 		public void Process()
 		{
@@ -91,5 +101,7 @@ namespace NSimpleOLAP
 		{
 			throw new NotImplementedException();
 		}
+		
+		#endregion
 	}
 }

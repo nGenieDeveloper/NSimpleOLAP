@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data.Interfaces;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Interfaces;
 
 namespace NSimpleOLAP.Schema
@@ -32,6 +33,10 @@ namespace NSimpleOLAP.Schema
 		public T ID {
 			get;
 			set;
+		}
+		
+		public ItemType ItemType { 
+			get { return ItemType.Dimension; }
 		}
 		
 		public MemberCollection<T> Members {

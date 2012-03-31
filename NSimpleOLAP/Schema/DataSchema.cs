@@ -17,14 +17,14 @@ namespace NSimpleOLAP.Schema
 	{
 		private DataSourceCollection _datasources;
 		
-		public DataSchema()
+		public DataSchema(INamespace<T> nameSpace)
 		{
-			Dimensions = new DimensionCollection<T>(AbsIdentityKey<T>.Create());
-			Measures = new MeasuresCollection<T>(AbsIdentityKey<T>.Create());
-			Metrics = new MetricsCollection<T>(AbsIdentityKey<T>.Create());
+			Dimensions = new DimensionCollection<T>(nameSpace);
+			Measures = new MeasuresCollection<T>(nameSpace);
+			Metrics = new MetricsCollection<T>(nameSpace);
 		}
 		
-		public DataSchema(CubeConfig config, DataSourceCollection datasources):this()
+		public DataSchema(CubeConfig config, DataSourceCollection datasources, INamespace<T> nameSpace):this(nameSpace)
 		{
 			_datasources = datasources;
 			this.Config = config.MetaData;
@@ -79,11 +79,7 @@ namespace NSimpleOLAP.Schema
 		{
 			foreach (DimensionConfig item in this.Config.Dimensions)
 			{
-				Dimension<T> ndim = new Dimension<T>(item, _datasources[item.Source]) 
-									{ 
-										Name = item.Name
-											//falta ID
-									};
+				Dimension<T> ndim = new Dimension<T>(item, _datasources[item.Source]) { Name = item.Name };
 				this.Dimensions.Add(ndim);
 			}
 		}
@@ -92,11 +88,7 @@ namespace NSimpleOLAP.Schema
 		{
 			foreach (MeasureConfig item in this.Config.Measures)
 			{
-				Measure<T> nmes = new Measure<T>(item)
-									{ 
-										Name = item.Name
-											//falta ID
-									};
+				Measure<T> nmes = new Measure<T>(item) { Name = item.Name };
 				this.Measures.Add(nmes);
 			}
 		}
@@ -105,11 +97,7 @@ namespace NSimpleOLAP.Schema
 		{
 			foreach (MetricConfig item in this.Config.Metrics)
 			{
-				Metric<T> nmes = new Metric<T>(item)
-									{ 
-										Name = item.Name
-											//falta ID
-									};
+				Metric<T> nmes = new Metric<T>(item) { Name = item.Name	};
 				this.Metrics.Add(nmes);
 			}
 		}
@@ -118,7 +106,6 @@ namespace NSimpleOLAP.Schema
 		#endregion
 		
 		#region IProcess implementation
-		#endregion
 		
 		public void Process()
 		{
@@ -129,5 +116,9 @@ namespace NSimpleOLAP.Schema
 		{
 			throw new NotImplementedException();
 		}
+		
+		#endregion
+		
+		
 	}
 }
