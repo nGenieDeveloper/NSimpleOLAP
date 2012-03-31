@@ -15,12 +15,19 @@ namespace NSimpleOLAP.Configuration.Fluent
 		private StorageConfigBuilder _storeconfig;
 		private List<DataSourceBuilder> _datasourceconfigs;
 		private MetaDataBuilder _metadataconfig;
+		private CubeConfig _root;
 		
 		public CubeBuilder()
 		{
+			_root = new CubeConfig();
 			_storeconfig = new StorageConfigBuilder();
 			_datasourceconfigs = new List<DataSourceBuilder>();
 			_metadataconfig = new MetaDataBuilder();
+		}
+		
+		internal CubeBuilder(CubeConfig root)
+		{
+			_root = root;
 		}
 		
 		#region public methods
@@ -59,9 +66,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public CubeConfig Create()
+		internal CubeConfig CreateConfig()
 		{
-			CubeConfig cube = new CubeConfig();
+			CubeConfig cube = _root;
 			
 			cube.Name = _name;
 			cube.Storage = _storeconfig.Create();

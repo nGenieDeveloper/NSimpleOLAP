@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using NSimpleOLAP;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Configuration.Fluent;
 
 namespace NSimpleOLAP.Configuration.Extensions
 {
@@ -18,6 +20,23 @@ namespace NSimpleOLAP.Configuration.Extensions
 				dict.Add(fields[i].Name, i);
 			
 			return dict;
+		}
+		
+		public static CubeBuilder SetupConfig<T>(this Cube<T> cube)
+			where T: struct, IComparable
+		{
+			cube.Config = new CubeConfig();
+			CubeBuilder builder = new CubeBuilder(cube.Config);
+				
+			return builder;
+		}
+		
+		public static Cube<T> Create<T>(this CubeBuilder cubebuilder)
+			where T: struct, IComparable
+		{
+			CubeConfig cube = cubebuilder.CreateConfig();
+		
+			return new Cube<T>(cube);
 		}
 	}
 }

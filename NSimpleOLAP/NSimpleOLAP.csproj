@@ -89,7 +89,7 @@
     <Compile Include="Configuration\DimensionConfigCollection.cs" />
     <Compile Include="Configuration\FieldElementCollection.cs" />
     <Compile Include="Configuration\FieldElement.cs" />
-    <Compile Include="Configuration\Fluent\CubeConfigBuilder.cs" />
+    <Compile Include="Configuration\Fluent\CubeBuilder.cs" />
     <Compile Include="Configuration\Fluent\DataSourceBuilder.cs" />
     <Compile Include="Configuration\Fluent\DimensionBuilder.cs" />
     <Compile Include="Configuration\Fluent\MeasureBuilder.cs" />
