@@ -5,24 +5,25 @@ using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Collections;
 using NSimpleOLAP.Schema.Interfaces;
 
-namespace NSimpleOLAP.Schema
+namespace NSimpleOLAP.Storage.Molap
 {
 	/// <summary>
-	/// Description of NameSpace.
+	/// Description of AbsMolapNameSpace.
 	/// </summary>
-	public class NameSpace<T> : INamespace<T>
+	public abstract class AbsMolapNameSpace<T>: INamespace<T>
 		where T: struct, IComparable
 	{
 		private TSDictionary<T, IDataItem<T>> _items;
 		private TSDictionary<string, T> _index;
-		private AbsIdentityKey<T> _keybuilder;
+		protected AbsIdentityKey<T> _keybuilder;
 		
-		public NameSpace(AbsIdentityKey<T> keybuilder)
+		protected void Init()
 		{
-			_keybuilder = keybuilder;
 			_index = new TSDictionary<string, T>();
 			_items = new TSDictionary<T, IDataItem<T>>();
 		}
+		
+		#region INamespace<T> implementation
 		
 		public IDataItem<T> this[T key] {
 			get {
@@ -98,7 +99,16 @@ namespace NSimpleOLAP.Schema
 		
 		public void Clear(ItemType type)
 		{
-			throw new NotImplementedException();
+			IEnumerable<IDataItem<T>> members = 
+				from item in _items.Values
+				where item.ItemType == type
+				select item;
+			IDataItem<T>[] array = members.ToArray();
+			
+			foreach (var member in array)
+				this.Remove(member);
 		}
+		
+		#endregion
 	}
 }

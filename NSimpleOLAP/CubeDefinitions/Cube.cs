@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Storage;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
@@ -19,7 +20,7 @@ namespace NSimpleOLAP
 	{
 		public Cube()
 		{
-			this.NameSpace = new NameSpace<T>(AbsIdentityKey<T>.Create());
+			
 		}
 		
 		public Cube(CubeConfig config): this()
@@ -86,8 +87,12 @@ namespace NSimpleOLAP
 		
 		public void Init()
 		{
+			this.NameSpace = new NameSpace<T>(AbsIdentityKey<T>.Create());
+			this.Storage = StorageFactory<T, Cell<T>>.Create(this.Key, this.Config.Storage);
 			this.DataSources = new DataSourceCollection(this.Config);
-			this.Schema = new DataSchema<T>(this.Config,this.DataSources,this.NameSpace);
+			this.Schema = new DataSchema<T>(this.Config,this.DataSources, 
+			                                this.Storage.Dimensions, this.Storage.Measures,
+			                              this.Storage.Metrics);
 		}
 		
 		#region IProcess implementation

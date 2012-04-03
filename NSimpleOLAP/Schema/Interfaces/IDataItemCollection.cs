@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Schema.Interfaces
         where T : struct, IComparable
     	where D : class, IDataItem<T>
     {
-        D this[T key] { get; set; }
-        D GetByName(string name);
+        D this[T key] { get; }
+        D this[string name] { get; }
     }
 }

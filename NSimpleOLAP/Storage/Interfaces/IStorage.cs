@@ -1,13 +1,7 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 19-02-2012
- * Time: 21:58
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Schema;
+using NSimpleOLAP.Schema.Interfaces;
 
 namespace NSimpleOLAP.Storage.Interfaces
 {
@@ -20,5 +14,10 @@ namespace NSimpleOLAP.Storage.Interfaces
 	{
 		IEnumerable<U> GetCells(KeyValuePair<T,T>[] pairs);
 		void AddRowData(KeyValuePair<T,T>[] pairs, IVarData<T> data);
+		
+		INamespace<T> NameSpace { get; }
+		IMemberStorage<T, Dimension<T>> Dimensions { get; }
+		IMemberStorage<T, Measure<T>> Measures { get; }
+		IMemberStorage<T, Metric<T>> Metrics { get; }
 	}
 }

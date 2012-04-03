@@ -5,6 +5,7 @@ using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Common.Interfaces;
 
+
 namespace NSimpleOLAP.Interfaces
 {
 	/// <summary>

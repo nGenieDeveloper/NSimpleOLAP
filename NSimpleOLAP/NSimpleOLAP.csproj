@@ -106,6 +106,7 @@
     <Compile Include="CubeDefinitions\Cell.cs" />
     <Compile Include="CubeDefinitions\CellCollection.cs" />
     <Compile Include="CubeDefinitions\Cube.cs" />
+    <Compile Include="CubeDefinitions\CubeSet.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICell.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICellCollection.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
@@ -138,12 +139,16 @@
     <Compile Include="Schema\Metric.cs" />
     <Compile Include="Schema\MetricsCollection.cs" />
     <Compile Include="Schema\NameSpace.cs" />
+    <Compile Include="Storage\Interfaces\IMemberStorage.cs" />
     <Compile Include="Storage\Interfaces\IStorage.cs" />
     <Compile Include="Storage\Interfaces\IVarData.cs" />
+    <Compile Include="Storage\Molap\AbsMolapMemberCollection.cs" />
+    <Compile Include="Storage\Molap\AbsMolapNameSpace.cs" />
     <Compile Include="Storage\Molap\Graph\Graph.cs" />
     <Compile Include="Storage\Molap\Graph\Node.cs" />
     <Compile Include="Storage\Molap\Graph\NodeCollection.cs" />
     <Compile Include="Storage\Molap\MolapStorage.cs" />
+    <Compile Include="Storage\StorageFactory.cs" />
     <Compile Include="Storage\VarsCollection.cs" />
   </ItemGroup>
   <ItemGroup>

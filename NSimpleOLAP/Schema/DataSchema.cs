@@ -5,6 +5,7 @@ using NSimpleOLAP.Data;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Common.Interfaces;
+using NSimpleOLAP.Storage.Interfaces;
 
 
 namespace NSimpleOLAP.Schema
@@ -17,14 +18,20 @@ namespace NSimpleOLAP.Schema
 	{
 		private DataSourceCollection _datasources;
 		
-		public DataSchema(INamespace<T> nameSpace)
+		public DataSchema(IMemberStorage<T, Dimension<T>> dimstorage, 
+		                  IMemberStorage<T, Measure<T>> messtorage,
+		                 IMemberStorage<T, Metric<T>> metstorage)
 		{
-			Dimensions = new DimensionCollection<T>(nameSpace);
-			Measures = new MeasuresCollection<T>(nameSpace);
-			Metrics = new MetricsCollection<T>(nameSpace);
+			Dimensions = new DimensionCollection<T>(dimstorage);
+			Measures = new MeasuresCollection<T>(messtorage);
+			Metrics = new MetricsCollection<T>(metstorage);
 		}
 		
-		public DataSchema(CubeConfig config, DataSourceCollection datasources, INamespace<T> nameSpace):this(nameSpace)
+		public DataSchema(CubeConfig config, 
+		                  DataSourceCollection datasources, 
+		                  IMemberStorage<T, Dimension<T>> dimstorage, 
+		                  IMemberStorage<T, Measure<T>> messtorage,
+		                  IMemberStorage<T, Metric<T>> metstorage):this(dimstorage, messtorage, metstorage)
 		{
 			_datasources = datasources;
 			this.Config = config.MetaData;

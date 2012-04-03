@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Storage.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
@@ -11,9 +12,9 @@ namespace NSimpleOLAP.Schema
 	public class MeasuresCollection<T> : BaseDataMemberCollection<T, Measure<T>>
 		where T: struct, IComparable
 	{
-		public MeasuresCollection(INamespace<T> nameSpace)
+		public MeasuresCollection(IMemberStorage<T, Measure<T>> storage)
 		{
-			_namespace = nameSpace;
+			_storage = storage;
 			base.Init();
 		}
 	}

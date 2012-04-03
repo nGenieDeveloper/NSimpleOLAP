@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Schema.Interfaces
 {
@@ -11,5 +12,6 @@ namespace NSimpleOLAP.Schema.Interfaces
 	{
 		IDataItem<T> this[T key] { get; }
 		IDataItem<T> this[string name] { get; }
+		void Clear(ItemType type);
 	}
 }
