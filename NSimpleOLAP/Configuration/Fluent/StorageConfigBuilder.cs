@@ -11,11 +11,11 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class StorageConfigBuilder
 	{
-		private StorageElement _element;
+		private StorageConfig _element;
 		
 		public StorageConfigBuilder()
 		{
-			_element = new StorageElement();
+			_element = new StorageConfig();
 		}
 		
 		#region public methods
@@ -26,7 +26,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		internal StorageElement Create()
+		internal StorageConfig Create()
 		{
 			return _element;
 		}

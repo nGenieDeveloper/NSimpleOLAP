@@ -103,7 +103,7 @@
     <Compile Include="Configuration\MetaDataConfig.cs" />
     <Compile Include="Configuration\MetricConfigCollection.cs" />
     <Compile Include="Configuration\MetricConfig.cs" />
-    <Compile Include="Configuration\StorageElement.cs" />
+    <Compile Include="Configuration\StorageConfig.cs" />
     <Compile Include="CubeDefinitions\Cell.cs" />
     <Compile Include="CubeDefinitions\CellCollection.cs" />
     <Compile Include="CubeDefinitions\Cube.cs" />

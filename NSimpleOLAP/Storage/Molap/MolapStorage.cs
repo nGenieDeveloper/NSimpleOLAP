@@ -19,7 +19,7 @@ namespace NSimpleOLAP.Storage.Molap
 	{
 		private Graph<T,U> _graph;
 		
-		public MolapStorage(T cubeid, StorageElement config)
+		public MolapStorage(T cubeid, StorageConfig config)
 		{
 			this.Init();
 			_graph = new Graph<T, U>(cubeid, config);

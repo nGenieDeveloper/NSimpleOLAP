@@ -47,8 +47,8 @@ namespace NSimpleOLAP.Configuration
 		}
 		
 		[ConfigurationProperty("Storage")]
-		public StorageElement Storage {
-			get { return (StorageElement)this["Storage"]; }
+		public StorageConfig Storage {
+			get { return (StorageConfig)this["Storage"]; }
 			set { this["Storage"] = value; }
 		}
 	}

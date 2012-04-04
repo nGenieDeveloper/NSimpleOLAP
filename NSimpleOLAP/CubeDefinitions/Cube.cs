@@ -88,9 +88,13 @@ namespace NSimpleOLAP
 		
 		public void Dispose()
 		{
-			this.Schema.Dispose();
-			this.Storage.Dispose();
-			this.NameSpace.Dispose();
+			if (Schema != null)
+			{
+				this.Schema.Dispose();
+				this.Storage.Dispose();
+				this.NameSpace.Dispose();
+			}
+			
 			this.DataSources = null;
 		}
 		

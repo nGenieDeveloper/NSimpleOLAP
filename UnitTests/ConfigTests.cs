@@ -1,13 +1,11 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Calex
- * Date: 22-03-2012
- * Time: 14:30
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using NUnit.Framework;
+using System.Configuration;
+using NSimpleOLAP;
+using NSimpleOLAP.Common;
+using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Configuration.Fluent;
+
 
 namespace UnitTests
 {
@@ -15,21 +13,80 @@ namespace UnitTests
 	public class ConfigTests
 	{
 		[Test]
-		public void TestMethod()
+		public void SetNameConfig_Test()
 		{
-			// TODO: Add your test.
+			CubeBuilder builder = new CubeBuilder();
+			
+			builder.SetName("hello");
+			
+			Cube<int> cube = builder.Create<int>();
+			
+			Assert.AreEqual("hello", cube.Name);
 		}
 		
-		[TestFixtureSetUp]
-		public void Init()
+		[Test]
+		public void SetSourceConfig_Test()
 		{
-			// TODO: Add Init code.
+			CubeBuilder builder = new CubeBuilder();
+			
+			builder.SetName("hello")
+				.SetSource("xpto");
+			
+			Cube<int> cube = builder.Create<int>();
+			
+			Assert.AreEqual("xpto", cube.Source);
 		}
 		
-		[TestFixtureTearDown]
-		public void Dispose()
+		[Test]
+		public void DefaultConfigName_Test()
 		{
-			// TODO: Add tear down code.
+			Cube<int> cube = new Cube<int>();
+			
+			Assert.AreEqual("New_Cube", cube.Name);
 		}
+		
+		[Test]
+		public void DefaultConfigStorage_Test()
+		{
+			Cube<int> cube = new Cube<int>();
+			
+			Assert.AreEqual(StorageType.Molap, cube.Config.Storage.StoreType);
+		}
+		
+		
+		/*	
+ *example 
+* CubeBuilder builder = new CubeBuilder();
+			
+			builder.SetName("hello")
+				.SetSource("xpto")
+				.MetaData(mbuild => {
+				          	mbuild.AddDimension("x", xdim => {
+				          	                    	xdim.Source("xpto")
+				          	                    		.DescField("desc")
+				          	                    		.ValueField("dim");
+				          	                    })
+				          		.AddMeasure("q", xmes => {
+				          		            	xmes.ValueField("val");
+				          		            })
+				          		.AddMetric("m", xmet => {});
+				          })
+				.AddDataSource(xdata => {
+				               	xdata.SetName("xpto")
+				               		.SetSourceType(DataSourceType.CSV)
+				               		.SetCSVConfig(cvsconf => {
+				               		              	cvsconf.SetFilePath("c:\any");
+				               		              })
+				               		.AddField("dim", typeof(int))
+				               		.AddField("desc", typeof(string))
+				               		.AddField("val", typeof(int));
+				               })
+				.Storage(xstore => {
+				         	xstore.SetStoreType(StorageType.Molap);
+				         });
+			
+			CubeConfig element = builder.Create();
+			
+			Assert.AreEqual(element.Name, "hello");*/
 	}
 }

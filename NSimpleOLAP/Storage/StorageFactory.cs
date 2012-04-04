@@ -15,7 +15,7 @@ namespace NSimpleOLAP.Storage
 		where T: struct, IComparable
 		where U: class, ICell<T>, new()
 	{
-		public static IStorage<T,U> Create(T cubeid, StorageElement config)
+		public static IStorage<T,U> Create(T cubeid, StorageConfig config)
 		{
 			IStorage<T,U> storage = null;
 				

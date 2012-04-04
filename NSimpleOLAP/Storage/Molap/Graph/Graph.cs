@@ -19,7 +19,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		private Func<KeyValuePair<T,T>[], T> _hashPairsFunction;
 		private Action<object, IVarData<T>> _varDataMergeFunc;
 		
-		public Graph(T root, StorageElement config)
+		public Graph(T root, StorageConfig config)
 		{
 			this.Root = new ImpNode() { 
 				Coords = new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))},

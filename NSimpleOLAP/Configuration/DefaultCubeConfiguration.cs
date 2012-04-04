@@ -15,7 +15,7 @@ namespace NSimpleOLAP.Configuration
 		{
 			CubeBuilder builder = new CubeBuilder();
 			
-			builder.SetName("New Cube")
+			builder.SetName("New_Cube")
 				.Storage(store => { store.SetStoreType(StorageType.Molap); });
 		
 			return builder.CreateConfig();
