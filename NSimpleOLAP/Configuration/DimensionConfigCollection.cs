@@ -35,7 +35,19 @@ namespace NSimpleOLAP.Configuration
 		{
 			get { return "DimensionElementCollection"; }
 		}
-			   
+		
+		public new DimensionConfig this[string name]
+		{
+			get   { return (DimensionConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 	   
 		/// <summary>
 		/// Retrieve and item in the collection by index.

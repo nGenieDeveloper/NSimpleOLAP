@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 24-03-2012
- * Time: 22:58
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Configuration;
 
 
@@ -15,7 +7,7 @@ namespace NSimpleOLAP.Configuration
 	/// <summary>
 	/// A collection of FieldElement(s).
 	/// </summary>
-	public sealed class FieldElementCollection : ConfigurationElementCollection
+	public sealed class FieldConfigCollection : ConfigurationElementCollection
 	{
 		#region Properties
 
@@ -40,9 +32,9 @@ namespace NSimpleOLAP.Configuration
 		/// <summary>
 		/// Retrieve and item in the collection by index.
 		/// </summary>
-		public FieldElement this[int index]
+		public FieldConfig this[int index]
 		{
-			get   { return (FieldElement)BaseGet(index); }
+			get   { return (FieldConfig)BaseGet(index); }
 			set
 			{
 				if (BaseGet(index) != null)
@@ -60,7 +52,7 @@ namespace NSimpleOLAP.Configuration
 		/// Adds a FieldElement to the configuration file.
 		/// </summary>
 		/// <param name="element">The FieldElement to add.</param>
-		public void Add(FieldElement element)
+		public void Add(FieldConfig element)
 		{
 			BaseAdd(element);
 		}
@@ -72,7 +64,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>A new <c>FieldElement</c></returns>
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new FieldElement();
+			return new FieldConfig();
 		}
 
 	   
@@ -84,7 +76,7 @@ namespace NSimpleOLAP.Configuration
 		/// <returns>The key of <c>element</c>.</returns>
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((FieldElement)element).Name;
+			return ((FieldConfig)element).Name;
 		}
 	   
 	   

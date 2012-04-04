@@ -12,7 +12,7 @@ namespace NSimpleOLAP.Configuration.Extensions
 	/// </summary>
 	internal static class ConfigExtensions
 	{
-		public static Dictionary<string, int> GetFieldIndexes(this FieldElementCollection fields)
+		public static Dictionary<string, int> GetFieldIndexes(this FieldConfigCollection fields)
 		{
 			Dictionary<string, int> dict = new Dictionary<string, int>();
 			

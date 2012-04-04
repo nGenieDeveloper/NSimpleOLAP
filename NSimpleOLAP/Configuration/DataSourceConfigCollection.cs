@@ -44,7 +44,19 @@ namespace NSimpleOLAP.Configuration
 				BaseAdd(index, value);
 			}
 		}
-
+		
+		public new DataSourceConfig this[string name]
+		{
+			get   { return (DataSourceConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 
 		#endregion
 

@@ -31,8 +31,8 @@ namespace NSimpleOLAP.Configuration
 		}
 		
 		[ConfigurationProperty("Fields")]
-		public FieldElementCollection Fields {
-			get { return (FieldElementCollection)this["Fields"]; }
+		public FieldConfigCollection Fields {
+			get { return (FieldConfigCollection)this["Fields"]; }
 			set { this["type"] = value; }
 		}
 		

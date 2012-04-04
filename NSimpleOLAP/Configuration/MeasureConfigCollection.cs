@@ -45,6 +45,18 @@ namespace NSimpleOLAP.Configuration
 			}
 		}
 
+		public new MeasureConfig this[string name]
+		{
+			get   { return (MeasureConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 
 		#endregion
 

@@ -45,6 +45,18 @@ namespace NSimpleOLAP.Configuration
 			}
 		}
 
+		public new CubeConfig this[string name]
+		{
+			get   { return (CubeConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 
 		#endregion
 

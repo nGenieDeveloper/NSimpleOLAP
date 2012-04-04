@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 24-03-2012
- * Time: 22:58
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;   
+﻿using System;   
 using System.Configuration;
 
 namespace NSimpleOLAP.Configuration
@@ -15,7 +7,7 @@ namespace NSimpleOLAP.Configuration
 	/// Represents a single XML tag inside a ConfigurationSection
 	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public sealed class FieldElement : ConfigurationElement
+	public sealed class FieldConfig : ConfigurationElement
 	{
 		/// <summary>
 		/// The attribute <c>name</c> of a <c>FieldElement</c>.
@@ -35,6 +27,15 @@ namespace NSimpleOLAP.Configuration
 		public Type FieldType {
 			get { return (Type)this["type"]; }
 			set { this["type"] = value; }
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[ConfigurationProperty("index")]
+		public int Index {
+			get { return (int)this["index"]; }
+			set { this["index"] = value; }
 		}
 	}
 	

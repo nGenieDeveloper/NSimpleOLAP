@@ -45,6 +45,18 @@ namespace NSimpleOLAP.Configuration
 			}
 		}
 
+		public new MetricConfig this[string name]
+		{
+			get   { return (MetricConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 
 		#endregion
 

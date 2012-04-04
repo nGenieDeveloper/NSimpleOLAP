@@ -18,7 +18,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 		public DataSourceBuilder()
 		{
 			_element = new DataSourceConfig();
-			_element.Fields = new FieldElementCollection();
+			_element.Fields = new FieldConfigCollection();
 		}
 		
 		#region public methods
@@ -55,7 +55,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 		
 		public DataSourceBuilder AddField(string name, Type type)
 		{
-			FieldElement field = new FieldElement() { Name = name, FieldType = type };
+			FieldConfig field = new FieldConfig() { Name = name, FieldType = type };
 			_element.Fields.Add(field);
 			return this;
 		}
