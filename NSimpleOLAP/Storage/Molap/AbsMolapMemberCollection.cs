@@ -18,8 +18,9 @@ namespace NSimpleOLAP.Storage.Molap
 	{
 		private TSDictionary<T,TMember> _innerDictionary;
 		private TSDictionary<string, T> _mapName;
-		protected INamespace<T> _namespace;
 		protected ItemType _type;
+		protected Action<TMember> memberOnAdd;
+		protected Action onClear;
 		
 		protected virtual void Init()
 		{
@@ -56,7 +57,9 @@ namespace NSimpleOLAP.Storage.Molap
 		
 		public void Add(TMember item)
 		{
-			_namespace.Add(item);
+			if (memberOnAdd != null)
+				memberOnAdd(item);
+
 			_mapName.Add(item.Name, item.ID);
 			_innerDictionary.Add(item.ID, item);
 		}
@@ -65,7 +68,9 @@ namespace NSimpleOLAP.Storage.Molap
 		{
 			_mapName.Clear();
 			_innerDictionary.Clear();
-			_namespace.Clear(_type);
+			
+			if (onClear !=null)
+				onClear();
 		}
 		
 		public bool Contains(TMember item)

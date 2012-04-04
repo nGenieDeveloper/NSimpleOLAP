@@ -20,13 +20,17 @@ namespace NSimpleOLAP
 	{
 		public Cube()
 		{
-			
+			this.Config = DefaultCubeConfiguration.GetConfig();
+			this.Init();
 		}
 		
-		public Cube(CubeConfig config): this()
+		public Cube(CubeConfig config)
 		{
 			this.Config = config;
+			this.Init();
 		}
+		
+		#region props
 		
 		public T Key {
 			get;
@@ -36,6 +40,11 @@ namespace NSimpleOLAP
 		public string Name {
 			get;
 			set;
+		}
+		
+		public string Source { 
+			get; 
+			set; 
 		}
 		
 		public NameSpace<T> NameSpace { 
@@ -73,6 +82,8 @@ namespace NSimpleOLAP
 			internal set;
 		}
 		
+		#endregion
+		
 		#region IDisposable implementations
 		
 		public void Dispose()
@@ -85,7 +96,7 @@ namespace NSimpleOLAP
 		
 		#endregion
 		
-		public void Init()
+		public void Initialize()
 		{
 			this.NameSpace = new NameSpace<T>(AbsIdentityKey<T>.Create());
 			this.Storage = StorageFactory<T, Cell<T>>.Create(this.Key, this.Config.Storage);
@@ -105,6 +116,16 @@ namespace NSimpleOLAP
 		public void Refresh()
 		{
 			throw new NotImplementedException();
+		}
+		
+		#endregion
+		
+		#region private methods
+		
+		private void Init()
+		{
+			this.Name = this.Config.Name;
+			this.Source = this.Config.Source;
 		}
 		
 		#endregion

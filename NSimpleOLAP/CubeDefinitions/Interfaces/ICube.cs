@@ -24,7 +24,8 @@ namespace NSimpleOLAP.Interfaces
 		DataSourceCollection DataSources { get; }
 		bool IsProcessing { get; }
 		CubeConfig Config { get; }
+		string Source { get; set; }
 		
-		void Init();
+		void Initialize();
 	}
 }

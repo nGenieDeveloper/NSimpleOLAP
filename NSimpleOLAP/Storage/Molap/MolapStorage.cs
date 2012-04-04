@@ -30,9 +30,18 @@ namespace NSimpleOLAP.Storage.Molap
 		private void Init()
 		{
 			this.NameSpace = new ImpNameSpace(AbsIdentityKey<T>.Create());
-			this.Dimensions = new MembersCollection<Dimension<T>>(ItemType.Dimension, this.NameSpace);
-			this.Measures = new MembersCollection<Measure<T>>(ItemType.Measure, this.NameSpace);
-			this.Metrics = new MembersCollection<Metric<T>>(ItemType.Metric, this.NameSpace);
+			this.Dimensions = new MembersCollection<Dimension<T>>(ItemType.Dimension, 
+			                                                      (dimension)=> { 
+			                                                      	this.NameSpace.Add(dimension);
+			                                                      	dimension.SetMembersStorage(new DimensionMembersCollection());
+			                                                      },
+			                                                      ()=> this.NameSpace.Clear(ItemType.Dimension));
+			this.Measures = new MembersCollection<Measure<T>>(ItemType.Measure, 
+			                                                  (measure)=>{ this.NameSpace.Add(measure); }, 
+			                                                  ()=> this.NameSpace.Clear(ItemType.Measure));
+			this.Metrics = new MembersCollection<Metric<T>>(ItemType.Metric, 
+			                                                (metric)=>{ this.NameSpace.Add(metric); }, 
+			                                                ()=> this.NameSpace.Clear(ItemType.Metric));
 		}
 		
 		#endregion
@@ -82,10 +91,27 @@ namespace NSimpleOLAP.Storage.Molap
 		private class MembersCollection<TMember> : AbsMolapMemberCollection<T,TMember>
 			where TMember: IDataItem<T>
 		{
-			public MembersCollection(ItemType type, INamespace<T> nameSpace)
+			public MembersCollection(ItemType type, Action<TMember> onaddmember, Action onclear)
 			{
 				_type = type;
-				_namespace = nameSpace;
+				this.memberOnAdd = onaddmember;
+				this.onClear = onclear;
+				this.Init();
+			}
+		}
+		
+		private class DimensionMembersCollection : AbsMolapMemberCollection<T, Member<T>>
+		{
+			private AbsIdentityKey<T> _keybuilder;
+				
+			public DimensionMembersCollection()
+			{
+				_keybuilder = AbsIdentityKey<T>.Create();
+				_type = ItemType.Member;
+				this.memberOnAdd = (item) => {
+												if (item.ID.Equals(default(T)))
+													item.ID = _keybuilder.GetNextKey();
+											};
 				this.Init();
 			}
 		}

@@ -5,6 +5,7 @@ using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data.Interfaces;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Interfaces;
+using NSimpleOLAP.Storage.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
@@ -16,10 +17,10 @@ namespace NSimpleOLAP.Schema
 	{
 		public Dimension()
 		{
-			Members = new MemberCollection<T>();
+			
 		}
 		
-		public Dimension(DimensionConfig dimconfig, IDataSource datasource): this()
+		public Dimension(DimensionConfig dimconfig, IDataSource datasource)
 		{
 			this.Config = dimconfig;
 			this.DataSource = datasource;
@@ -63,5 +64,14 @@ namespace NSimpleOLAP.Schema
 		{
 			throw new NotImplementedException();
 		}
+		
+		#region
+		
+		internal void SetMembersStorage(IMemberStorage<T, Member<T>> storage)
+		{
+			this.Members = new MemberCollection<T>(storage);
+		}
+		
+		#endregion
 	}
 }

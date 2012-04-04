@@ -77,6 +77,7 @@
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\DataTableConfigElement.cs" />
     <Compile Include="Configuration\DBConfigElement.cs" />
+    <Compile Include="Configuration\DefaultCubeConfiguration.cs" />
     <Compile Include="Configuration\Extensions\ConfigExtensions.cs" />
     <Compile Include="Configuration\Fluent\CSVConfigBuilder.cs" />
     <Compile Include="Configuration\Fluent\DataTableConfigBuilder.cs" />
