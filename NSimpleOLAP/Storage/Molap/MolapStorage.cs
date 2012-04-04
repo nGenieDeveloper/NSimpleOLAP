@@ -35,13 +35,18 @@ namespace NSimpleOLAP.Storage.Molap
 			                                                      	this.NameSpace.Add(dimension);
 			                                                      	dimension.SetMembersStorage(new DimensionMembersCollection());
 			                                                      },
-			                                                      ()=> this.NameSpace.Clear(ItemType.Dimension));
+			                                                      (storage)=> { 
+			                                                      		this.NameSpace.Clear(ItemType.Dimension);
+			                                                      		
+			                                                      		foreach (Dimension<T> item in storage)
+			                                                      			item.Dispose();
+			                                                      });
 			this.Measures = new MembersCollection<Measure<T>>(ItemType.Measure, 
 			                                                  (measure)=>{ this.NameSpace.Add(measure); }, 
-			                                                  ()=> this.NameSpace.Clear(ItemType.Measure));
+			                                                  (storage)=> this.NameSpace.Clear(ItemType.Measure));
 			this.Metrics = new MembersCollection<Metric<T>>(ItemType.Metric, 
 			                                                (metric)=>{ this.NameSpace.Add(metric); }, 
-			                                                ()=> this.NameSpace.Clear(ItemType.Metric));
+			                                                (storage)=> this.NameSpace.Clear(ItemType.Metric));
 		}
 		
 		#endregion
@@ -62,6 +67,10 @@ namespace NSimpleOLAP.Storage.Molap
 		public void Dispose()
 		{
 			_graph.Dispose();
+			Metrics.Dispose();
+			Measures.Dispose();
+			Dimensions.Dispose();
+			NameSpace.Dispose();
 		}
 		
 		public INamespace<T> NameSpace { 
@@ -91,7 +100,7 @@ namespace NSimpleOLAP.Storage.Molap
 		private class MembersCollection<TMember> : AbsMolapMemberCollection<T,TMember>
 			where TMember: IDataItem<T>
 		{
-			public MembersCollection(ItemType type, Action<TMember> onaddmember, Action onclear)
+			public MembersCollection(ItemType type, Action<TMember> onaddmember, Action<IMemberStorage<T,TMember>> onclear)
 			{
 				_type = type;
 				this.memberOnAdd = onaddmember;

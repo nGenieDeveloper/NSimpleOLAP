@@ -73,5 +73,14 @@ namespace NSimpleOLAP.Schema
 		}
 		
 		#endregion
+		
+		#region IDisposable
+		
+		public void Dispose()
+		{
+			this.Members.Dispose();
+		}
+		
+		#endregion
 	}
 }

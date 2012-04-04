@@ -20,7 +20,7 @@ namespace NSimpleOLAP.Storage.Molap
 		private TSDictionary<string, T> _mapName;
 		protected ItemType _type;
 		protected Action<TMember> memberOnAdd;
-		protected Action onClear;
+		protected Action<IMemberStorage<T,TMember>> onClear;
 		
 		protected virtual void Init()
 		{
@@ -70,7 +70,7 @@ namespace NSimpleOLAP.Storage.Molap
 			_innerDictionary.Clear();
 			
 			if (onClear !=null)
-				onClear();
+				onClear(this);
 		}
 		
 		public bool Contains(TMember item)

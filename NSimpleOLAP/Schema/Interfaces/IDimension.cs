@@ -7,7 +7,7 @@ using NSimpleOLAP.Data.Interfaces;
 
 namespace NSimpleOLAP.Schema.Interfaces
 {
-    public interface IDimension<T>: IDataItem<T>
+    public interface IDimension<T>: IDataItem<T>, IDisposable
         where T: struct, IComparable
     {
         MemberCollection<T> Members { get; }
