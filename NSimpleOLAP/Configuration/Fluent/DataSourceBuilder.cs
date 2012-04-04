@@ -60,6 +60,13 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
+		public DataSourceBuilder AddField(string name, int index ,Type type)
+		{
+			FieldConfig field = new FieldConfig() { Name = name, FieldType = type, Index = index };
+			_element.Fields.Add(field);
+			return this;
+		}
+		
 		internal DataSourceConfig Create()
 		{
 			if (_element.SourceType == DataSourceType.CSV)

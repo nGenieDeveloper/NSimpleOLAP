@@ -45,6 +45,18 @@ namespace NSimpleOLAP.Configuration
 			}
 		}
 
+		public new FieldConfig this[string name]
+		{
+			get   { return (FieldConfig)BaseGet(name); }
+			set
+			{
+				if (BaseGet(name) != null)
+				{
+					BaseRemove(name);
+				}
+				BaseAdd(value);
+			}
+		}
 
 		#endregion
 

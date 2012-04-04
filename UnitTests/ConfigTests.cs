@@ -196,6 +196,33 @@ namespace UnitTests
 		}
 		
 		[Test]
+		public void DataSourceFieldsSetupConfig_Test()
+		{
+			CubeBuilder builder = new CubeBuilder();
+			
+			builder.SetName("hello")
+				.SetSource("xpto")
+				.AddDataSource(dsbuild => {
+				               	dsbuild.SetName("xpto")
+				               		.SetSourceType(DataSourceType.CSV)
+				               		.SetCSVConfig(csvbuild => {
+				               		              	csvbuild.SetFilePath("xpto.csv");
+				               		              })
+				               		.AddField("xval", 0, typeof(int))
+				               		.AddField("yval", 1, typeof(int));
+				               });
+			
+			Cube<int> cube = builder.Create<int>();
+			
+			Assert.AreEqual("xval", cube.Config.DataSources["xpto"].Fields["xval"].Name);
+			Assert.AreEqual(0, cube.Config.DataSources["xpto"].Fields["xval"].Index);
+			Assert.AreEqual(typeof(int), cube.Config.DataSources["xpto"].Fields["xval"].FieldType);
+			Assert.AreEqual("yval", cube.Config.DataSources["xpto"].Fields["yval"].Name);
+			Assert.AreEqual(1, cube.Config.DataSources["xpto"].Fields["yval"].Index);
+			Assert.AreEqual(typeof(int), cube.Config.DataSources["xpto"].Fields["yval"].FieldType);
+		}
+		
+		[Test]
 		public void SetStorageConfig_Test()
 		{
 			CubeBuilder builder = new CubeBuilder();

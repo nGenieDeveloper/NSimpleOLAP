@@ -32,7 +32,7 @@ namespace NSimpleOLAP.Configuration
 		/// <summary>
 		/// 
 		/// </summary>
-		[ConfigurationProperty("index")]
+		[ConfigurationProperty("index", DefaultValue = -1)]
 		public int Index {
 			get { return (int)this["index"]; }
 			set { this["index"] = value; }
