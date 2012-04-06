@@ -4,6 +4,7 @@ using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Common.Interfaces;
+using NSimpleOLAP.Schema.Interfaces;
 
 
 namespace NSimpleOLAP.Interfaces
@@ -17,7 +18,7 @@ namespace NSimpleOLAP.Interfaces
 	{
 		T Key { get; set; }
 		string Name { get; set; }
-		NameSpace<T> NameSpace { get; }
+		INamespace<T> NameSpace { get; }
 		DataSchema<T> Schema { get; }
 		IStorage<T,U> Storage { get; }
 		ICellCollection<T, U> Cells { get; }

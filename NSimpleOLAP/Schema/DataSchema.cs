@@ -95,7 +95,7 @@ namespace NSimpleOLAP.Schema
 		{
 			foreach (MeasureConfig item in this.Config.Measures)
 			{
-				Measure<T> nmes = new Measure<T>(item) { Name = item.Name };
+				Measure<T> nmes = new Measure<T>(item);
 				this.Measures.Add(nmes);
 			}
 		}
@@ -104,7 +104,7 @@ namespace NSimpleOLAP.Schema
 		{
 			foreach (MetricConfig item in this.Config.Metrics)
 			{
-				Metric<T> nmes = new Metric<T>(item) { Name = item.Name	};
+				Metric<T> nmes = new Metric<T>(item);
 				this.Metrics.Add(nmes);
 			}
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using NSimpleOLAP.Configuration;
+using System.Linq.Expressions;
 
 namespace NSimpleOLAP.Schema.Interfaces
 {
@@ -9,5 +10,6 @@ namespace NSimpleOLAP.Schema.Interfaces
     {
         Type DataType { get; set; }
         MeasureConfig Config { get; set; }
+        Expression MergeFunction { get; set; }
     }
 }

@@ -13,7 +13,6 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Linq;
 
-//TSDictionary
 
 namespace NSimpleOLAP.Common.Collections
 {

@@ -18,11 +18,13 @@ namespace NSimpleOLAP.Storage.Molap
 		where U: class, ICell<T>, new()
 	{
 		private Graph<T,U> _graph;
+		private T _cubeid;
 		
 		public MolapStorage(T cubeid, StorageConfig config)
 		{
+			_cubeid = cubeid;
+			this.Config = config;
 			this.Init();
-			_graph = new Graph<T, U>(cubeid, config);
 		}
 		
 		#region private methods
@@ -47,6 +49,7 @@ namespace NSimpleOLAP.Storage.Molap
 			this.Metrics = new MembersCollection<Metric<T>>(ItemType.Metric, 
 			                                                (metric)=>{ this.NameSpace.Add(metric); }, 
 			                                                (storage)=> this.NameSpace.Clear(ItemType.Metric));
+			_graph = new Graph<T, U>(_cubeid, this.Config);
 		}
 		
 		#endregion
@@ -73,6 +76,8 @@ namespace NSimpleOLAP.Storage.Molap
 			NameSpace.Dispose();
 		}
 		
+		public StorageType StorageType { get { return StorageType.Molap; } }
+		
 		public INamespace<T> NameSpace { 
 			get;
 			private set;			
@@ -89,6 +94,11 @@ namespace NSimpleOLAP.Storage.Molap
 		}
 		
 		public IMemberStorage<T, Metric<T>> Metrics {
+			get;
+			private set;
+		}
+		
+		public StorageConfig Config { 
 			get;
 			private set;
 		}

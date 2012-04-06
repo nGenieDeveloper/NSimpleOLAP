@@ -2,6 +2,7 @@
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Common;
+using System.Linq.Expressions;
 
 namespace NSimpleOLAP.Schema
 {
@@ -18,9 +19,10 @@ namespace NSimpleOLAP.Schema
 		public Metric(MetricConfig config)
 		{
 			this.Config = config;
+			this.Init(this.Config);
 		}
 		
-		public object Expression {
+		public Expression MetricExpression {
 			get;
 			set;
 		}
@@ -43,5 +45,18 @@ namespace NSimpleOLAP.Schema
 			get; 
 			set; 
 		}
+		
+		public Type DataType { get; set; }
+		
+		#region private members
+		
+		private void Init(MetricConfig config)
+		{
+			this.DataType = config.DataType;
+			this.Name = config.Name;
+			this.MetricExpression = config.MetricFunction;
+		}
+		
+		#endregion
 	}
 }

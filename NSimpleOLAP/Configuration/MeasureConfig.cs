@@ -36,16 +36,18 @@ namespace NSimpleOLAP.Configuration
 			set { this["valueFieldIndex"] = value; }
 		}
 		
+		[ConfigurationProperty("type", DefaultValue = typeof(double))]
 		public Type DataType
 		{
-			get;
-			set;
+			get { return (Type)this["type"]; }
+			set { this["type"] = value; }
 		}
 		
+		[ConfigurationProperty("mergeExpression")]
 		public Expression MergeFunction
 		{
-			get;
-			set;
+			get { return (Expression)this["mergeExpression"]; }
+			set { this["mergeExpression"] = value; }
 		}
 	}
 	

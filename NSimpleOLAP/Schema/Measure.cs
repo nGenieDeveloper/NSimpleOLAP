@@ -2,6 +2,7 @@
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Common;
+using System.Linq.Expressions;
 
 namespace NSimpleOLAP.Schema
 {
@@ -18,6 +19,7 @@ namespace NSimpleOLAP.Schema
 		public Measure(MeasureConfig config )
 		{
 			this.Config = config;
+			this.Init(this.Config);
 		}
 		
 		public Type DataType {
@@ -43,5 +45,18 @@ namespace NSimpleOLAP.Schema
 			get; 
 			set; 
 		}
+		
+		public Expression MergeFunction { get; set; }
+		
+		#region private members
+		
+		private void Init(MeasureConfig config)
+		{
+			this.DataType = config.DataType;
+			this.Name = config.Name;
+			this.MergeFunction = config.MergeFunction;
+		}
+		
+		#endregion
 	}
 }

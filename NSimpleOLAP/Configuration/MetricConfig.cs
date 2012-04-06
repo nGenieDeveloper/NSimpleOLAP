@@ -30,16 +30,18 @@ namespace NSimpleOLAP.Configuration
 			set { this["special"] = value; }
 		}
 		
+		[ConfigurationProperty("type", DefaultValue = typeof(double))]
 		public Type DataType
 		{
-			get;
-			set;
+			get { return (Type)this["type"]; }
+			set { this["type"] = value; }
 		}
 		
+		[ConfigurationProperty("metricFunction")]
 		public Expression MetricFunction
 		{
-			get;
-			set;
+			get { return (Expression)this["metricFunction"]; }
+			set { this["metricFunction"] = value; }
 		}
 	}
 	

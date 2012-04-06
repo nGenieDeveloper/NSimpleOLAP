@@ -45,6 +45,12 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
+		public MeasureBuilder SetType(Type type)
+		{
+			_element.DataType = type;
+			return this;
+		}
+		
 		public MeasureBuilder SetMergeExpression(Expression expression)
 		{
 			_element.MergeFunction = expression;

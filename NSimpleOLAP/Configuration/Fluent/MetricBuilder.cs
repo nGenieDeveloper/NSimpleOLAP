@@ -25,6 +25,18 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
+		public MetricBuilder SetType(Type type)
+		{
+			_element.DataType = type;
+			return this;
+		}
+		
+		public MetricBuilder SetExpression(Expression expression)
+		{
+			_element.MetricFunction = expression;
+			return this;
+		}
+		
 		internal MetricConfig Create()
 		{
 			return _element;

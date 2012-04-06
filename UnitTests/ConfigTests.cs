@@ -238,6 +238,26 @@ namespace UnitTests
 			Assert.AreEqual(StorageType.Molap, cube.Config.Storage.StoreType);
 		}
 		
+		[Test]
+		public void AddMeasureConfig_Test()
+		{
+			CubeBuilder builder = new CubeBuilder();
+			
+			builder.SetName("hello")
+				.SetSource("xpto")
+				.MetaData(mbuild => {
+				          	mbuild.AddMeasure("var1", mesbuild => {
+				          	                  	mesbuild.ValueField("varx1");
+				          	                  });
+				          			});
+
+			
+			Cube<int> cube = builder.Create<int>();
+			
+			Assert.AreEqual("var1", cube.Config.MetaData.Measures["var1"].Name);
+			Assert.AreEqual("varx1", cube.Config.MetaData.Measures["var1"].ValueFieldName);
+		}
+		
 		
 		/*	
  *example 
@@ -270,8 +290,6 @@ namespace UnitTests
 				         	xstore.SetStoreType(StorageType.Molap);
 				         });
 			
-			CubeConfig element = builder.Create();
-			
-			Assert.AreEqual(element.Name, "hello");*/
+			*/
 	}
 }

@@ -47,7 +47,7 @@ namespace NSimpleOLAP
 			set; 
 		}
 		
-		public NameSpace<T> NameSpace { 
+		public INamespace<T> NameSpace { 
 			get; 
 			private set;
 		}
@@ -102,8 +102,8 @@ namespace NSimpleOLAP
 		
 		public void Initialize()
 		{
-			this.NameSpace = new NameSpace<T>(AbsIdentityKey<T>.Create());
 			this.Storage = StorageFactory<T, Cell<T>>.Create(this.Key, this.Config.Storage);
+			this.NameSpace = Storage.NameSpace;
 			this.DataSources = new DataSourceCollection(this.Config);
 			this.Schema = new DataSchema<T>(this.Config,this.DataSources, 
 			                                this.Storage.Dimensions, this.Storage.Measures,
