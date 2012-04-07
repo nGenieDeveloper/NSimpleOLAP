@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NSimpleOLAP.Common.Utils
+namespace NSimpleOLAP.Common.Hashing
 {
     internal class MurmurHash2
     {

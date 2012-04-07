@@ -69,10 +69,13 @@
     <Compile Include="Common\Collections\TSDictionary.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\GuidIdentityKey.cs" />
+    <Compile Include="Common\Hashing\FNV1aHasher.cs" />
+    <Compile Include="Common\Hashing\FNVHasher.cs" />
+    <Compile Include="Common\Hashing\Hasher.cs" />
     <Compile Include="Common\Interfaces\IProcess.cs" />
     <Compile Include="Common\IntIdentityKey.cs" />
-    <Compile Include="Common\Utils\KeyStreamer.cs" />
-    <Compile Include="Common\Utils\MurmurHash2.cs" />
+    <Compile Include="Common\Hashing\KeyStreamer.cs" />
+    <Compile Include="Common\Hashing\MurmurHash2.cs" />
     <Compile Include="Configuration\CSVElement.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\DataTableConfigElement.cs" />
@@ -83,6 +86,8 @@
     <Compile Include="Configuration\Fluent\DataTableConfigBuilder.cs" />
     <Compile Include="Configuration\Fluent\DBConfigBuilder.cs" />
     <Compile Include="Configuration\Fluent\FluentExtensions.cs" />
+    <Compile Include="Configuration\Fluent\MolapStorageBuilder.cs" />
+    <Compile Include="Configuration\MolapStorageConfig.cs" />
     <Compile Include="Configuration\OlapConfigSectionSettings.cs" />
     <Compile Include="Configuration\CubeConfig.cs" />
     <Compile Include="Configuration\DataSourceConfig.cs" />

@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NSimpleOLAP.Common;
+
+namespace NSimpleOLAP.Common.Hashing
+{
+	/// <summary>
+	/// Description of Hasher.
+	/// </summary>
+	public abstract class Hasher<T>
+		where T: struct, IComparable
+	{
+		public IEnumerable<T> HashTuples(params KeyValuePair<T,T>[] tuples)
+		{
+			foreach (byte[] btems in KeyStreamer.TransformKeys<T>(tuples))
+			{
+				yield return HashingFunction(btems);
+			}
+		}
+		
+		public MolapHashTypes HashStrategy
+		{
+			get;
+			protected set;
+		}
+		
+		protected abstract T HashingFunction(byte[] bytes);
+		
+		public static Hasher<T> Create(MolapHashTypes type)
+		{
+			Hasher<T> hasher = null;
+			
+			switch (type)
+			{
+				case MolapHashTypes.FNV:
+					hasher = new FNVHasher<T>();
+					break;
+				case MolapHashTypes.FNV1A:
+					hasher = new FNV1aHasher<T>();
+					break;
+				case MolapHashTypes.MURMUR:
+					break;
+				case MolapHashTypes.MURMUR2:
+					break;
+				case MolapHashTypes.CITY:
+					break;
+			}
+			
+			return hasher;
+		}
+	}
+}

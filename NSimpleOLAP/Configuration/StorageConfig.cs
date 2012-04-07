@@ -21,6 +21,12 @@ namespace NSimpleOLAP.Configuration
 			set { this["type"] = value; }
 		}
 		
+		[ConfigurationProperty("MolapConfig")]
+		public MolapStorageConfig MolapConfig {
+			get { return (MolapStorageConfig)this["MolapConfig"]; }
+			set { this["MolapConfig"] = value; }
+		}
+		
 		internal Func<KeyValuePair<T,T>[], T> GetHashingFunction<T>()
 			where T: struct, IComparable
 		{
