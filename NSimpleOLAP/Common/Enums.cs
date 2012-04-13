@@ -10,6 +10,6 @@ namespace NSimpleOLAP.Common
 	
 	public enum ItemType { Dimension = 0, Measure = 1, Metric = 2 , Member = 3 }
 	
-	public enum MolapHashTypes { FNV, FNV1A, MURMUR, MURMUR2, CITY }
+	public enum MolapHashTypes { FNV, FNV1A, MURMUR2, CITY }
 	
 }

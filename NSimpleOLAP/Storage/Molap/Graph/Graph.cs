@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Storage.Molap;
 
 
 namespace NSimpleOLAP.Storage.Molap.Graph
@@ -16,8 +17,8 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		where T: struct, IComparable
 		where U: class, ICell<T>, new()
 	{
-		private Func<KeyValuePair<T,T>[], T> _hashPairsFunction;
-		private Action<object, IVarData<T>> _varDataMergeFunc;
+	//	private Action<object, IVarData<T>> _varDataMergeFunc;
+		private MolapKeyHandler<T> _keyHandler;
 		
 		public Graph(T root, StorageConfig config)
 		{
@@ -25,9 +26,9 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 				Coords = new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))},
 				IsRootDim = true
 			};
-			_hashPairsFunction = config.GetHashingFunction<T>();
-			_varDataMergeFunc = config.GetVarMergeFunction<T>();
-			this.Root.Key = _hashPairsFunction(this.Root.Coords);
+	//		_varDataMergeFunc = config.GetVarMergeFunction<T>();
+			_keyHandler = new MolapKeyHandler<T>(config.MolapConfig);
+			this.Root.Key = _keyHandler.GetKey(this.Root.Coords);
 		}
 		
 		#region public members
@@ -142,7 +143,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			for (int i = 0; i < coords.Length; i++)
 			{
 				pairs.Add(coords[i]);
-				hslist.Add(_hashPairsFunction(pairs.ToArray()));
+				hslist.Add(_keyHandler.GetKey(pairs.ToArray()));
 			}
 			
 			return hslist.ToArray();
@@ -178,9 +179,9 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		private Node<T,U> CreateNDimNode(Node<T,U> rootnode, KeyValuePair<T, T> pair, IVarData<T> vardata)
 		{
 			KeyValuePair<T,T>[] coords = Node<T,U>.GetCoords(rootnode.Coords, pair);
-			T hashkey = _hashPairsFunction(coords);
+			T hashkey = _keyHandler.GetKey(coords);
 			Node<T,U> rnode = rootnode.InsertChildNodeIfNotExists(hashkey, coords);
-			_varDataMergeFunc(rnode, vardata);
+		//	_varDataMergeFunc(rnode, vardata);
 			
 			return rnode;
 		}

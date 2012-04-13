@@ -1,36 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace NSimpleOLAP.Common.Hashing
 {
-    internal class KeyStreamer
+	internal class KeyStreamer
     {
-        public static IEnumerable<byte[]> TransformKeys<T>(KeyValuePair<T,T>[] tuples)
-            where T: IComparable
+        public static IEnumerable<byte> TransformKeys<T>(KeyValuePair<T,T>[] tuples)
+            where T:struct, IComparable
         {
         	foreach (KeyValuePair<T,T> item in tuples)
         	{
-            	yield return TransformKey<T>(item);
+        		foreach (byte bitem in TransformKeyToBytes<T>(item))
+        			yield return bitem;
         	}
         }
         
-        public static byte[] TransformKey<T>(KeyValuePair<T,T> tuple)
-            where T: IComparable
+        private static IEnumerable<byte> TransformKeyToBytes<T>(KeyValuePair<T,T> pair)
+        	where T: struct, IComparable
         {
-            return TransformKey(tuple);
+        	foreach (byte item in ToByteArray(pair.Key))
+        		yield return item;
+        	
+        	foreach (byte item in ToByteArray(pair.Value))
+        		yield return item;
         }
-        
-        private static byte[] TransformKey(object structure)
-        {
-        	int size = Marshal.SizeOf(structure);
-            byte[] b_array = new byte[size];
-            IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(structure, ptr, true);
-            Marshal.Copy(ptr, b_array, 0, size);
-            Marshal.FreeHGlobal(ptr);
-            
-            return b_array;
-        }
+             
+        private static byte[] ToByteArray(object value)
+	    {
+	        int rawsize = Marshal.SizeOf(value);
+	        byte[] rawdata = new byte[rawsize];
+
+	        GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
+	        Marshal.StructureToPtr(value, handle.AddrOfPinnedObject(), false);
+	        handle.Free();
+
+	        return rawdata;
+	    }        
     }
 }

@@ -11,12 +11,9 @@ namespace NSimpleOLAP.Common.Hashing
 	public abstract class Hasher<T>
 		where T: struct, IComparable
 	{
-		public IEnumerable<T> HashTuples(params KeyValuePair<T,T>[] tuples)
+		public T HashTuples(params KeyValuePair<T,T>[] tuples)
 		{
-			foreach (byte[] btems in KeyStreamer.TransformKeys<T>(tuples))
-			{
-				yield return HashingFunction(btems);
-			}
+			return HashingFunction(GetTuplesBytes(tuples).ToArray());
 		}
 		
 		public MolapHashTypes HashStrategy
@@ -39,8 +36,6 @@ namespace NSimpleOLAP.Common.Hashing
 				case MolapHashTypes.FNV1A:
 					hasher = new FNV1aHasher<T>();
 					break;
-				case MolapHashTypes.MURMUR:
-					break;
 				case MolapHashTypes.MURMUR2:
 					break;
 				case MolapHashTypes.CITY:
@@ -48,6 +43,12 @@ namespace NSimpleOLAP.Common.Hashing
 			}
 			
 			return hasher;
+		}
+		
+		private IEnumerable<byte> GetTuplesBytes(KeyValuePair<T,T>[] tuples)
+		{
+			foreach (byte item in KeyStreamer.TransformKeys<T>(tuples))
+				yield return item;
 		}
 	}
 }
