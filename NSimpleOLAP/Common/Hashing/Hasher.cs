@@ -37,6 +37,7 @@ namespace NSimpleOLAP.Common.Hashing
 					hasher = new FNV1aHasher<T>();
 					break;
 				case MolapHashTypes.MURMUR2:
+					hasher = new MurmurHash2<T>();
 					break;
 				case MolapHashTypes.CITY:
 					break;

@@ -26,18 +26,6 @@ namespace NSimpleOLAP.Configuration
 			get { return (MolapStorageConfig)this["MolapConfig"]; }
 			set { this["MolapConfig"] = value; }
 		}
-		
-		internal Func<KeyValuePair<T,T>[], T> GetHashingFunction<T>()
-			where T: struct, IComparable
-		{
-			return null;
-		}
-		
-		internal Action<object, IVarData<T>> GetVarMergeFunction<T>()
-			where T: struct, IComparable
-		{
-			return null;
-		}
 	}
 	
 }

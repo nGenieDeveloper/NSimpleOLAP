@@ -1,20 +1,96 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Common.Hashing
 {
-    internal class MurmurHash2
+    internal class MurmurHash2<T> : Hasher<T>
+		where T: struct, IComparable
     {
         const UInt32 _m = 0x5bd1e995;
         const UInt64 _m2 = 0xc6a4a7935bd1e995;
         const Int32 _r = 24;
         const Int32 _r2 = 47;
+        
+        private Func<byte[], T> _hashfunction;
+		
+		public MurmurHash2()
+		{
+			this.HashStrategy = MolapHashTypes.MURMUR2;	
+			_hashfunction = this.Init();
+		}
+			
+		protected override T HashingFunction(byte[] bytes)
+		{
+			return _hashfunction(bytes);
+		}
+        
+		#region
+		
+		private Func<byte[], T> Init()
+		{
+			Type type = typeof(T);
+			Func<byte[], T> function = null;
+			
+			if (type == typeof(int))
+				function = (Func<byte[], T>)(object)FuncInt();
+			else if (type == typeof(uint))
+				function = (Func<byte[], T>)(object)FuncUInt();
+			else if (type == typeof(long))
+				function = (Func<byte[], T>)(object)FuncLong();
+			else if (type == typeof(ulong))
+				function = (Func<byte[], T>)(object)FuncULong();
+			
+			return function;
+		}
+		
+		private Func<byte[], int> FuncInt()
+		{
+			return (bytes) => HashFunctionInt32(bytes);
+		}
+		
+		private Func<byte[], uint> FuncUInt()
+		{
+			return (bytes) => HashFunctionUInt32(bytes);
+		}
+		
+		private Func<byte[], long> FuncLong()
+		{
+			return (bytes) => HashFunctionInt64(bytes);
+		}
+		
+		private Func<byte[], ulong> FuncULong()
+		{
+			return (bytes) => HashFunctionUInt64(bytes);
+		}
+		
+		#endregion
+		
+		#region hash functions
+        
+        protected static int HashFunctionInt32(byte[] bytes)
+		{
+			return unchecked((int)HashFunctionUInt32(bytes));
+		}
 
-        public UInt32 Hash(Byte[] data)
+        protected static uint HashFunctionUInt32(byte[] data)
         {
-            return Hash(data, 0xc58f1a7b);
+            return Hash32(data, 0xc58f1a7b);
         }
         
-        public UInt32 Hash(Byte[] data, UInt32 seed)
+        protected static long HashFunctionInt64(byte[] bytes)
+		{
+			return unchecked((long)HashFunctionUInt64(bytes));
+		}
+        
+        protected static ulong HashFunctionUInt64(byte[] data)
+        {
+            return Hash64(data, 0xe17a1465);
+        }
+        
+        
+        public static UInt32 Hash32(byte[] data, UInt32 seed)
         {
             Int32 length = data.Length;
             if (length == 0)
@@ -62,7 +138,7 @@ namespace NSimpleOLAP.Common.Hashing
         }
         
         
-        public UInt64 Hash(Byte[] data, UInt64 seed)
+        public static UInt64 Hash64(byte[] data, UInt64 seed)
         {
             Int64 length = data.Length;
             if (length == 0)
@@ -134,5 +210,7 @@ namespace NSimpleOLAP.Common.Hashing
 
             return h;
         }
+        
+        #endregion
     }
 }

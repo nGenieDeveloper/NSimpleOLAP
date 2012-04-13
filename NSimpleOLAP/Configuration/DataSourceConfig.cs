@@ -44,9 +44,9 @@ namespace NSimpleOLAP.Configuration
 		}
 		
 		[ConfigurationProperty("CSVConfig")]
-		public CSVElement CSVConfig
+		public CSVConfig CSVConfig
 		{
-			get { return (CSVElement)this["CSVConfig"]; }
+			get { return (CSVConfig)this["CSVConfig"]; }
 			set { this["CSVConfig"] = value; }
 		}
 		

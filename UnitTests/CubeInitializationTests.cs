@@ -28,28 +28,35 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource("sales")
 				.AddDataSource(dsbuild => {
-				               	dsbuild.SetName("xpto")
+				               	dsbuild.SetName("sales")
 				               		.SetSourceType(DataSourceType.CSV)
 				               		.SetCSVConfig(csvbuild => {
-				               		              	csvbuild.SetFilePath("xpto.csv");
-				               		              });
+				               		              	csvbuild.SetFilePath("TestData//table.csv")
+				               		              		.SetHasHeader();
+				               		              })
+				               		.AddField("category", 0, typeof(int))
+				               		.AddField("sex", 1, typeof(int))
+				               		.AddField("place", 2, typeof(int))
+				               		.AddField("expenses", 3, typeof(double))
+				               		.AddField("items", 4, typeof(int));
 				               })
 				.AddDataSource(dsbuild => {
-				               	dsbuild.SetName("xtable")
+				               	dsbuild.SetName("categories")
 				               		.SetSourceType(DataSourceType.CSV)
-				               		.AddField("xkey", 0, typeof(int))
-				               		.AddField("xdesc", 1, typeof(string))
+				               		.AddField("id", 0, typeof(int))
+				               		.AddField("description", 1, typeof(string))
 				               		.SetCSVConfig(csvbuild => {
-				               		              	csvbuild.SetFilePath("xtable.csv");
+				               		              	csvbuild.SetFilePath("TestData//dimension1.csv")
+				               		              		.SetHasHeader();
 				               		              });
 				               })
 				.MetaData(mbuild => {
-				          	mbuild.AddDimension("x", (dimbuild)=> {
-				          	                    	dimbuild.Source("xtable")
-				          	                    		.ValueField("xkey")
-				          	                    		.DescField("xdesc");
+				          	mbuild.AddDimension("category", (dimbuild)=> {
+				          	                    	dimbuild.Source("categories")
+				          	                    		.ValueField("id")
+				          	                    		.DescField("description");
 				          	                    });
 				          });
 			
@@ -57,10 +64,10 @@ namespace UnitTests
 			
 			cube.Initialize();
 			
-			Assert.AreEqual("x",cube.Schema.Dimensions["x"].Name);
-			Assert.AreEqual("xtable",cube.Schema.Dimensions["x"].DataSource.Name);
-			Assert.AreEqual(ItemType.Dimension,cube.Schema.Dimensions["x"].ItemType);
-			Assert.Greater(cube.Schema.Dimensions["x"].ID, 0);
+			Assert.AreEqual("category",cube.Schema.Dimensions["category"].Name);
+			Assert.AreEqual("categories",cube.Schema.Dimensions["category"].DataSource.Name);
+			Assert.AreEqual(ItemType.Dimension,cube.Schema.Dimensions["category"].ItemType);
+			Assert.Greater(cube.Schema.Dimensions["category"].ID, 0);
 		}
 		
 		[Test]

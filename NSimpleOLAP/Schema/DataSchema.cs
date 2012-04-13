@@ -109,6 +109,11 @@ namespace NSimpleOLAP.Schema
 			}
 		}
 		
+		private void ProcessDimensions()
+		{
+			foreach (Dimension<T> item in this.Dimensions)
+				item.Process();
+		}
 		
 		#endregion
 		
@@ -116,7 +121,7 @@ namespace NSimpleOLAP.Schema
 		
 		public void Process()
 		{
-			throw new NotImplementedException();
+			this.ProcessDimensions();
 		}
 		
 		public void Refresh()

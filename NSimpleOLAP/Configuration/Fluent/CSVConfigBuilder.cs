@@ -9,11 +9,11 @@ namespace NSimpleOLAP.Configuration.Fluent
 	/// </summary>
 	public class CSVConfigBuilder
 	{
-		private CSVElement _element;
+		private CSVConfig _element;
 		
 		public CSVConfigBuilder()
 		{
-			_element = new CSVElement();
+			_element = new CSVConfig();
 		}
 		
 		#region public methods
@@ -36,13 +36,19 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
+		public CSVConfigBuilder SetHasHeader()
+		{
+			_element.HasHeader = true;
+			return this;
+		}
+		
 		public CSVConfigBuilder SetEncoding(string encoding)
 		{
 			_element.Encoding = encoding;
 			return this;
 		}
 		
-		internal CSVElement Create()
+		internal CSVConfig Create()
 		{
 			return _element;
 		}

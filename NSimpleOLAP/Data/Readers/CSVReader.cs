@@ -16,6 +16,7 @@ namespace NSimpleOLAP.Data.Readers
 	public class CSVReader: AbsReader
 	{
 		private Row _row;
+		private bool _firstline = true;
 		private TextReader _reader;
 
 		public CSVReader(DataSourceConfig config)
@@ -30,15 +31,21 @@ namespace NSimpleOLAP.Data.Readers
 			
 			string line = _reader.ReadLine();
 			
+			if (this._firstline && this.Config.CSVConfig.HasHeader)
+				line = _reader.ReadLine();
+			
 			if (line != null)
 			{
 				string[] strs = line.Split(this.Config.CSVConfig.FieldDelimiter);
 
 				_row.SetData(this.GetValues(strs));
 				this.Current = _row;
+				ret = true;
 			}
 			else
 				this.Current = null;
+			
+			this._firstline = false;
 			
 			return ret;
 		}
@@ -69,7 +76,7 @@ namespace NSimpleOLAP.Data.Readers
 			for (int i = 0; i < this.Config.Fields.Count; i++)
 			{
 				if (strs[i].Trim() != string.Empty)
-					values[i] = Convert.ChangeType(strs[i], this.Config.Fields[i].FieldType);
+					values[i] = Convert.ChangeType(strs[i].Trim(), this.Config.Fields[i].FieldType);
 				else
 					values[i] = null;
 			}

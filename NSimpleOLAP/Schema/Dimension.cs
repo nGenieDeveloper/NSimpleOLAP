@@ -6,6 +6,7 @@ using NSimpleOLAP.Data.Interfaces;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
+using NSimpleOLAP.Data.Readers;
 
 namespace NSimpleOLAP.Schema
 {
@@ -57,7 +58,16 @@ namespace NSimpleOLAP.Schema
 		
 		public void Process()
 		{
-			throw new NotImplementedException();
+			using (AbsReader reader = this.DataSource.GetReader())
+			{
+				while (reader.Next())
+				{
+					this.Members.Add(new Member<T>() { 
+					                 	ID = (T)reader.Current[this.Config.ValueFieldName],
+					                 	Name = reader.Current[this.Config.DesFieldName].ToString()
+					                 });
+				}
+			}
 		}
 		
 		public void Refresh()

@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Common\AbsIdentityKey.cs" />
     <Compile Include="Common\Collections\TSDictionary.cs" />
+    <Compile Include="Common\DataSourceException.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\GuidIdentityKey.cs" />
     <Compile Include="Common\Hashing\FNV1aHasher.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Common\IntIdentityKey.cs" />
     <Compile Include="Common\Hashing\KeyStreamer.cs" />
     <Compile Include="Common\Hashing\MurmurHash2.cs" />
-    <Compile Include="Configuration\CSVElement.cs" />
+    <Compile Include="Configuration\CSVConfig.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\DataTableConfigElement.cs" />
     <Compile Include="Configuration\DBConfigElement.cs" />

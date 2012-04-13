@@ -114,7 +114,7 @@ namespace NSimpleOLAP
 		
 		public void Process()
 		{
-			throw new NotImplementedException();
+			this.Schema.Process();
 		}
 		
 		public void Refresh()

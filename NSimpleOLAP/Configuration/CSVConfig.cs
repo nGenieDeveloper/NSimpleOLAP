@@ -9,7 +9,7 @@ namespace NSimpleOLAP.Configuration
 	/// Represents a single XML tag inside a ConfigurationSection
 	/// or a ConfigurationElementCollection.
 	/// </summary>
-	public sealed class CSVElement : ConfigurationElement
+	public sealed class CSVConfig : ConfigurationElement
 	{
 		
 		[ConfigurationProperty("path")]
@@ -31,6 +31,13 @@ namespace NSimpleOLAP.Configuration
 		{
 			get { return (bool)this["textQuoted"]; }
 			set { this["textQuoted"] = value; }
+		}
+		
+		[ConfigurationProperty("header", DefaultValue = false)]
+		public bool HasHeader
+		{
+			get { return (bool)this["header"]; }
+			set { this["header"] = value; }
 		}
 		
 		[ConfigurationProperty("encoding", IsRequired = false, DefaultValue = "")]

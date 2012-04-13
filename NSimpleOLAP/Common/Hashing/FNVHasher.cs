@@ -68,12 +68,12 @@ namespace NSimpleOLAP.Common.Hashing
 		
 		#region hash functions
 		
-		protected static int HashFunctionInt32(IEnumerable<byte> bytes)
+		protected static int HashFunctionInt32(byte[] bytes)
 		{
 			return unchecked((int)HashFunctionUInt32(bytes));
 		}
 		
-		protected static uint HashFunctionUInt32(IEnumerable<byte> bytes)
+		protected static uint HashFunctionUInt32(byte[] bytes)
         {
             uint hash = 2166136261;
             foreach (byte b in bytes)
@@ -84,12 +84,12 @@ namespace NSimpleOLAP.Common.Hashing
             return hash;
         }
 		
-		protected static long HashFunctionInt64(IEnumerable<byte> bytes)
+		protected static long HashFunctionInt64(byte[] bytes)
 		{
 			return unchecked((long)HashFunctionUInt64(bytes));
 		}
 
-        protected static ulong HashFunctionUInt64(IEnumerable<byte> bytes)
+        protected static ulong HashFunctionUInt64(byte[] bytes)
         {
             ulong hash = 14695981039346656037;
 
