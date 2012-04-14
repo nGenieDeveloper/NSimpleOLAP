@@ -9,5 +9,7 @@ namespace NSimpleOLAP.Schema.Interfaces
     {
         D this[T key] { get; }
         D this[string name] { get; }
+        
+        bool ContainsKey(T key);
     }
 }

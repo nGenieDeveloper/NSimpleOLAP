@@ -13,5 +13,7 @@ namespace NSimpleOLAP.Storage.Interfaces
 	{
 		TMember this[T key] { get; }
 		TMember this[string name ] { get; }
+		
+		bool ContainsKey(T key);
 	}
 }

@@ -28,7 +28,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("sales")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("sales"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("sales")
 				               		.SetSourceType(DataSourceType.CSV)
@@ -76,7 +76,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("xpto")
 				               		.SetSourceType(DataSourceType.CSV)

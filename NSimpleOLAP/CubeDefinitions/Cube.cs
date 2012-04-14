@@ -7,6 +7,7 @@ using NSimpleOLAP.Storage;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Data.Readers;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Interfaces;
 
@@ -18,6 +19,8 @@ namespace NSimpleOLAP
 	public class Cube<T> : ICube<T, Cell<T>>
 		where T: struct, IComparable
 	{
+		private DataRowHelper<T> _rowHelper;
+		
 		public Cube()
 		{
 			this.Config = DefaultCubeConfiguration.GetConfig();
@@ -108,13 +111,17 @@ namespace NSimpleOLAP
 			this.Schema = new DataSchema<T>(this.Config,this.DataSources, 
 			                                this.Storage.Dimensions, this.Storage.Measures,
 			                              this.Storage.Metrics);
+			_rowHelper = new DataRowHelper<T>(this.Schema, this.Config.Source);
 		}
 		
 		#region IProcess implementation
 		
 		public void Process()
 		{
+			this.IsProcessing = true;
 			this.Schema.Process();
+			this.ProcessDataSource();
+			this.IsProcessing = false;
 		}
 		
 		public void Refresh()
@@ -129,7 +136,20 @@ namespace NSimpleOLAP
 		private void Init()
 		{
 			this.Name = this.Config.Name;
-			this.Source = this.Config.Source;
+			this.Source = this.Config.Source.Name;
+			this.IsProcessing = false;
+		}
+		
+		private void ProcessDataSource()
+		{
+			using (AbsReader reader = this.DataSources[this.Source].GetReader())
+			{
+				while (reader.Next())
+				{
+					this.Storage.AddRowData(_rowHelper.GetDimensions(reader.Current), 
+					                        _rowHelper.GetMeasureData(reader.Current));
+				}
+			}
 		}
 		
 		#endregion

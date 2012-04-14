@@ -18,6 +18,7 @@ namespace NSimpleOLAP.Schema
 	{
 		private DataSourceCollection _datasources;
 		
+		
 		public DataSchema(IMemberStorage<T, Dimension<T>> dimstorage, 
 		                  IMemberStorage<T, Measure<T>> messtorage,
 		                 IMemberStorage<T, Metric<T>> metstorage)

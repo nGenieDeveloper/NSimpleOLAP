@@ -23,14 +23,13 @@ namespace NSimpleOLAP.Configuration
 		/// <summary>
 		/// 
 		/// </summary>
-		[ConfigurationProperty("source", IsRequired = true)]
-		[StringValidator(InvalidCharacters = " ~!@#$%^&*()[]{}/;'\"|\\")]
-		public string Source
+		[ConfigurationProperty("Source", IsRequired = true)]
+		public CubeSourceConfig Source
 		{
-			get { return (string)this["source"]; }
-			set { this["source"] = value; }
+			get { return (CubeSourceConfig)this["Source"]; }
+			set { this["Source"] = value; }
 		}
-	
+		
 		/// <summary>
 		/// 
 		/// </summary>

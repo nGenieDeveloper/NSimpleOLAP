@@ -30,7 +30,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto");
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"));
 			
 			Cube<int> cube = builder.Create<int>();
 			
@@ -59,7 +59,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.MetaData(mbuild => {
 				          	mbuild.AddDimension("x", (dimbuild)=> {
 				          	                    	dimbuild.Source("xtable")
@@ -80,7 +80,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.MetaData(mbuild => {
 				          	mbuild.AddDimension("x", (dimbuild)=> {
 				          	                    	dimbuild.Source("xtable")
@@ -103,7 +103,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.MetaData(mbuild => {
 				          	mbuild.AddDimension("x", (dimbuild)=> {
 				          	                    	dimbuild.Source("xtable")
@@ -131,7 +131,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("xpto")
 				               		.SetSourceType(DataSourceType.CSV)
@@ -151,7 +151,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("xpto")
 				               		.SetSourceType(DataSourceType.CSV)
@@ -173,7 +173,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("xpto")
 				               		.SetSourceType(DataSourceType.CSV)
@@ -201,7 +201,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("xpto")
 				               		.SetSourceType(DataSourceType.CSV)
@@ -228,7 +228,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.Storage(storebuild => {
 				         	storebuild.SetStoreType(StorageType.Molap);
 				         });
@@ -244,7 +244,7 @@ namespace UnitTests
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("xpto")
+				.SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
 				.MetaData(mbuild => {
 				          	mbuild.AddMeasure("var1", mesbuild => {
 				          	                  	mesbuild.ValueField("varx1");
@@ -258,38 +258,5 @@ namespace UnitTests
 			Assert.AreEqual("varx1", cube.Config.MetaData.Measures["var1"].ValueFieldName);
 		}
 		
-		
-		/*	
- *example 
-* CubeBuilder builder = new CubeBuilder();
-			
-			builder.SetName("hello")
-				.SetSource("xpto")
-				.MetaData(mbuild => {
-				          	mbuild.AddDimension("x", xdim => {
-				          	                    	xdim.Source("xpto")
-				          	                    		.DescField("desc")
-				          	                    		.ValueField("dim");
-				          	                    })
-				          		.AddMeasure("q", xmes => {
-				          		            	xmes.ValueField("val");
-				          		            })
-				          		.AddMetric("m", xmet => {});
-				          })
-				.AddDataSource(xdata => {
-				               	xdata.SetName("xpto")
-				               		.SetSourceType(DataSourceType.CSV)
-				               		.SetCSVConfig(cvsconf => {
-				               		              	cvsconf.SetFilePath("c:\any");
-				               		              })
-				               		.AddField("dim", typeof(int))
-				               		.AddField("desc", typeof(string))
-				               		.AddField("val", typeof(int));
-				               })
-				.Storage(xstore => {
-				         	xstore.SetStoreType(StorageType.Molap);
-				         });
-			
-			*/
 	}
 }

@@ -13,12 +13,17 @@ namespace UnitTests
 	public class ReadDataSourceTests
 	{
 		[Test]
-		public void TestMethod()
+		public void DimensionMembersTest()
 		{
 			CubeBuilder builder = new CubeBuilder();
 			
 			builder.SetName("hello")
-				.SetSource("sales")
+				.SetSource((sourcebuild) => {
+				           	sourcebuild.SetSource("sales")
+				           		.AddMapping("category", "category")
+				           		.AddMapping("sex","sex")
+				           		.AddMapping("place", "place");
+				           })
 				.AddDataSource(dsbuild => {
 				               	dsbuild.SetName("sales")
 				               		.SetSourceType(DataSourceType.CSV)

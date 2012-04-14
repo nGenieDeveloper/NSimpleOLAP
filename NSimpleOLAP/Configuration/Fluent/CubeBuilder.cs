@@ -11,10 +11,10 @@ namespace NSimpleOLAP.Configuration.Fluent
 	public class CubeBuilder
 	{
 		private string _name = string.Empty;
-		private string _source = string.Empty;
 		private StorageConfigBuilder _storeconfig;
 		private List<DataSourceBuilder> _datasourceconfigs;
 		private MetaDataBuilder _metadataconfig;
+		private CubeSourceBuilder _cubeSource;
 		private CubeConfig _root;
 		
 		public CubeBuilder()
@@ -23,6 +23,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			_storeconfig = new StorageConfigBuilder();
 			_datasourceconfigs = new List<DataSourceBuilder>();
 			_metadataconfig = new MetaDataBuilder();
+			_cubeSource = new CubeSourceBuilder();
 		}
 		
 		internal CubeBuilder(CubeConfig root)
@@ -38,9 +39,9 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public CubeBuilder SetSource(string source)
+		public CubeBuilder SetSource(Action<CubeSourceBuilder> sourceconfig)
 		{
-			_source = source;
+			sourceconfig(_cubeSource);
 			return this;
 		}
 		
@@ -71,10 +72,10 @@ namespace NSimpleOLAP.Configuration.Fluent
 			CubeConfig cube = _root;
 			
 			cube.Name = _name;
-			cube.Source = _source;
 			cube.Storage = _storeconfig.Create();
 			cube.MetaData = _metadataconfig.Create();
 			cube.DataSources = new DataSourceConfigCollection();
+			cube.Source = _cubeSource.Create();
 			
 			foreach (var item in _datasourceconfigs)
 				cube.DataSources.Add(item.Create());

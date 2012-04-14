@@ -78,6 +78,11 @@ namespace NSimpleOLAP.Storage.Molap
 			return _innerDictionary.ContainsKey(item.ID);
 		}
 		
+		public bool ContainsKey(T key)
+		{
+			return _innerDictionary.ContainsKey(key);
+		}
+		
 		public void CopyTo(TMember[] array, int arrayIndex)
 		{
 			_innerDictionary.Values.CopyTo(array,arrayIndex);

@@ -61,6 +61,11 @@ namespace NSimpleOLAP.Schema
 			return _storage.Contains(item);
 		}
 		
+		public bool ContainsKey(T key)
+		{
+			return _storage.ContainsKey(key);
+		}
+		
 		public void CopyTo(D[] array, int arrayIndex)
 		{
 			_storage.CopyTo(array,arrayIndex);
