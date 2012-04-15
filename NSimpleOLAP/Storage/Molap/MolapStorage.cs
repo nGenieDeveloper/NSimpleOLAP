@@ -50,7 +50,7 @@ namespace NSimpleOLAP.Storage.Molap
 			this.Metrics = new MembersCollection<Metric<T>>(ItemType.Metric, 
 			                                                (metric)=>{ this.NameSpace.Add(metric); }, 
 			                                                (storage)=> this.NameSpace.Clear(ItemType.Metric));
-			_graph = new Graph<T, U>(_cubeid, this.Config);
+			_graph = new Graph<T, U>(_cubeid, this.Config, new CellValuesHelper(this.Measures));
 		}
 		
 		#endregion
@@ -142,6 +142,63 @@ namespace NSimpleOLAP.Storage.Molap
 			{
 				this._keybuilder = keybuilder;
 				this.Init();
+			}
+		}
+		
+		private class CellValuesHelper : MolapCellValuesHelper<T, U>
+		{
+			private IMemberStorage<T, Measure<T>> _measures;
+			
+			public CellValuesHelper(IMemberStorage<T, Measure<T>> measures)
+			{
+				_measures = measures;
+			}
+			
+			public override void UpdateMeasures(U cell, MeasureValuesCollection<T> measures)
+			{
+				MolapCell<T> mcell = (MolapCell<T>)(object)cell;
+				
+				mcell.IncrementOcurrences();
+				
+				foreach (KeyValuePair<T, object> item in measures)
+				{
+					if (item.Value != null)
+					{
+						ValueType nvalue = (ValueType)item.Value;
+						
+						if (mcell.Values.ContainsKey(item.Key))
+						{
+							Type measuretype = this._measures[item.Key].DataType;
+							ValueType ovalue = mcell.Values[item.Key];
+							Func<ValueType, ValueType, ValueType> functor = null;
+						
+							if (measuretype == typeof(int))
+								functor = (x,y) => (int)x + (int)y;
+							else if (measuretype == typeof(long))
+								functor = (x,y) => (long)x + (long)y;
+							else if (measuretype == typeof(uint))
+								functor = (x,y) => (uint)x + (uint)y;
+							else if (measuretype == typeof(ulong))
+								functor = (x,y) => (ulong)x + (ulong)y;
+							else if (measuretype == typeof(decimal))
+								functor = (x,y) => (decimal)x + (decimal)y;
+							else if (measuretype == typeof(float))
+								functor = (x,y) => (float)x + (float)y;
+							else if (measuretype == typeof(double))
+								functor = (x,y) => (double)x + (double)y;
+							
+							if (functor != null)
+								mcell.Values[item.Key] = this.Add(ovalue, nvalue, functor);
+						}
+						else
+							mcell.Values.Add(item.Key, nvalue);
+					}
+				}
+			}
+			
+			public override void ClearCell(U cell)
+			{
+				((MolapCell<T>)(object)cell).Reset();
 			}
 		}
 		

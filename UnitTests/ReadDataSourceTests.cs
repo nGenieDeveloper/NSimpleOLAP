@@ -6,12 +6,15 @@ using NSimpleOLAP.Common;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Configuration.Fluent;
 using NSimpleOLAP.Schema;
+using System.Diagnostics;
 
 namespace UnitTests
 {
 	[TestFixture]
 	public class ReadDataSourceTests
 	{
+		private Stopwatch _watch;
+		
 		[Test]
 		public void DimensionMembersTest()
 		{
@@ -82,17 +85,39 @@ namespace UnitTests
 				          	                    	dimbuild.Source("places")
 				          	                    		.ValueField("id")
 				          	                    		.DescField("description");
-				          	                    });
+				          	                    })
+				          		.AddMeasure("spent", mesbuild => {
+				          	                  	mesbuild.ValueField("expenses")
+				          	                  		.SetType(typeof(double));
+				          	                  })
+				          		.AddMeasure("quantity", mesbuild => {
+				          	                  	mesbuild.ValueField("items")
+				          	                  		.SetType(typeof(int));
+				          	                  });
 				          });
 			
 			Cube<int> cube = builder.Create<int>();
 			
+			_watch.Reset();
+			_watch.Start();
+			
 			cube.Initialize();
 			cube.Process();
+			
+			_watch.Stop();
+			Console.WriteLine();
+			Console.WriteLine(_watch.ElapsedMilliseconds);
+			Console.WriteLine();
 			
 			Assert.AreEqual("male",cube.Schema.Dimensions["sex"].Members["male"].Name);
 			Assert.AreEqual("female",cube.Schema.Dimensions["sex"].Members["female"].Name);
 			Assert.AreEqual("London",cube.Schema.Dimensions["place"].Members["London"].Name);
+		}
+		
+		[TestFixtureSetUp]
+		public void Init()
+		{
+			_watch = new Stopwatch();
 		}
 	}
 }

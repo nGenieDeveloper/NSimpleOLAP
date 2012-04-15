@@ -75,8 +75,20 @@ namespace NSimpleOLAP.Data.Readers
 			
 			for (int i = 0; i < this.Config.Fields.Count; i++)
 			{
-				if (strs[i].Trim() != string.Empty)
-					values[i] = Convert.ChangeType(strs[i].Trim(), this.Config.Fields[i].FieldType);
+				string value = strs[i].Trim();
+				
+				
+				if (value != string.Empty && !value.Contains("."))
+					values[i] = Convert.ChangeType(value, this.Config.Fields[i].FieldType);
+				else if (value != string.Empty && value.Contains("."))
+				{
+					double val = 0;
+
+					if (double.TryParse(value,NumberStyles.Float, CultureInfo.InvariantCulture,  out val))
+						values[i] = Convert.ChangeType(val, this.Config.Fields[i].FieldType);
+					else
+						values[i] = null;
+				}
 				else
 					values[i] = null;
 			}

@@ -59,7 +59,7 @@ namespace NSimpleOLAP.Storage.Molap
 		
 		public void Add(T key, ValueType value)
 		{
-			throw new NotImplementedException();
+			_innerdict.Add(key, value);
 		}
 		
 		public bool Remove(T key)

@@ -4,6 +4,7 @@ using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Storage.Molap;
+using NSimpleOLAP.Schema;
 using NSimpleOLAP.Data;
 
 
@@ -18,13 +19,13 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		where T: struct, IComparable
 		where U: class, ICell<T>
 	{
-	//	private Action<object, IVarData<T>> _varDataMergeFunc;
 		private MolapKeyHandler<T> _keyHandler;
+		private  MolapCellValuesHelper<T, U> _cellValueHelper;
 		
-		public Graph(T root, StorageConfig config)
+		public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper)
 		{
 			this.Root = new ImpNode(new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))}) { IsRootDim = true };
-	//		_varDataMergeFunc = config.GetVarMergeFunction<T>();
+			_cellValueHelper = cellValueHelper;
 			_keyHandler = new MolapKeyHandler<T>(config.MolapConfig);
 			this.Root.Key = _keyHandler.GetKey(this.Root.Coords);
 		}
@@ -179,8 +180,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			KeyValuePair<T,T>[] coords = Node<T,U>.GetCoords(rootnode.Coords, pair);
 			T hashkey = _keyHandler.GetKey(coords);
 			Node<T,U> rnode = rootnode.InsertChildNodeIfNotExists(hashkey, coords);
-			//rnode.Container.Occurrences +=1;
-		//	_varDataMergeFunc(rnode, vardata);
+			_cellValueHelper.UpdateMeasures(rnode.Container, vardata);
 			
 			return rnode;
 		}
