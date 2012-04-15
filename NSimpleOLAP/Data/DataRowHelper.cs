@@ -49,14 +49,22 @@ namespace NSimpleOLAP.Data
 			return retlist.ToArray();
 		}
 		
-		public IVarData<T> GetMeasureData(AbsRowData rowdata)
+		public MeasureValuesCollection<T> GetMeasureData(AbsRowData rowdata)
 		{
-			return new VarsCollection<T>();
+			MeasureValuesCollection<T> vars = new MeasureValuesCollection<T>();
+			
+			foreach (var item in _schema.Measures)
+			{
+				if (rowdata[item.Config.ValueFieldName] != null)
+					vars.Add(item.ID, rowdata[item.Config.ValueFieldName]);
+			}
+			
+			return vars;
 		}
 		
 		private int ComparePairs(KeyValuePair<T, T> a, KeyValuePair<T, T> b)
 	    {
-			return a.Value.CompareTo(b.Value);
+			return a.Key.CompareTo(b.Key);
 	    }
 	}
 }

@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 15-02-2012
- * Time: 22:39
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
@@ -18,7 +10,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 	/// </summary>
 	internal abstract class Node<T, U> : IDisposable
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		public T Key
 		{

@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 15-02-2012
- * Time: 22:46
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
@@ -19,7 +11,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 	/// </summary>
 	internal class NodeCollection<T, U> : ICollection<Node<T, U>>, IDisposable
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		private TSDictionary<T,Node<T, U>> _innerdict;
 		

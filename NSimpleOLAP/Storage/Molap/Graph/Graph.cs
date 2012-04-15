@@ -4,6 +4,7 @@ using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Storage.Molap;
+using NSimpleOLAP.Data;
 
 
 namespace NSimpleOLAP.Storage.Molap.Graph
@@ -15,17 +16,14 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 	/// </summary>
 	internal class Graph<T, U> : IDisposable
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 	//	private Action<object, IVarData<T>> _varDataMergeFunc;
 		private MolapKeyHandler<T> _keyHandler;
 		
 		public Graph(T root, StorageConfig config)
 		{
-			this.Root = new ImpNode() { 
-				Coords = new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))},
-				IsRootDim = true
-			};
+			this.Root = new ImpNode(new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))}) { IsRootDim = true };
 	//		_varDataMergeFunc = config.GetVarMergeFunction<T>();
 			_keyHandler = new MolapKeyHandler<T>(config.MolapConfig);
 			this.Root.Key = _keyHandler.GetKey(this.Root.Coords);
@@ -39,7 +37,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			private set;
 		}
 		
-		public void AddRowInfo(IVarData<T> vardata, KeyValuePair<T,T>[] coords)
+		public void AddRowInfo(MeasureValuesCollection<T> vardata, KeyValuePair<T,T>[] coords)
 		{	
 			CreateNodes(coords,this.Root, null, 0, vardata);
 		}
@@ -161,7 +159,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 				return CoordsCase.Point;
 		}
 		
-		private void CreateNodes(KeyValuePair<T,T>[] coords, Node<T,U> rootnode,  Node<T,U> connode, int index, IVarData<T> vardata)
+		private void CreateNodes(KeyValuePair<T,T>[] coords, Node<T,U> rootnode,  Node<T,U> connode, int index, MeasureValuesCollection<T> vardata)
 		{
 			for (int i = index; i < coords.Length; i++)
 			{
@@ -176,11 +174,12 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			}
 		}
 		
-		private Node<T,U> CreateNDimNode(Node<T,U> rootnode, KeyValuePair<T, T> pair, IVarData<T> vardata)
+		private Node<T,U> CreateNDimNode(Node<T,U> rootnode, KeyValuePair<T, T> pair, MeasureValuesCollection<T> vardata)
 		{
 			KeyValuePair<T,T>[] coords = Node<T,U>.GetCoords(rootnode.Coords, pair);
 			T hashkey = _keyHandler.GetKey(coords);
 			Node<T,U> rnode = rootnode.InsertChildNodeIfNotExists(hashkey, coords);
+			//rnode.Container.Occurrences +=1;
 		//	_varDataMergeFunc(rnode, vardata);
 			
 			return rnode;
@@ -192,15 +191,18 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		
 		private class ImpNode : Node<T, U>
 		{
-			public ImpNode()
+			public ImpNode(KeyValuePair<T, T>[] coords)
 			{
-				this.Container = new U();
+				this.Container = (U)(object)(new MolapCell<T>(coords));
+				this.Coords = coords;
 				this.Adjacent = new NodeCollection<T, U>();
 			}
 			
 			protected override Node<T, U> Create(T childkey, KeyValuePair<T, T>[] coords)
 			{
-				return new ImpNode() { Key = childkey, Coords = coords, IsRootDim = SetRootDim(coords) };
+				ImpNode node = new ImpNode(coords) { Key = childkey, IsRootDim = SetRootDim(coords) };
+				
+				return node;
 			}
 			
 			private bool SetRootDim(KeyValuePair<T, T>[] coords)

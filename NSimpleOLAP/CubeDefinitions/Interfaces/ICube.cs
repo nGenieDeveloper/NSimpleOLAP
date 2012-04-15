@@ -14,7 +14,7 @@ namespace NSimpleOLAP.Interfaces
 	/// </summary>
 	public interface ICube<T,U>: IDisposable, IProcess
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		T Key { get; set; }
 		string Name { get; set; }

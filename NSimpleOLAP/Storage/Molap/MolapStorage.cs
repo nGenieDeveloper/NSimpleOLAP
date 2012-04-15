@@ -5,6 +5,7 @@ using NSimpleOLAP.Storage.Molap.Graph;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Data;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
 
@@ -15,7 +16,7 @@ namespace NSimpleOLAP.Storage.Molap
 	/// </summary>
 	public class MolapStorage<T,U> : IStorage<T,U>
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		private Graph<T,U> _graph;
 		private T _cubeid;
@@ -62,7 +63,7 @@ namespace NSimpleOLAP.Storage.Molap
 				yield return item.Container;
 		}
 		
-		public void AddRowData(KeyValuePair<T, T>[] pairs, IVarData<T> data)
+		public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
 		{
 			_graph.AddRowInfo(data, pairs);
 		}

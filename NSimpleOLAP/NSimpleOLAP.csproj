@@ -132,11 +132,11 @@
     <Compile Include="CubeDefinitions\Interfaces\ICellCollection.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
     <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
-    <Compile Include="CubeDefinitions\ValuesCollection.cs" />
     <Compile Include="Data\DataRowHelper.cs" />
     <Compile Include="Data\DataSourceCollection.cs" />
     <Compile Include="Data\DefaultDataSource.cs" />
     <Compile Include="Data\Interfaces\IDataSource.cs" />
+    <Compile Include="Data\MeasuresCollection.cs" />
     <Compile Include="Data\Providers\DBFactory.cs" />
     <Compile Include="Data\Readers\AbsReader.cs" />
     <Compile Include="Data\Readers\AbsRowData.cs" />
@@ -168,10 +168,11 @@
     <Compile Include="Storage\Molap\Graph\Graph.cs" />
     <Compile Include="Storage\Molap\Graph\Node.cs" />
     <Compile Include="Storage\Molap\Graph\NodeCollection.cs" />
+    <Compile Include="Storage\Molap\MolapCell.cs" />
     <Compile Include="Storage\Molap\MolapKeyHandler.cs" />
     <Compile Include="Storage\Molap\MolapStorage.cs" />
+    <Compile Include="Storage\Molap\MolapValuesCollection.cs" />
     <Compile Include="Storage\StorageFactory.cs" />
-    <Compile Include="Storage\VarsCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

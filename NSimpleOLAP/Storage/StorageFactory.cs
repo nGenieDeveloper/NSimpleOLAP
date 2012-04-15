@@ -13,7 +13,7 @@ namespace NSimpleOLAP.Storage
 	/// </summary>
 	public abstract class StorageFactory<T,U>
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		public static IStorage<T,U> Create(T cubeid, StorageConfig config)
 		{

@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: calex
- * Date: 20-02-2012
- * Time: 00:21
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NSimpleOLAP.Interfaces
@@ -16,7 +8,7 @@ namespace NSimpleOLAP.Interfaces
 	/// </summary>
 	public interface ICellCollection<T, U>: ICollection<U>
 		where T: struct, IComparable
-		where U: class, ICell<T>, new()
+		where U: class, ICell<T>
 	{
 		U this[T[] keys] { get; }
 		bool ContainsKey(T[] keys);

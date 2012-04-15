@@ -5,6 +5,7 @@ using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Data;
 
 namespace NSimpleOLAP.Storage.Interfaces
 {
@@ -13,10 +14,10 @@ namespace NSimpleOLAP.Storage.Interfaces
 	/// </summary>
 	public interface IStorage<T,U> : IDisposable
 		where T: struct, IComparable
-		where U: class, new()
+		where U: class
 	{
 		IEnumerable<U> GetCells(KeyValuePair<T,T>[] pairs);
-		void AddRowData(KeyValuePair<T,T>[] pairs, IVarData<T> data);
+		void AddRowData(KeyValuePair<T,T>[] pairs, MeasureValuesCollection<T> data);
 	
 		StorageType StorageType { get; }
 		INamespace<T> NameSpace { get; }

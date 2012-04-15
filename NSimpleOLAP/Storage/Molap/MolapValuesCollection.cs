@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Storage.Interfaces;
+using NSimpleOLAP.Interfaces;
+using NSimpleOLAP.Common.Collections;
 
-namespace NSimpleOLAP.Storage
+namespace NSimpleOLAP.Storage.Molap
 {
 	/// <summary>
 	/// Description of VarsCollection.
 	/// </summary>
-	public class VarsCollection<T> : IVarData<T>
+	public class MolapValuesCollection<T> : IValueCollection<T>
 		where T: struct, IComparable
 	{
-		private Dictionary<T,object> _innerdict;
+		private TSDictionary<T,ValueType> _innerdict;
 			
-		public VarsCollection()
+		public MolapValuesCollection()
 		{
-			_innerdict = new Dictionary<T, object>();
+			_innerdict = new TSDictionary<T, ValueType>();
 		}
 		
-		public object this[T key] {
+		public ValueType this[T key] {
 			get {
 				return _innerdict[key];
 			}
@@ -32,7 +34,7 @@ namespace NSimpleOLAP.Storage
 			}
 		}
 		
-		public ICollection<object> Values {
+		public ICollection<ValueType> Values {
 			get {
 				return _innerdict.Values;
 			}
@@ -55,7 +57,7 @@ namespace NSimpleOLAP.Storage
 			return _innerdict.ContainsKey(key);
 		}
 		
-		public void Add(T key, object value)
+		public void Add(T key, ValueType value)
 		{
 			throw new NotImplementedException();
 		}
@@ -65,12 +67,12 @@ namespace NSimpleOLAP.Storage
 			return _innerdict.Remove(key);
 		}
 		
-		public bool TryGetValue(T key, out object value)
+		public bool TryGetValue(T key, out ValueType value)
 		{
 			return _innerdict.TryGetValue(key, out value);
 		}
 		
-		public void Add(KeyValuePair<T, object> item)
+		public void Add(KeyValuePair<T, ValueType> item)
 		{
 			_innerdict.Add(item.Key, item.Value);
 		}
@@ -80,22 +82,22 @@ namespace NSimpleOLAP.Storage
 			_innerdict.Clear();
 		}
 		
-		public bool Contains(KeyValuePair<T, object> item)
+		public bool Contains(KeyValuePair<T, ValueType> item)
 		{
-			return _innerdict.ContainsKey(item.Key) && _innerdict.ContainsValue(item.Value);
+			return _innerdict.ContainsKey(item.Key);
 		}
 		
-		public void CopyTo(KeyValuePair<T, object>[] array, int arrayIndex)
+		public void CopyTo(KeyValuePair<T, ValueType>[] array, int arrayIndex)
 		{
 			throw new NotImplementedException();
 		}
 		
-		public bool Remove(KeyValuePair<T, object> item)
+		public bool Remove(KeyValuePair<T, ValueType> item)
 		{
 			return _innerdict.Remove(item.Key);
 		}
 		
-		public IEnumerator<KeyValuePair<T, object>> GetEnumerator()
+		public IEnumerator<KeyValuePair<T, ValueType>> GetEnumerator()
 		{
 			foreach (var item in _innerdict)
 				yield return item;
