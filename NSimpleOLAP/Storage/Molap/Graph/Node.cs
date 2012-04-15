@@ -44,6 +44,24 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		
 		protected abstract Node<T, U> Create(T childkey, KeyValuePair<T,T>[] coords);
 		
+		public int GetNodeCount()
+		{
+			int count = 0;
+			
+			foreach (Node<T, U> node in this.Adjacent)
+			{
+				if (this.IsRootDim && this.Coords.Length > 2)
+				{
+					if (node.IsRootDim)
+						count++;
+				}
+				else
+					count++;
+			}
+			
+			return count;
+		}
+		
 		public Node<T, U> GetNode(T[] coords)
 		{
 			return this.GetNode(coords, 0);
@@ -89,6 +107,28 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		{
 			if (!this.Adjacent.ContainsKey(childnode.Key))
 				this.Adjacent.Add(childnode.Key,childnode);
+		}
+		
+		internal IEnumerable<Node<T,U>> NodesEnumerator()
+		{
+			foreach (Node<T,U> item in this.Adjacent)
+			{
+				yield return item;
+				
+				if (item.IsRootDim && item.Coords.Length >2)
+				{
+					foreach (Node<T,U> sitem in item.NodesEnumerator())
+					{
+						if (item.IsRootDim)
+							yield return sitem;
+					}
+				}
+				else
+				{
+					foreach (Node<T,U> sitem in item.NodesEnumerator())
+						yield return sitem;
+				}
+			}
 		}
 		
 		#region IDisposable implementation

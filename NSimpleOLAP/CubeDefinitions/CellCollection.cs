@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
@@ -26,7 +27,7 @@ namespace NSimpleOLAP
 		
 		public int Count {
 			get {
-				throw new NotImplementedException();
+				return _storage.GetCellCount();
 			}
 		}
 		
@@ -38,7 +39,12 @@ namespace NSimpleOLAP
 		
 		public bool ContainsKey(KeyValuePair<T,T>[] keys)
 		{
-			throw new NotImplementedException();
+			Cell<T> cell = _storage.GetCell(keys);
+			
+			if (cell != null)
+				return true;
+			else
+				return false;
 		}
 		
 		public void Add(Cell<T> item)
@@ -68,12 +74,18 @@ namespace NSimpleOLAP
 		
 		public IEnumerator<Cell<T>> GetEnumerator()
 		{
-			throw new NotImplementedException();
+			foreach (Cell<T> item in _storage.CellEnumerator())
+				yield return item;
 		}
 		
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			throw new NotImplementedException();
+			foreach (Cell<T> item in _storage.CellEnumerator())
+				yield return item;
 		}
+		
+		#region private methods
+		
+		#endregion
 	}
 }

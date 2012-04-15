@@ -18,7 +18,9 @@ namespace NSimpleOLAP.Storage.Interfaces
 	{
 		IEnumerable<U> GetCells(KeyValuePair<T,T>[] pairs);
 		U GetCell(KeyValuePair<T,T>[] pairs);
+		IEnumerable<U> CellEnumerator();
 		void AddRowData(KeyValuePair<T,T>[] pairs, MeasureValuesCollection<T> data);
+		int GetCellCount();
 	
 		StorageType StorageType { get; }
 		INamespace<T> NameSpace { get; }

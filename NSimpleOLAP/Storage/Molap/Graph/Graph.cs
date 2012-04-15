@@ -21,6 +21,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 	{
 		private MolapKeyHandler<T> _keyHandler;
 		private  MolapCellValuesHelper<T, U> _cellValueHelper;
+
 		
 		public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper)
 		{
@@ -72,6 +73,12 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			Node<T,U> currnode = this.Root.GetNode(GetHashPoints(coords));
 			
 			return currnode;
+		}
+		
+		public IEnumerable<Node<T,U>> NodesEnumerator()
+		{
+			foreach (Node<T,U> item in this.Root.NodesEnumerator())
+				yield return item;
 		}
 		
 		#endregion
@@ -199,6 +206,8 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			
 			return rnode;
 		}
+		
+		
 		
 		#endregion
 		

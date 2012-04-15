@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Molap.Graph;
@@ -67,6 +68,12 @@ namespace NSimpleOLAP.Storage.Molap
 				yield return item.Container;
 		}
 		
+		public IEnumerable<U> CellEnumerator()
+		{
+			foreach (Node<T,U> item in _graph.NodesEnumerator())
+				yield return item.Container;
+		}
+		
 		public U GetCell(KeyValuePair<T,T>[] pairs)
 		{
 			KeyValuePair<T,T>[] cpairs = _canonicFormater.Format(pairs);
@@ -81,6 +88,16 @@ namespace NSimpleOLAP.Storage.Molap
 		public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
 		{
 			_graph.AddRowInfo(data, pairs);
+		}
+		
+		public int GetCellCount()
+		{
+			int count = 0;
+			IEnumerable<int> cellscounts = from item in _graph.NodesEnumerator()
+											select item.GetNodeCount();
+			count = cellscounts.Sum();
+			
+			return count;
 		}
 		
 		public void Dispose()
