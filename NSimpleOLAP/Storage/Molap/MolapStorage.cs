@@ -20,11 +20,13 @@ namespace NSimpleOLAP.Storage.Molap
 	{
 		private Graph<T,U> _graph;
 		private T _cubeid;
+		private CanonicFormater<T> _canonicFormater;
 		
 		public MolapStorage(T cubeid, StorageConfig config)
 		{
 			_cubeid = cubeid;
 			this.Config = config;
+			_canonicFormater = new CanonicFormater<T>();
 			this.Init();
 		}
 		
@@ -59,8 +61,21 @@ namespace NSimpleOLAP.Storage.Molap
 		
 		public IEnumerable<U> GetCells(KeyValuePair<T, T>[] pairs)
 		{
-			foreach (var item in _graph.GetNodes(pairs))
+			KeyValuePair<T,T>[] cpairs = _canonicFormater.Format(pairs);
+			
+			foreach (var item in _graph.GetNodes(cpairs))
 				yield return item.Container;
+		}
+		
+		public U GetCell(KeyValuePair<T,T>[] pairs)
+		{
+			KeyValuePair<T,T>[] cpairs = _canonicFormater.Format(pairs);
+			Node<T,U> node = _graph.GetNode(cpairs);
+			
+			if (node != null)
+				return node.Container;
+			else
+				return null;
 		}
 		
 		public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)

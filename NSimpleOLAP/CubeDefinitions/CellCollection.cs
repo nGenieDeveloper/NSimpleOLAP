@@ -18,9 +18,9 @@ namespace NSimpleOLAP
 			_storage = storage;
 		}
 		
-		public Cell<T> this[T[] keys] {
+		public Cell<T> this[KeyValuePair<T,T>[] keys] {
 			get {
-				throw new NotImplementedException();
+				return _storage.GetCell(keys);
 			}
 		}
 		
@@ -32,11 +32,11 @@ namespace NSimpleOLAP
 		
 		public bool IsReadOnly {
 			get {
-				throw new NotImplementedException();
+				return true;
 			}
 		}
 		
-		public bool ContainsKey(T[] keys)
+		public bool ContainsKey(KeyValuePair<T,T>[] keys)
 		{
 			throw new NotImplementedException();
 		}

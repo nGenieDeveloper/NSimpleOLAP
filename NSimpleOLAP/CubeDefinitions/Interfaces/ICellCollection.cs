@@ -10,7 +10,7 @@ namespace NSimpleOLAP.Interfaces
 		where T: struct, IComparable
 		where U: class, ICell<T>
 	{
-		U this[T[] keys] { get; }
-		bool ContainsKey(T[] keys);
+		U this[KeyValuePair<T,T>[] keys] { get; }
+		bool ContainsKey(KeyValuePair<T,T>[] keys);
 	}
 }

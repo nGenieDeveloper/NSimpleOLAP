@@ -67,6 +67,13 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 				// (1.0,2.0,3.0)
 		}
 		
+		public Node<T,U> GetNode(KeyValuePair<T,T>[] coords)
+		{
+			Node<T,U> currnode = this.Root.GetNode(GetHashPoints(coords));
+			
+			return currnode;
+		}
+		
 		#endregion
 		
 		#region private methods
@@ -139,6 +146,9 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			List<KeyValuePair<T,T>> pairs = new List<KeyValuePair<T, T>>();
 			List<T> hslist = new List<T>();
 			
+			if (coords.Length > 0 && !coords[0].Equals(this.Root.Coords[0]))
+				pairs.Add(this.Root.Coords[0]);
+			
 			for (int i = 0; i < coords.Length; i++)
 			{
 				pairs.Add(coords[i]);
@@ -165,13 +175,18 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			for (int i = index; i < coords.Length; i++)
 			{
 				KeyValuePair<T, T> pair = coords[i];
-				Node<T,U> rnode = CreateNDimNode(rootnode, new KeyValuePair<T, T>(pair.Key, default(T)), vardata);
-				Node<T,U> childnode = CreateNDimNode(rnode, pair, vardata);
+				Node<T,U> dimnode = CreateNDimNode(rootnode, new KeyValuePair<T, T>(pair.Key, default(T)), vardata);
+				Node<T,U> cellnode = null;
 				
 				if (connode != null)
-					connode.InsertNode(childnode);
+					cellnode = CreateNDimNode(connode, pair, vardata);
+				else
+				{
+					cellnode = CreateNDimNode(dimnode, pair, vardata);
+					dimnode.InsertNode(cellnode);
+				}
 				
-				this.CreateNodes(coords, rnode, childnode, i+1, vardata);
+				this.CreateNodes(coords, dimnode, cellnode, i+1, vardata);
 			}
 		}
 		
