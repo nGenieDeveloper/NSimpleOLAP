@@ -25,7 +25,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 		
 		public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper)
 		{
-			this.Root = new ImpNode(new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(root, default(T))}) { IsRootDim = true };
+			this.Root = new ImpNode(new KeyValuePair<T, T>[] { new KeyValuePair<T,T>(default(T), root)}) { IsRootDim = true };
 			_cellValueHelper = cellValueHelper;
 			_keyHandler = new MolapKeyHandler<T>(config.MolapConfig);
 			this.Root.Key = _keyHandler.GetKey(this.Root.Coords);

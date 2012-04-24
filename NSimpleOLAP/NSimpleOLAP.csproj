@@ -144,6 +144,7 @@
     <Compile Include="Data\Readers\CSVReader.cs" />
     <Compile Include="Data\Readers\DTableReader.cs" />
     <Compile Include="Data\Readers\DBReader.cs" />
+    <Compile Include="Query\Axis.cs" />
     <Compile Include="Query\QueryBuilder.cs" />
     <Compile Include="Query\QueryExtensions.cs" />
     <Compile Include="Query\WhereBuilder.cs" />
