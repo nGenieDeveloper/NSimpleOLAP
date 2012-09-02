@@ -219,7 +219,7 @@ namespace UnitTests
 			cube.Process();
 			// 12, 7
 			Console.WriteLine();
-			/*
+			
 			foreach(Cell<int> item in cube.Cells)
 			{
 				foreach (var pair in item.Coords)
@@ -231,7 +231,7 @@ namespace UnitTests
 				}
 				Console.WriteLine();
 			}
-			*/
+			
 			int count = cube.Cells.Count;
 			
 			_watch.Stop();
