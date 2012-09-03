@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using NSimpleOLAP;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Interfaces;
@@ -10,7 +9,7 @@ namespace NSimpleOLAP.Query
 	/// <summary>
 	/// Description of ReferenceTranslator.
 	/// </summary>
-	internal class ReferenceTranslator<T>
+	public class ReferenceTranslator<T>
 		where T: struct, IComparable
 	{
 		private DataSchema<T> _schema;

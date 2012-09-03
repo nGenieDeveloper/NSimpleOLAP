@@ -15,6 +15,7 @@ namespace NSimpleOLAP.Query
 	{
 		protected WhereBuilder<T> _wherebuilder;
 		protected Cube<T> _innerCube;
+		protected ReferenceTranslator<T> _translator;
 		
 		public void Init()
 		{
@@ -30,6 +31,9 @@ namespace NSimpleOLAP.Query
 		/// <returns></returns>
 		public QueryBuilder<T> OnRows(params string[] tuples)
 		{
+			foreach (var item in tuples)
+				_translator.ToString(item);
+			
 			return this;
 		}
 		
