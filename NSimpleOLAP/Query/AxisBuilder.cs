@@ -29,9 +29,9 @@ namespace NSimpleOLAP.Query
 			_columnTuples.Add(tuples);
 		}
 		
-		public void AddFilterTuples(KeyValuePair<T, T>[] tuples)
+		public void AddFilterTuples(KeyValuePair<T, T> tuple)
 		{
-			_filterTuples.Add(tuples);
+			_filterTuples.Add(tuple);
 		}
 		
 		public IEnumerable<KeyValuePair<T,T>[]> Rows()

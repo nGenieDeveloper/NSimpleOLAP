@@ -16,6 +16,7 @@ namespace NSimpleOLAP.Query
 		protected WhereBuilder<T> _wherebuilder;
 		protected Cube<T> _innerCube;
 		protected ReferenceTranslator<T> _translator;
+		protected AxisBuilder<T> _axisBuilder;
 		
 		public void Init()
 		{
@@ -32,7 +33,7 @@ namespace NSimpleOLAP.Query
 		public QueryBuilder<T> OnRows(params string[] tuples)
 		{
 			foreach (var item in tuples)
-				_translator.ToString(item);
+				_axisBuilder.AddRowTuples(_translator.Translate(item));
 			
 			return this;
 		}
@@ -44,6 +45,8 @@ namespace NSimpleOLAP.Query
 		/// <returns></returns>
 		public QueryBuilder<T> OnRows(params KeyValuePair<T,T>[] tuples)
 		{
+			_axisBuilder.AddRowTuples(tuples);
+			
 			return this;
 		}
 		
@@ -54,6 +57,9 @@ namespace NSimpleOLAP.Query
 		/// <returns></returns>
 		public QueryBuilder<T> OnColumns(params string[] tuples)
 		{
+			foreach (var item in tuples)
+				_axisBuilder.AddColumnTuples(_translator.Translate(item));
+			
 			return this;
 		}
 		
@@ -64,6 +70,8 @@ namespace NSimpleOLAP.Query
 		/// <returns></returns>
 		public QueryBuilder<T> OnColumns(params KeyValuePair<T,T>[] tuples)
 		{
+			_axisBuilder.AddColumnTuples(tuples);
+			
 			return this;
 		}
 		
