@@ -146,10 +146,13 @@
     <Compile Include="Data\Readers\DBReader.cs" />
     <Compile Include="Query\Axis.cs" />
     <Compile Include="Query\AxisBuilder.cs" />
+    <Compile Include="Query\IPredicateBuilder.cs" />
+    <Compile Include="Query\MeasureReferenceTranslator.cs" />
+    <Compile Include="Query\PredicateFactory.cs" />
     <Compile Include="Query\Query.cs" />
     <Compile Include="Query\QueryBuilder.cs" />
     <Compile Include="Query\QueryExtensions.cs" />
-    <Compile Include="Query\ReferenceTranslator.cs" />
+    <Compile Include="Query\DimensionReferenceTranslator.cs" />
     <Compile Include="Query\WhereBuilder.cs" />
     <Compile Include="Schema\BaseDataMemberCollection.cs" />
     <Compile Include="Schema\DataSchema.cs" />
