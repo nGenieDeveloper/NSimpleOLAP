@@ -13,67 +13,24 @@ namespace NSimpleOLAP.Query
 	public class WhereBuilder<T>
 		where T: struct, IComparable
 	{
-		public WhereBuilder()
+		private DataSchema<T> _schema;
+		private List<IPredicateBuilder<T>> _predicates;
+		
+		public WhereBuilder(DataSchema<T> schema)
 		{
+			_schema = schema;
+			PredicateFactory = new PredicateFactory<T>(schema);
+		}
+		
+		public PredicateFactory<T> PredicateFactory
+		{
+			get;
+			private set;
 		}
 		
 		#region fluent interface
 		
-		public WhereBuilder<T> SetEquals(string tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetEquals(KeyValuePair<T,T> tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetGreater(string tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetGreater(KeyValuePair<T,T> tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetLower(string tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetLower(KeyValuePair<T,T> tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetGreaterOrEqual(string tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetGreaterOrEqual(KeyValuePair<T,T> tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetLowerOrEqual(string tuple, object value)
-		{
-		
-			return this;
-		}
-		
-		public WhereBuilder<T> SetLowerOrEqual(KeyValuePair<T,T> tuple, object value)
+		public WhereBuilder<T> AddPredicate(IPredicateBuilder<T> builder)
 		{
 		
 			return this;

@@ -15,12 +15,16 @@ namespace NSimpleOLAP.Query
 	{
 		protected WhereBuilder<T> _wherebuilder;
 		protected Cube<T> _innerCube;
-		protected ReferenceTranslator<T> _translator;
+		protected DimensionReferenceTranslator<T> _dimTranslator;
+		protected MeasureReferenceTranslator<T> _measTranslator;
 		protected AxisBuilder<T> _axisBuilder;
+		protected List<T> _measureKeys;
 		
 		public void Init()
 		{
-			_wherebuilder = new WhereBuilder<T>();
+			_wherebuilder = new WhereBuilder<T>(_innerCube.Schema);
+			_dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
+			_measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
 		}
 		
 		#region fluent interface
@@ -33,7 +37,7 @@ namespace NSimpleOLAP.Query
 		public QueryBuilder<T> OnRows(params string[] tuples)
 		{
 			foreach (var item in tuples)
-				_axisBuilder.AddRowTuples(_translator.Translate(item));
+				_axisBuilder.AddRowTuples(_dimTranslator.Translate(item));
 			
 			return this;
 		}
@@ -58,7 +62,7 @@ namespace NSimpleOLAP.Query
 		public QueryBuilder<T> OnColumns(params string[] tuples)
 		{
 			foreach (var item in tuples)
-				_axisBuilder.AddColumnTuples(_translator.Translate(item));
+				_axisBuilder.AddColumnTuples(_dimTranslator.Translate(item));
 			
 			return this;
 		}
@@ -71,6 +75,31 @@ namespace NSimpleOLAP.Query
 		public QueryBuilder<T> OnColumns(params KeyValuePair<T,T>[] tuples)
 		{
 			_axisBuilder.AddColumnTuples(tuples);
+			
+			return this;
+		}
+		
+		/// <summary>
+		/// Assign measures
+		/// </summary>
+		/// <param name="measures">Measure's names</param>
+		/// <returns></returns>
+		public QueryBuilder<T> AddMeasures(params string[] measures)
+		{
+			foreach (var item in measures)
+				_measureKeys.Add(_measTranslator.Translate(item));
+			
+			return this;
+		}
+		
+		/// <summary>
+		/// Assign measures
+		/// </summary>
+		/// <param name="measureKeys">Measure's keys</param>
+		/// <returns></returns>
+		public QueryBuilder<T> AddMeasures(params T[] measureKeys)
+		{
+			_measureKeys.AddRange(measureKeys);
 			
 			return this;
 		}
@@ -96,6 +125,7 @@ namespace NSimpleOLAP.Query
 			public QueryBuilderImpl(Cube<T> cube)
 			{
 				this._innerCube = cube;
+				this.Init();
 			}
 		}
 		

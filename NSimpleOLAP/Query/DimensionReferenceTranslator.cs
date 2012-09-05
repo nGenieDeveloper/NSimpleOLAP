@@ -9,12 +9,12 @@ namespace NSimpleOLAP.Query
 	/// <summary>
 	/// Description of ReferenceTranslator.
 	/// </summary>
-	public class ReferenceTranslator<T>
+	public class DimensionReferenceTranslator<T>
 		where T: struct, IComparable
 	{
 		private DataSchema<T> _schema;
 		
-		public ReferenceTranslator(DataSchema<T> schema)
+		public DimensionReferenceTranslator(DataSchema<T> schema)
 		{
 			_schema = schema;
 		}
