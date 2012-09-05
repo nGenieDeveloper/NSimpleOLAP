@@ -5,23 +5,19 @@ using NSimpleOLAP.Schema;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Schema
 {
 	/// <summary>
-	/// Description of PredicateFactory.
+	/// Description of DimensionSlicerPredicate.
 	/// </summary>
-	public class PredicateFactory<T>
+	public class DimensionSlicerPredicateBuilder<T>
 		where T: struct, IComparable
 	{
 		private DataSchema<T> _schema;
 		
-		public PredicateFactory(DataSchema<T> schema)
+		public DimensionSlicerPredicateBuilder(DataSchema<T> schema)
 		{
 			_schema = schema;
 		}
-		
-		#region Create Predicates
-		
-		#endregion
 	}
 }
