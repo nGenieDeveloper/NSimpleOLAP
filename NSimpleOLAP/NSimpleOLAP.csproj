@@ -146,9 +146,12 @@
     <Compile Include="Data\Readers\DBReader.cs" />
     <Compile Include="Query\Axis.cs" />
     <Compile Include="Query\AxisBuilder.cs" />
+    <Compile Include="Query\IPredicate.cs" />
     <Compile Include="Query\IPredicateBuilder.cs" />
     <Compile Include="Query\MeasureReferenceTranslator.cs" />
     <Compile Include="Query\PredicateFactory.cs" />
+    <Compile Include="Query\Predicates\SliceByDimensionMembers.cs" />
+    <Compile Include="Query\Predicates\SliceByMeasure.cs" />
     <Compile Include="Query\Query.cs" />
     <Compile Include="Query\QueryBuilder.cs" />
     <Compile Include="Query\QueryExtensions.cs" />
@@ -233,6 +236,7 @@
     <Folder Include="Query" />
     <Folder Include="Parsers" />
     <Folder Include="Parsers\Expressions" />
+    <Folder Include="Query\Predicates" />
     <Folder Include="Schema" />
     <Folder Include="Schema\Interfaces" />
     <Folder Include="Storage" />

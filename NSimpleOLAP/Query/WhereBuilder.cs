@@ -19,6 +19,7 @@ namespace NSimpleOLAP.Query
 		public WhereBuilder(DataSchema<T> schema)
 		{
 			_schema = schema;
+			_predicates = new List<IPredicateBuilder<T>>();
 			PredicateFactory = new PredicateFactory<T>(schema);
 		}
 		
@@ -32,6 +33,7 @@ namespace NSimpleOLAP.Query
 		
 		public WhereBuilder<T> AddPredicate(IPredicateBuilder<T> builder)
 		{
+			_predicates.Add(builder);
 		
 			return this;
 		}

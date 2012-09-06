@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Query
 {
 	/// <summary>
 	/// Description of IPredicateBuilder.
 	/// </summary>
-	public class IPredicateBuilder<T>
+	public interface IPredicateBuilder<T>
 		where T: struct, IComparable
 	{
-		public IPredicateBuilder()
-		{
-		}
+		IPredicate<T> Build();
 	}
 }

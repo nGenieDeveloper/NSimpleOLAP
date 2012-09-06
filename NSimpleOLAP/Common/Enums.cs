@@ -12,4 +12,8 @@ namespace NSimpleOLAP.Common
 	
 	public enum MolapHashTypes { FNV, FNV1A, MURMUR2, CITY }
 	
+	public enum LogicalOperators { EQUALS, GREATER, LOWER, GREATERTHAN, LOWERTHAN, NOTEQUALS, IN }
+	
+	public enum DataValueType { AGGREGATED, FACT }
+	
 }
