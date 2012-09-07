@@ -10,18 +10,25 @@ namespace NSimpleOLAP.Query
 	public class MeasureSlicerBuilder<T> : IPredicateBuilder<T>
 		where T: struct, IComparable
 	{
-		public MeasureSlicerBuilder()
+		private DataSchema<T> _schema;
+		private T _dimension;
+		private object _value;
+		private LogicalOperators _operator;
+		private DataValueType _valueType;
+		
+		public MeasureSlicerBuilder(DataSchema<T> schema)
 		{
+			_schema = schema;
 		}
 		
 		#region fluent interface
 		
-		public MeasureSlicerBuilder<T> Set(string measure, LogicalOperators loperator, object value)
+		public MeasureSlicerBuilder<T> Set(string measure, DataValueType valueType,LogicalOperators loperator, object value)
 		{
 			return this;
 		}
 		
-		public MeasureSlicerBuilder<T> Set(T measureKey, LogicalOperators loperator, object value)
+		public MeasureSlicerBuilder<T> Set(T measureKey, DataValueType valueType, LogicalOperators loperator, object value)
 		{
 			return this;
 		}

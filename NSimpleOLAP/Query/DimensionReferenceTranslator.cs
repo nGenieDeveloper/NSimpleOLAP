@@ -46,6 +46,26 @@ namespace NSimpleOLAP.Query
 			return tuples.ToArray();
 		}
 		
+		public T GetDimension(string value)
+		{
+			T key = default(T);
+			
+			if (TryGetDimension(value, out key))
+				return key;
+			else
+				throw new Exception();
+		}
+		
+		public T GetDimensionMember(T dimKey, string value)
+		{
+			T key = default(T);
+			
+			if (TryGetDimensionMember(dimKey, value, out key))
+				return key;
+			else
+				throw new Exception();
+		}
+		
 		#region private members
 		
 		private string[] GetStreamValues(string value)
