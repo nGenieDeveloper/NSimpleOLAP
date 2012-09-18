@@ -1,6 +1,7 @@
 ﻿using System;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema;
+using NSimpleOLAP.Query.Predicates;
 
 namespace NSimpleOLAP.Query
 {
@@ -11,25 +12,37 @@ namespace NSimpleOLAP.Query
 		where T: struct, IComparable
 	{
 		private DataSchema<T> _schema;
-		private T _dimension;
+		private T _measure;
 		private object _value;
 		private LogicalOperators _operator;
 		private DataValueType _valueType;
+		private MeasureReferenceTranslator<T> _translator;
 		
-		public MeasureSlicerBuilder(DataSchema<T> schema)
+		public MeasureSlicerBuilder(DataSchema<T> schema, MeasureReferenceTranslator<T> translator)
 		{
 			_schema = schema;
+			_translator = translator;
 		}
 		
 		#region fluent interface
 		
 		public MeasureSlicerBuilder<T> Set(string measure, DataValueType valueType,LogicalOperators loperator, object value)
 		{
+			_measure = _translator.Translate(measure);
+			_valueType = valueType;
+			_operator = loperator;
+			_value = value;
+			
 			return this;
 		}
 		
 		public MeasureSlicerBuilder<T> Set(T measureKey, DataValueType valueType, LogicalOperators loperator, object value)
 		{
+			_measure = measureKey;
+			_valueType = valueType;
+			_operator = loperator;
+			_value = value;
+			
 			return this;
 		}
 		
@@ -37,7 +50,7 @@ namespace NSimpleOLAP.Query
 		
 		public IPredicate<T> Build()
 		{
-			throw new NotImplementedException();
+			return new SliceByMeasure<T>(_measure, _valueType, _operator, _value);
 		}
 	}
 }
