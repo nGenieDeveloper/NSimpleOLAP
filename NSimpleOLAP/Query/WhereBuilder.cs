@@ -16,14 +16,16 @@ namespace NSimpleOLAP.Query
 		private DataSchema<T> _schema;
 		private List<IPredicateBuilder<T>> _predicates;
 		
-		public WhereBuilder(DataSchema<T> schema)
+		public WhereBuilder(DataSchema<T> schema, 
+		                        DimensionReferenceTranslator<T> dimTranslator,
+		                        MeasureReferenceTranslator<T> mesTranslator)
 		{
 			_schema = schema;
 			_predicates = new List<IPredicateBuilder<T>>();
-			PredicateFactory = new PredicateFactory<T>(schema);
+			BuilderFactory = new PredicateBuilderFactory<T>(schema, dimTranslator, mesTranslator);
 		}
 		
-		public PredicateFactory<T> PredicateFactory
+		public PredicateBuilderFactory<T> BuilderFactory
 		{
 			get;
 			private set;

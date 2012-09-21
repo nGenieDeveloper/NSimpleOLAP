@@ -9,14 +9,14 @@ namespace NSimpleOLAP.Query.Predicates
 	public class AndPredicate<T> : IPredicate<T>
 		where T: struct, IComparable
 	{
-		private List<IPredicate<T>> _predicates;
+		private List<IPredicateBuilder<T>> _predicates;
 		
-		public AndPredicate(params IPredicate<T>[] predicates)
+		public AndPredicate(params IPredicateBuilder<T>[] predicates)
 		{
-			_predicates = new List<IPredicate<T>>(predicates);
+			_predicates = new List<IPredicateBuilder<T>>(predicates);
 		}
 		
-		public IEnumerable<IPredicate<T>> Predicates
+		public IEnumerable<IPredicateBuilder<T>> Predicates
 		{
 			get { return _predicates; }
 		}

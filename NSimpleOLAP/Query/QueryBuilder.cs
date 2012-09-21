@@ -22,9 +22,9 @@ namespace NSimpleOLAP.Query
 		
 		public void Init()
 		{
-			_wherebuilder = new WhereBuilder<T>(_innerCube.Schema);
 			_dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
 			_measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
+			_wherebuilder = new WhereBuilder<T>(_innerCube.Schema, _dimTranslator, _measTranslator);
 		}
 		
 		#region fluent interface
