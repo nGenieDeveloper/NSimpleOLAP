@@ -25,7 +25,8 @@ namespace NSimpleOLAP.Query
 		                        MeasureReferenceTranslator<T> mesTranslator)
 		{
 			_schema = schema;
-			_predicates = new List<IPredicateBuilder<T>>();
+			_rootBlock = new BlockPredicateBuilder<T>();
+			_currentBlock = _rootBlock;
 			BuilderFactory = new PredicateBuilderFactory<T>(schema, dimTranslator, mesTranslator);
 		}
 		
