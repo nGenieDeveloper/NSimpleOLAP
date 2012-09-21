@@ -6,7 +6,7 @@ namespace NSimpleOLAP.Query.Predicates
 	/// <summary>
 	/// Description of SliceByMeasure.
 	/// </summary>
-	public class SliceByMeasure<T> : IPredicate<T>
+	internal class SliceByMeasure<T> : IPredicate<T>
 		where T: struct, IComparable
 	{
 		private T _measure;
@@ -41,6 +41,11 @@ namespace NSimpleOLAP.Query.Predicates
 		public object Value
 		{
 			get { return _value; }
+		}
+		
+		public PredicateType TypeOf 
+		{
+			get { return PredicateType.MEASURE; }
 		}
 	}
 }

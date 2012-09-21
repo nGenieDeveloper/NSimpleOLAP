@@ -12,7 +12,7 @@ namespace NSimpleOLAP.Query
 	/// </summary>
 	public static class QueryExtensions
 	{
-		public static QueryBuilder<T> Query<T>(this Cube<T> cube)
+		public static QueryBuilder<T> BuildQuery<T>(this Cube<T> cube)
 			where T: struct, IComparable
 		{
 			return new QueryBuilder<T>.QueryBuilderImpl(cube);

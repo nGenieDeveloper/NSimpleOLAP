@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Query.Predicates
 	/// <summary>
 	/// Description of SliceByDimensionMember.
 	/// </summary>
-	public class SliceByDimensionMembers<T> : IPredicate<T>
+	internal class SliceByDimensionMembers<T> : IPredicate<T>
 		where T: struct, IComparable
 	{
 		private T _dimension;
@@ -35,6 +35,11 @@ namespace NSimpleOLAP.Query.Predicates
 		public IEnumerable<T> Values
 		{
 			get { return _values; }
+		}
+		
+		public PredicateType TypeOf 
+		{
+			get { return PredicateType.DIMENSION; }
 		}
 	}
 }

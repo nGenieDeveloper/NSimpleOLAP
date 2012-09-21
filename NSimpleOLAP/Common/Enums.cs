@@ -16,4 +16,6 @@ namespace NSimpleOLAP.Common
 	
 	public enum DataValueType { AGGREGATED, FACT }
 	
+	public enum PredicateType { BLOCK = 0, AND = 1, OR = 2, NOT = 3, DIMENSION = 4, MEASURE = 5 }
+	
 }

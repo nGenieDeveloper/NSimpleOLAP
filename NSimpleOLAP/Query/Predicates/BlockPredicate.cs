@@ -5,19 +5,19 @@ using NSimpleOLAP.Common;
 namespace NSimpleOLAP.Query.Predicates
 {
 	/// <summary>
-	/// Description of AndPredicate.
+	/// Description of BlockPredicate.
 	/// </summary>
-	internal class AndPredicate<T> : IPredicate<T>
+	internal class BlockPredicate<T>: IPredicate<T>
 		where T: struct, IComparable
 	{
 		private List<IPredicate<T>> _predicates;
 		
-		public AndPredicate()
+		public BlockPredicate()
 		{
 			_predicates = new List<IPredicate<T>>();
 		}
 		
-		public AndPredicate(params IPredicate<T>[] predicates)
+		public void AddPredicate(params IPredicate<T>[] predicates)
 		{
 			_predicates.AddRange(predicates);
 		}
@@ -29,7 +29,7 @@ namespace NSimpleOLAP.Query.Predicates
 		
 		public PredicateType TypeOf 
 		{
-			get { return PredicateType.AND; }
+			get { return PredicateType.BLOCK; }
 		}
 	}
 }

@@ -14,6 +14,10 @@ namespace NSimpleOLAP.Query
 		where T: struct, IComparable
 	{
 		private DataSchema<T> _schema;
+		private BlockPredicateBuilder<T> _rootBlock;
+		private IPredicateBuilder<T> _currentBlock;
+		
+		
 		private List<IPredicateBuilder<T>> _predicates;
 		
 		public WhereBuilder(DataSchema<T> schema, 
@@ -59,7 +63,15 @@ namespace NSimpleOLAP.Query
 			return this;
 		}
 		
+		public WhereBuilder<T> BeginBlock()
+		{
+			return this;
+		}
 		
+		public WhereBuilder<T> EndBlock()
+		{
+			return this;
+		}
 		
 		#endregion
 	}

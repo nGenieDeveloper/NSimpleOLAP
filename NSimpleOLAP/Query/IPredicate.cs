@@ -1,4 +1,5 @@
 ﻿using System;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query
 {
@@ -8,6 +9,6 @@ namespace NSimpleOLAP.Query
 	public interface IPredicate<T>
 		where T: struct, IComparable
 	{
-		
+		PredicateType TypeOf { get; }
 	}
 }

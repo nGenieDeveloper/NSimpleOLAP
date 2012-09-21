@@ -10,7 +10,8 @@ namespace NSimpleOLAP.Query
 	/// <summary>
 	/// Description of Query.
 	/// </summary>
-	public class Query
+	public class Query<T>
+		where T: struct, IComparable
 	{
 		public Query()
 		{

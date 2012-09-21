@@ -20,7 +20,7 @@ namespace NSimpleOLAP.Query
 		protected AxisBuilder<T> _axisBuilder;
 		protected List<T> _measureKeys;
 		
-		public void Init()
+		protected void Init()
 		{
 			_dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
 			_measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
@@ -114,6 +114,11 @@ namespace NSimpleOLAP.Query
 			whereBuild(_wherebuilder);
 			
 			return this;
+		}
+		
+		public Query<T> Create()
+		{
+			throw new NotImplementedException();
 		}
 		
 		#endregion
