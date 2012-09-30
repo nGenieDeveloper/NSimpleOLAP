@@ -17,7 +17,7 @@ namespace NSimpleOLAP.Query.Predicates
 			_predicates = new List<IPredicate<T>>();
 		}
 		
-		public AndPredicate(params IPredicate<T>[] predicates)
+		public void AddPredicate(params IPredicate<T>[] predicates)
 		{
 			_predicates.AddRange(predicates);
 		}

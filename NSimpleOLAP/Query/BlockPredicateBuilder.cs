@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Query.Predicates;
+using System.Linq;
 
 namespace NSimpleOLAP.Query
 {
@@ -26,6 +28,7 @@ namespace NSimpleOLAP.Query
 		
 		public BlockPredicateBuilder<T> Add(IPredicateBuilder<T> builder)
 		{
+			_predicates.Add(builder);
 			return this;
 		}
 		
@@ -38,7 +41,13 @@ namespace NSimpleOLAP.Query
 		
 		public IPredicate<T> Build()
 		{
-			throw new NotImplementedException();
+			var builders = from item in _predicates
+				select item.Build();
+			var predicate = new BlockPredicate<T>();
+			
+			predicate.AddPredicate(builders.ToArray());
+			
+			return predicate;
 		}
 	}
 }
