@@ -16,7 +16,17 @@ namespace UnitTests
 	public class ReadDataSourceTests
 	{
 		private Stopwatch _watch;
-		
+
+		public ReadDataSourceTests()
+    {
+			Init();
+		}
+
+		public void Init()
+		{
+			_watch = new Stopwatch();
+		}
+
 		[Test]
 		public void DimensionMembersTest()
 		{
@@ -240,10 +250,6 @@ namespace UnitTests
 			Console.WriteLine();
 		}
 		
-		[TestFixtureSetUp]
-		public void Init()
-		{
-			_watch = new Stopwatch();
-		}
+		
 	}
 }

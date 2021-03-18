@@ -18,6 +18,7 @@ namespace NSimpleOLAP.Storage.Molap
 	{
 		private TSDictionary<T,TMember> _innerDictionary;
 		private TSDictionary<string, T> _mapName;
+		private bool _disposed;
 		protected ItemType _type;
 		protected Action<TMember> memberOnAdd;
 		protected Action<IMemberStorage<T,TMember>> onClear;
@@ -110,6 +111,8 @@ namespace NSimpleOLAP.Storage.Molap
 			this.Clear();
 			_innerDictionary.Dispose();
 			_mapName.Dispose();
+
+			_disposed = true;
 		}
 		
 		#endregion

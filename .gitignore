@@ -1,0 +1,10 @@
+
+.vs/NSimpleOLAP/v16/.suo
+*.pdb
+*.p7s
+*.dll
+*.exe
+*.addins
+*.cache
+*.CopyComplete
+*.nupkg

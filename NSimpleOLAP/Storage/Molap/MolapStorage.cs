@@ -103,9 +103,7 @@ namespace NSimpleOLAP.Storage.Molap
 		public void Dispose()
 		{
 			_graph.Dispose();
-			Metrics.Dispose();
-			Measures.Dispose();
-			Dimensions.Dispose();
+
 			NameSpace.Dispose();
 		}
 		

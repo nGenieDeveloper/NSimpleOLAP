@@ -20,9 +20,10 @@ namespace UnitTests
 		public void TestMethod()
 		{
 			//cube.Query().Init(
+
 		}
 		
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void Init()
 		{
 			CubeBuilder builder = new CubeBuilder();
@@ -64,7 +65,7 @@ namespace UnitTests
 			cube.Initialize();
 		}
 		
-		[TestFixtureTearDown]
+		[OneTimeTearDown]
 		public void Dispose()
 		{
 			cube.Dispose();
