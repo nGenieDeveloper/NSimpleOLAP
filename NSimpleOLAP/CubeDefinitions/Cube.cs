@@ -109,9 +109,12 @@ namespace NSimpleOLAP
 			this.NameSpace = Storage.NameSpace;
 			this.DataSources = new DataSourceCollection(this.Config);
 			this.Cells = new CellCollection<T>(this.Storage);
-			this.Schema = new DataSchema<T>(this.Config,this.DataSources, 
-			                                this.Storage.Dimensions, this.Storage.Measures,
-			                              this.Storage.Metrics);
+			this.Schema = new DataSchema<T>(
+				this.Config,
+				this.DataSources, 
+			  this.Storage.Dimensions, 
+				this.Storage.Measures,
+			  this.Storage.Metrics);
 			_rowHelper = new DataRowHelper<T>(this.Schema, this.Config.Source);
 		}
 		
@@ -148,7 +151,7 @@ namespace NSimpleOLAP
 				while (reader.Next())
 				{
 					this.Storage.AddRowData(_rowHelper.GetDimensions(reader.Current), 
-					                        _rowHelper.GetMeasureData(reader.Current));
+					  _rowHelper.GetMeasureData(reader.Current));
 				}
 			}
 		}

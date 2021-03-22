@@ -63,8 +63,8 @@ namespace NSimpleOLAP.Data
 		}
 		
 		private int ComparePairs(KeyValuePair<T, T> a, KeyValuePair<T, T> b)
-	    {
+	  {
 			return a.Key.CompareTo(b.Key);
-	    }
+	  }
 	}
 }

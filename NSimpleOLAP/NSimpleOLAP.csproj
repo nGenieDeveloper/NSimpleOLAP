@@ -83,9 +83,11 @@
     <Compile Include="Common\DataSourceException.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\GuidIdentityKey.cs" />
+    <Compile Include="Common\Hashing\CityHash.cs" />
     <Compile Include="Common\Hashing\FNV1aHasher.cs" />
     <Compile Include="Common\Hashing\FNVHasher.cs" />
     <Compile Include="Common\Hashing\Hasher.cs" />
+    <Compile Include="Common\Hashing\UInt128.cs" />
     <Compile Include="Common\Interfaces\IProcess.cs" />
     <Compile Include="Common\IntIdentityKey.cs" />
     <Compile Include="Common\Hashing\KeyStreamer.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Schema\MemberCollection.cs" />
     <Compile Include="Schema\Metric.cs" />
     <Compile Include="Schema\MetricsCollection.cs" />
+    <Compile Include="Storage\Interfaces\IFactsProviderCache.cs" />
     <Compile Include="Storage\Interfaces\IMemberStorage.cs" />
     <Compile Include="Storage\Interfaces\IStorage.cs" />
     <Compile Include="Storage\Interfaces\IVarData.cs" />
@@ -236,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Parsers\Expressions\" />
+    <Folder Include="Storage\FactsCache\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license.txt" />
