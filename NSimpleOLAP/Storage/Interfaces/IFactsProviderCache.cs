@@ -7,6 +7,9 @@ namespace NSimpleOLAP.Storage.Interfaces
   public interface IFactsProviderCache<T> : IDisposable
     where T : struct, IComparable
   {
+
+    int Count { get; }
+
     void AddFRow(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data);
 
     IEnumerable<Tuple<KeyValuePair<T, T>[], MeasureValuesCollection<T>>> FetchFacts(KeyValuePair<T, T>[] pairs);
