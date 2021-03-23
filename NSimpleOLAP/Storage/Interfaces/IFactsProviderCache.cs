@@ -4,17 +4,18 @@ using System.Collections.Generic;
 
 namespace NSimpleOLAP.Storage.Interfaces
 {
-  public interface IFactsProviderCache<T> : IDisposable
+  public interface IFactsProviderCache<T, FROW> : IDisposable
     where T : struct, IComparable
+    where FROW: IFactRow<T>
   {
 
     int Count { get; }
 
     void AddFRow(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data);
 
-    IEnumerable<Tuple<KeyValuePair<T, T>[], MeasureValuesCollection<T>>> FetchFacts(KeyValuePair<T, T>[] pairs);
+    IEnumerable<FROW> FetchFacts(KeyValuePair<T, T>[] pairs);
 
-    IEnumerable<Tuple<KeyValuePair<T, T>[], MeasureValuesCollection<T>>> EnumerateFacts();
+    IEnumerable<FROW> EnumerateFacts();
 
     bool RemoveRows(KeyValuePair<T, T>[] pairs);
 

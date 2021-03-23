@@ -190,7 +190,9 @@
     <Compile Include="Schema\MemberCollection.cs" />
     <Compile Include="Schema\Metric.cs" />
     <Compile Include="Schema\MetricsCollection.cs" />
+    <Compile Include="Storage\FactsCache\FactsRow.cs" />
     <Compile Include="Storage\FactsCache\InMemoryFactsProvider.cs" />
+    <Compile Include="Storage\Interfaces\IFactRow.cs" />
     <Compile Include="Storage\Interfaces\IFactsProviderCache.cs" />
     <Compile Include="Storage\Interfaces\IMemberStorage.cs" />
     <Compile Include="Storage\Interfaces\IStorage.cs" />

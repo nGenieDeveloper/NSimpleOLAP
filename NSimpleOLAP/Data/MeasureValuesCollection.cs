@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace NSimpleOLAP.Data
@@ -105,5 +106,25 @@ namespace NSimpleOLAP.Data
 			foreach (var item in _innerdict)
 				yield return item;
 		}
-	}
+
+    public override bool Equals(object obj)
+    {
+			var values = (MeasureValuesCollection<T>)obj;
+
+			return !this.Except(values).Any();
+    }
+
+    public override int GetHashCode()
+    {
+			var result = 0;
+
+			foreach (var item in this)
+      {
+				result ^= item.Key.GetHashCode();
+				result ^= item.Value.GetHashCode();
+			}
+
+      return result;
+    }
+  }
 }
