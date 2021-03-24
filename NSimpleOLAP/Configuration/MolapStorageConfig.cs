@@ -19,6 +19,13 @@ namespace NSimpleOLAP.Configuration
 			get { return (MolapHashTypes)this["hashType"]; }
 			set { this["hashType"] = value; }
 		}
+
+		[ConfigurationProperty("operation", IsRequired = true, DefaultValue = OperationMode.PreAggregate)]
+		public OperationMode OperationType
+		{
+			get { return (OperationMode)this["operation"]; }
+			set { this["operation"] = value; }
+		}
 	}
 	
 }

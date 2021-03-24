@@ -9,6 +9,8 @@ using NSimpleOLAP.Storage.Molap.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using NSimpleOLAP.Storage.FactsCache;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -19,15 +21,20 @@ namespace NSimpleOLAP.Storage.Molap
     where T : struct, IComparable
     where U : class, ICell<T>
   {
-    private Graph<T, U> _graph;
+    private Graph<T, U> _globalGraph;
     private T _cubeid;
     private CanonicFormater<T> _canonicFormater;
+    private IFactsProviderCache<T, FactsRow<T>> _factsCache;
+    private MolapCellValuesHelper<T, U> _cellValuesHelper;
+    private MolapAggregationsStorage<T, U> _onDemandAggregations;
 
     public MolapStorage(T cubeid, StorageConfig config)
     {
       _cubeid = cubeid;
       this.Config = config;
       _canonicFormater = new CanonicFormater<T>();
+      _factsCache = new InMemoryFactsProvider<T>(this.Config.MolapConfig.HashType);
+      
       this.Init();
     }
 
@@ -58,7 +65,10 @@ namespace NSimpleOLAP.Storage.Molap
         ItemType.Metric,
         (metric) => { this.NameSpace.Add(metric); },
         (storage) => this.NameSpace.Clear(ItemType.Metric));
-      _graph = new Graph<T, U>(_cubeid, this.Config, new CellValuesHelper(this.Measures));
+
+      _cellValuesHelper = new CellValuesHelper(this.Measures);
+      _globalGraph = new Graph<T, U>(_cubeid, this.Config, _cellValuesHelper);
+      _onDemandAggregations = new MolapAggregationsStorage<T, U>(_cubeid, this.Config, _cellValuesHelper, _canonicFormater);
     }
 
     #endregion private methods
@@ -69,20 +79,20 @@ namespace NSimpleOLAP.Storage.Molap
     {
       KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
 
-      foreach (var item in _graph.GetNodes(cpairs))
+      foreach (var item in _globalGraph.GetNodes(cpairs))
         yield return item.Container;
     }
 
     public IEnumerable<U> CellEnumerator()
     {
-      foreach (Node<T, U> item in _graph.NodesEnumerator())
+      foreach (Node<T, U> item in _globalGraph.NodesEnumerator())
         yield return item.Container;
     }
 
     public U GetCell(KeyValuePair<T, T>[] pairs)
     {
       KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
-      Node<T, U> node = _graph.GetNode(cpairs);
+      Node<T, U> node = _globalGraph.GetNode(cpairs);
 
       if (node != null)
         return node.Container;
@@ -92,13 +102,20 @@ namespace NSimpleOLAP.Storage.Molap
 
     public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
     {
-      _graph.AddRowInfo(data, pairs);
+      var tasks = Task.WhenAll(
+        Task.Run(() => _factsCache.AddFRow(pairs, data)), 
+        Task.Run(() => {
+          if (this.Config.MolapConfig.OperationType == OperationMode.PreAggregate)
+            _globalGraph.AddRowInfo(data, pairs);
+        }));
+
+      tasks.Wait();
     }
 
     public int GetCellCount()
     {
       int count = 0;
-      IEnumerable<int> cellscounts = from item in _graph.NodesEnumerator()
+      IEnumerable<int> cellscounts = from item in _globalGraph.NodesEnumerator()
                                      select item.GetNodeCount();
       count = cellscounts.Sum();
 
@@ -107,9 +124,10 @@ namespace NSimpleOLAP.Storage.Molap
 
     public void Dispose()
     {
-      _graph.Dispose();
+      _globalGraph.Dispose();
 
       NameSpace.Dispose();
+      _factsCache.Dispose();
     }
 
     public StorageType StorageType { get { return StorageType.Molap; } }
