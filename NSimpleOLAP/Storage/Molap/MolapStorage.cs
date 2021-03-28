@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NSimpleOLAP.Storage.FactsCache;
+using NSimpleOLAP.Query;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -100,6 +101,28 @@ namespace NSimpleOLAP.Storage.Molap
         return null;
     }
 
+    public IEnumerable<U> GetCells(T key, KeyValuePair<T, T>[] pairs)
+    {
+      var graph = _onDemandAggregations[key];
+
+      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
+
+      foreach (var item in graph.GetNodes(cpairs))
+        yield return item.Container;
+    }
+    public U GetCell(T key, KeyValuePair<T, T>[] pairs)
+    {
+      var graph = _onDemandAggregations[key];
+
+      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
+      Node<T, U> node = graph.GetNode(cpairs);
+
+      if (node != null)
+        return node.Container;
+      else
+        return null;
+    }
+
     public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
     {
       var tasks = Task.WhenAll(
@@ -128,6 +151,22 @@ namespace NSimpleOLAP.Storage.Molap
 
       NameSpace.Dispose();
       _factsCache.Dispose();
+    }
+
+    public T CreateAggregation(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot)
+    {
+      if (_onDemandAggregations.AggregationExists(axisPairs))
+        _onDemandAggregations.RemoveAggregation(axisPairs);
+
+      return _onDemandAggregations.CreateAggregation(axisPairs, predicateRoot.GetHashCode());
+    }
+
+    public bool AggregationExists(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot)
+    {
+      if (predicateRoot == null || predicateRoot.GetHashCode() == 0)
+        return true;
+
+      return _onDemandAggregations.AggregationHasFilter(axisPairs, predicateRoot.GetHashCode());
     }
 
     public StorageType StorageType { get { return StorageType.Molap; } }

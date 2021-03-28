@@ -6,6 +6,7 @@ using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Query;
 
 namespace NSimpleOLAP.Storage.Interfaces
 {
@@ -18,10 +19,18 @@ namespace NSimpleOLAP.Storage.Interfaces
 	{
 		IEnumerable<U> GetCells(KeyValuePair<T,T>[] pairs);
 		U GetCell(KeyValuePair<T,T>[] pairs);
+
+		IEnumerable<U> GetCells(T key, KeyValuePair<T, T>[] pairs);
+		U GetCell(T key, KeyValuePair<T, T>[] pairs);
+
 		IEnumerable<U> CellEnumerator();
 		void AddRowData(KeyValuePair<T,T>[] pairs, MeasureValuesCollection<T> data);
 		int GetCellCount();
-	
+
+		T CreateAggregation(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot);
+
+		bool AggregationExists(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot);
+
 		StorageType StorageType { get; }
 		INamespace<T> NameSpace { get; }
 		IMemberStorage<T, Dimension<T>> Dimensions { get; }

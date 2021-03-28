@@ -32,11 +32,20 @@ namespace NSimpleOLAP.Storage.Molap
       _aggregationGraphs = new TSDictionary<T, Graph<T, U>>();
     }
 
-    public void CreateAggregation(KeyValuePair<T, T>[] pairs)
+    public Graph<T, U> this[T key]
+    {
+      get
+      {
+        return _aggregationGraphs[key];
+      }
+    }
+    public T CreateAggregation(KeyValuePair<T, T>[] pairs, int predicateKey)
     {
       var key = _keyHandler.GetKey(pairs);
 
-      _aggregationGraphs.Add(key, new Graph<T, U>(key, _config, _cellValuesHelper));
+      _aggregationGraphs.Add(key, new Graph<T, U>(key, _config, _cellValuesHelper, predicateKey));
+
+      return key;
     }
 
     public void FillAggregation(KeyValuePair<T, T>[] pairs, IEnumerable<IFactRow<T>> facts)
@@ -53,6 +62,16 @@ namespace NSimpleOLAP.Storage.Molap
       var key = _keyHandler.GetKey(pairs);
 
       return _aggregationGraphs.ContainsKey(key);
+    }
+
+    public bool AggregationHasFilter(KeyValuePair<T, T>[] pairs, int predicateKey)
+    {
+      var key = _keyHandler.GetKey(pairs);
+
+      if (!_aggregationGraphs.ContainsKey(key))
+        return false;
+
+      return _aggregationGraphs[key].PredicateKey == predicateKey;
     }
 
     public void RemoveAggregation(KeyValuePair<T, T>[] pairs)

@@ -154,10 +154,12 @@
     <Compile Include="Query\AxisBuilder.cs" />
     <Compile Include="Query\BlockPredicateBuilder.cs" />
     <Compile Include="Query\DimensionSlicerBuilder.cs" />
+    <Compile Include="Query\Interfaces\IQueryOrchestrator.cs" />
     <Compile Include="Query\IPredicate.cs" />
     <Compile Include="Query\IPredicateBuilder.cs" />
     <Compile Include="Query\MeasureReferenceTranslator.cs" />
     <Compile Include="Query\MeasureSlicerBuilder.cs" />
+    <Compile Include="Query\Molap\MolapQueryOrchestrator.cs" />
     <Compile Include="Query\NotPredicateBuilder.cs" />
     <Compile Include="Query\OrPredicateBuilder.cs" />
     <Compile Include="Query\PredicateFactory.cs" />

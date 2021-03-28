@@ -31,5 +31,20 @@ namespace NSimpleOLAP.Query.Predicates
 		{
 			get { return PredicateType.AND; }
 		}
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			var result = TypeOf.GetHashCode();
+
+			foreach (var item in _predicates)
+				result ^= item.GetHashCode();
+
+			return result;
+		}
 	}
 }

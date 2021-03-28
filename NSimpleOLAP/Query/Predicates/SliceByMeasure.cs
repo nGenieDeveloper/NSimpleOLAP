@@ -47,5 +47,19 @@ namespace NSimpleOLAP.Query.Predicates
 		{
 			get { return PredicateType.MEASURE; }
 		}
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			var result = TypeOf.GetHashCode()
+				^ Operator.GetHashCode()
+				^ _value.GetHashCode();
+
+			return result;
+		}
 	}
 }

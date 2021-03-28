@@ -17,6 +17,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
   {
     private MolapKeyHandler<T> _keyHandler;
     private MolapCellValuesHelper<T, U> _cellValueHelper;
+    private int _predicateKey;
 
     public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper)
     {
@@ -26,7 +27,17 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       this.Root.Key = _keyHandler.GetKey(this.Root.Coords);
     }
 
+    public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper, int predicateKey): this(root, config, cellValueHelper)
+    {
+      _predicateKey = predicateKey;
+    }
+
     #region public members
+
+    public int PredicateKey
+    {
+      get { return _predicateKey; }
+    }
 
     public Node<T, U> Root
     {
