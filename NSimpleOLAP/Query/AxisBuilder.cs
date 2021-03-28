@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query
 {
@@ -8,26 +9,25 @@ namespace NSimpleOLAP.Query
 	/// Description of AxisBuilder.
 	/// </summary>
 	public class AxisBuilder<T>
+		where T : struct, IComparable
 	{
-		private List<KeyValuePair<T,T>[]> _rowTuples;
-		private List<KeyValuePair<T,T>[]> _columnTuples;
+		private Axis<T> _axis;
 		private List<T> _filterDimensions;
 		
-		public AxisBuilder()
+		public AxisBuilder(MolapHashTypes hashingtype)
 		{
-			_rowTuples =  new List<KeyValuePair<T, T>[]>();
-			_columnTuples = new List<KeyValuePair<T, T>[]>();
+			_axis = new Axis<T>(hashingtype);
 			_filterDimensions = new List<T>();
 		}
 		
 		public void AddRowTuples(KeyValuePair<T, T>[] tuples)
 		{
-			_rowTuples.Add(tuples);
+			_axis.AddRowTuples(tuples);
 		}
 		
 		public void AddColumnTuples(KeyValuePair<T, T>[] tuples)
 		{
-			_columnTuples.Add(tuples);
+			_axis.AddColumnTuples(tuples);
 		}
 		
 		public void AddFilterTuples(KeyValuePair<T, T> tuple)
@@ -38,13 +38,13 @@ namespace NSimpleOLAP.Query
 		
 		public IEnumerable<KeyValuePair<T,T>[]> Rows()
 		{
-			foreach(var item in _rowTuples)
+			foreach(var item in _axis.RowAxis)
 				yield return AppendFilterDimensionality(item);
 		}
 		
 		public IEnumerable<KeyValuePair<T,T>[]> Columns()
 		{
-			foreach(var item in _columnTuples)
+			foreach(var item in _axis.ColumnAxis)
 				yield return AppendFilterDimensionality(item);
 		}
 		
