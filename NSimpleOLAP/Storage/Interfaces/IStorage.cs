@@ -31,6 +31,8 @@ namespace NSimpleOLAP.Storage.Interfaces
 
 		bool AggregationExists(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot);
 
+		void PopulateNewAggregation(T key, IPredicate<T> predicateRoot);
+
 		StorageType StorageType { get; }
 		INamespace<T> NameSpace { get; }
 		IMemberStorage<T, Dimension<T>> Dimensions { get; }

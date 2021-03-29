@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Data;
 
 namespace NSimpleOLAP.Query.Predicates
 {
@@ -30,6 +31,33 @@ namespace NSimpleOLAP.Query.Predicates
 		public PredicateType TypeOf 
 		{
 			get { return PredicateType.BLOCK; }
+		}
+
+		public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool FiltersOnFacts()
+		{
+			foreach (var item in _predicates)
+			{
+				if (item.FiltersOnFacts())
+					return true;
+			}
+
+			return false;
+		}
+
+		public bool FiltersOnAggregation()
+		{
+			foreach (var item in _predicates)
+			{
+				if (item.FiltersOnAggregation())
+					return true;
+			}
+
+			return false;
 		}
 
 		public override bool Equals(object obj)

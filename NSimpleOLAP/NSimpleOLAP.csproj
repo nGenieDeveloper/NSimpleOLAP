@@ -167,6 +167,7 @@
     <Compile Include="Query\Predicates\BlockPredicate.cs" />
     <Compile Include="Query\Predicates\NotPredicate.cs" />
     <Compile Include="Query\Predicates\OrPredicate.cs" />
+    <Compile Include="Query\Predicates\PredicateHelperFunctions.cs" />
     <Compile Include="Query\Predicates\SliceByDimensionMembers.cs" />
     <Compile Include="Query\Predicates\SliceByMeasure.cs" />
     <Compile Include="Query\Query.cs" />

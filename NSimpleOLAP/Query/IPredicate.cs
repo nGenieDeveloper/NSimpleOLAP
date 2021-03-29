@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Schema;
+using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Configuration;
+using NSimpleOLAP.Data;
+using NSimpleOLAP.Query;
 
 namespace NSimpleOLAP.Query
 {
@@ -11,5 +16,11 @@ namespace NSimpleOLAP.Query
 		where T: struct, IComparable
 	{
 		PredicateType TypeOf { get; }
+
+		bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data);
+
+		bool FiltersOnFacts();
+
+		bool FiltersOnAggregation();
 	}
 }

@@ -169,6 +169,24 @@ namespace NSimpleOLAP.Storage.Molap
       return _onDemandAggregations.AggregationHasFilter(axisPairs, predicateRoot.GetHashCode());
     }
 
+    public void PopulateNewAggregation(T key, IPredicate<T> predicateRoot)
+    {
+      var graph = _onDemandAggregations[key];
+
+      if (predicateRoot.FiltersOnFacts())
+      {
+        foreach (var item in _factsCache.EnumerateFacts())
+        {
+          if (predicateRoot.Execute(item.Pairs, item.Data))
+          {
+            graph.AddRowInfo(item.Data, item.Pairs);
+          }
+        }
+      }
+      else
+        throw new Exception("Predicate isn't filterling on facts.");
+    }
+
     public StorageType StorageType { get { return StorageType.Molap; } }
 
     public INamespace<T> NameSpace

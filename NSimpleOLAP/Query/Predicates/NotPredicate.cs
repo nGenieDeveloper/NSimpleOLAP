@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Data;
+
 
 namespace NSimpleOLAP.Query.Predicates
 {
@@ -37,6 +40,21 @@ namespace NSimpleOLAP.Query.Predicates
 				^ _predicate.GetHashCode();
 
 			return result;
+		}
+
+		public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool FiltersOnFacts()
+		{
+			return _predicate.FiltersOnFacts();
+		}
+
+		public bool FiltersOnAggregation()
+		{
+			return _predicate.FiltersOnAggregation();
 		}
 	}
 }

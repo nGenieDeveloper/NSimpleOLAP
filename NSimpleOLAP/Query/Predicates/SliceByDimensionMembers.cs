@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Data;
 
 namespace NSimpleOLAP.Query.Predicates
 {
@@ -45,6 +46,21 @@ namespace NSimpleOLAP.Query.Predicates
     public override bool Equals(object obj)
     {
       return base.Equals(obj);
+    }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public bool FiltersOnAggregation()
+    {
+      return true;
+    }
+
+    public bool FiltersOnFacts()
+    {
+      return false;
     }
 
     public override int GetHashCode()
