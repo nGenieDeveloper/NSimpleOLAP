@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
@@ -50,7 +51,18 @@ namespace NSimpleOLAP.Query.Predicates
 
     public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
     {
-      throw new NotImplementedException();
+      var results = pairs
+        .Where(x => x.Key.Equals(Dimension))
+        .ToArray();
+
+      if (results.Length > 0)
+      {
+        return results
+          .Join(Values, x => x.Value, y => y, (x, y) => x)
+          .Any(); // to do change this
+      }
+
+      return false;
     }
 
     public bool FiltersOnAggregation()

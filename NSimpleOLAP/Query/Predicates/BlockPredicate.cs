@@ -1,78 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using NSimpleOLAP.Common;
+﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
+using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Query.Predicates
 {
-	/// <summary>
-	/// Description of BlockPredicate.
-	/// </summary>
-	internal class BlockPredicate<T>: IPredicate<T>
-		where T: struct, IComparable
-	{
-		private List<IPredicate<T>> _predicates;
-		
-		public BlockPredicate()
-		{
-			_predicates = new List<IPredicate<T>>();
-		}
-		
-		public void AddPredicate(params IPredicate<T>[] predicates)
-		{
-			_predicates.AddRange(predicates);
-		}
-		
-		public IEnumerable<IPredicate<T>> Predicates
-		{
-			get { return _predicates; }
-		}
-		
-		public PredicateType TypeOf 
-		{
-			get { return PredicateType.BLOCK; }
-		}
+  /// <summary>
+  /// Description of BlockPredicate.
+  /// </summary>
+  internal class BlockPredicate<T> : IPredicate<T>
+    where T : struct, IComparable
+  {
+    private IPredicate<T> _predicate;
 
-		public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
-		{
-			throw new NotImplementedException();
-		}
+    public BlockPredicate(IPredicate<T> predicate)
+    {
+      _predicate = predicate;
+    }
 
-		public bool FiltersOnFacts()
-		{
-			foreach (var item in _predicates)
-			{
-				if (item.FiltersOnFacts())
-					return true;
-			}
+    public IPredicate<T> Predicate
+    {
+      get { return _predicate; }
+    }
 
-			return false;
-		}
+    public PredicateType TypeOf
+    {
+      get { return PredicateType.BLOCK; }
+    }
 
-		public bool FiltersOnAggregation()
-		{
-			foreach (var item in _predicates)
-			{
-				if (item.FiltersOnAggregation())
-					return true;
-			}
+    public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
+    {
+      return _predicate.Execute(pairs, data);
+    }
 
-			return false;
-		}
+    public bool FiltersOnFacts()
+    {
+      return _predicate.FiltersOnFacts();
+    }
 
-		public override bool Equals(object obj)
-		{
-			return base.Equals(obj);
-		}
+    public bool FiltersOnAggregation()
+    {
+      return _predicate.FiltersOnAggregation();
+    }
 
-		public override int GetHashCode()
-		{
-			var result = TypeOf.GetHashCode();
+    public override bool Equals(object obj)
+    {
+      return base.Equals(obj);
+    }
 
-			foreach (var item in _predicates)
-				result ^= item.GetHashCode();
+    public override int GetHashCode()
+    {
+      var result = TypeOf.GetHashCode()
+        ^ _predicate.GetHashCode();
 
-			return result;
-		}
-	}
+      return result;
+    }
+  }
 }

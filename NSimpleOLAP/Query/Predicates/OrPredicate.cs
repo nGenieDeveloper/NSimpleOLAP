@@ -50,7 +50,20 @@ namespace NSimpleOLAP.Query.Predicates
 
     public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
     {
-      throw new NotImplementedException();
+			var result = false;
+			
+			foreach (var item in _predicates)
+      {
+				var value = item.Execute(pairs, data);
+
+				if (value)
+        {
+					result = value;
+					break;
+        }
+      }
+
+			return result;
     }
 
     public bool FiltersOnFacts()

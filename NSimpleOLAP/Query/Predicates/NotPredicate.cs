@@ -1,60 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using NSimpleOLAP.Common;
+﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
-
+using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Query.Predicates
 {
-	/// <summary>
-	/// Description of NotPredicate.
-	/// </summary>
-	internal class NotPredicate<T> : IPredicate<T>
-		where T: struct, IComparable		
-	{
-		private IPredicate<T> _predicate;
-		
-		public NotPredicate(IPredicate<T> predicate)
-		{
-			_predicate = predicate;
-		}
-		
-		public IPredicate<T> Predicate
-		{
-			get { return _predicate; }
-		}
-		
-		public PredicateType TypeOf 
-		{
-			get { return PredicateType.NOT; }
-		}
+  /// <summary>
+  /// Description of NotPredicate.
+  /// </summary>
+  internal class NotPredicate<T> : IPredicate<T>
+    where T : struct, IComparable
+  {
+    private IPredicate<T> _predicate;
 
-		public override bool Equals(object obj)
-		{
-			return base.Equals(obj);
-		}
+    public NotPredicate(IPredicate<T> predicate)
+    {
+      _predicate = predicate;
+    }
 
-		public override int GetHashCode()
-		{
-			var result = TypeOf.GetHashCode()
-				^ _predicate.GetHashCode();
+    public IPredicate<T> Predicate
+    {
+      get { return _predicate; }
+    }
 
-			return result;
-		}
+    public PredicateType TypeOf
+    {
+      get { return PredicateType.NOT; }
+    }
 
-		public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
-		{
-			throw new NotImplementedException();
-		}
+    public override bool Equals(object obj)
+    {
+      return base.Equals(obj);
+    }
 
-		public bool FiltersOnFacts()
-		{
-			return _predicate.FiltersOnFacts();
-		}
+    public override int GetHashCode()
+    {
+      var result = TypeOf.GetHashCode()
+        ^ _predicate.GetHashCode();
 
-		public bool FiltersOnAggregation()
-		{
-			return _predicate.FiltersOnAggregation();
-		}
-	}
+      return result;
+    }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
+    {
+      return !_predicate.Execute(pairs, data);
+    }
+
+    public bool FiltersOnFacts()
+    {
+      return _predicate.FiltersOnFacts();
+    }
+
+    public bool FiltersOnAggregation()
+    {
+      return _predicate.FiltersOnAggregation();
+    }
+  }
 }
