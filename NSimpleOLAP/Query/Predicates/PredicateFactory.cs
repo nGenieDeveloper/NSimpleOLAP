@@ -4,9 +4,10 @@ using NSimpleOLAP;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Query.Predicates;
+using NSimpleOLAP.Query.Interfaces;
+using NSimpleOLAP.Query.Builder;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Predicates
 {
 	/// <summary>
 	/// Description of PredicateFactory.

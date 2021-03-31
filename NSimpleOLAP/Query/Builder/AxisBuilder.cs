@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Query.Interfaces;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
 	/// Description of AxisBuilder.

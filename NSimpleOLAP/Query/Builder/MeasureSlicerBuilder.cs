@@ -2,8 +2,9 @@
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Query.Predicates;
+using NSimpleOLAP.Query.Interfaces;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
 	/// Description of MeasureSlicerBuilder.

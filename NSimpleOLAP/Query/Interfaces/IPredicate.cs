@@ -7,7 +7,7 @@ using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Query;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Interfaces
 {
 	/// <summary>
 	/// Description of IPredicate.

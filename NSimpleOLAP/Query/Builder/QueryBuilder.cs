@@ -4,8 +4,9 @@ using NSimpleOLAP;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
+using NSimpleOLAP.Query.Interfaces;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
 	/// Description of QueryBuilder.

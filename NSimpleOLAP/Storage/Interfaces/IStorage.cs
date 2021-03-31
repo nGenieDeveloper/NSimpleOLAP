@@ -7,6 +7,7 @@ using NSimpleOLAP.Schema.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Query;
+using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Storage.Interfaces
 {

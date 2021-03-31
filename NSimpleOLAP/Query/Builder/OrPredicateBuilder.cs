@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using NSimpleOLAP.Query.Predicates;
 using System.Linq;
+using NSimpleOLAP.Query.Interfaces;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
-	/// Description of AndPredicateBuilder.
+	/// Description of OrPredicateBuilder.
 	/// </summary>
-	public class AndPredicateBuilder<T> : IPredicateBuilder<T>
+	public class OrPredicateBuilder<T> : IPredicateBuilder<T>
 		where T: struct, IComparable
 	{
 		private IPredicateBuilder<T> _root;
 		private List<IPredicateBuilder<T>> _predicates;
 		
-		public AndPredicateBuilder(IPredicateBuilder<T> root)
+		public OrPredicateBuilder(IPredicateBuilder<T> root)
 		{
 			_root = root;
 			_predicates = new List<IPredicateBuilder<T>>();
 		}
 		
-		public AndPredicateBuilder<T> Add(IPredicateBuilder<T> builder)
+		#region Fluent interface
+		
+		public OrPredicateBuilder<T> Add(IPredicateBuilder<T> builder)
 		{
 			_predicates.Add(builder);
 			return this;
@@ -31,11 +34,13 @@ namespace NSimpleOLAP.Query
 			get { return _root; }
 		}
 		
+		#endregion
+		
 		public IPredicate<T> Build()
 		{
 			var builders = from item in _predicates
 				select item.Build();
-			var predicate = new AndPredicate<T>();
+			var predicate = new OrPredicate<T>();
 			
 			predicate.AddPredicate(builders.ToArray());
 			

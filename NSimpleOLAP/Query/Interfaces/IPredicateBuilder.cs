@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Query.Interfaces
 {
 	/// <summary>
 	/// Description of IPredicateBuilder.

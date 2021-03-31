@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using NSimpleOLAP.Query.Predicates;
 using System.Linq;
+using NSimpleOLAP.Query.Interfaces;
 
-namespace NSimpleOLAP.Query
+
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
 	/// Description of BlockPredicateBuilder.
@@ -43,9 +45,9 @@ namespace NSimpleOLAP.Query
 		{
 			var builders = from item in _predicates
 				select item.Build();
-			var predicate = new BlockPredicate<T>();
-			
-			predicate.AddPredicate(builders.ToArray());
+			var predicate =  new BlockPredicate<T>(null);
+			// change this
+			// predicate.AddPredicate(builders.ToArray());
 			
 			return predicate;
 		}

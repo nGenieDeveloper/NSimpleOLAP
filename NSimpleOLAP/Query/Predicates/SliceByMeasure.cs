@@ -2,6 +2,7 @@
 using NSimpleOLAP.Data;
 using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Query.Predicates
 {

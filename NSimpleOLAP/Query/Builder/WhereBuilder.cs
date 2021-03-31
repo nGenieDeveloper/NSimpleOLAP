@@ -4,8 +4,11 @@ using NSimpleOLAP;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.Storage.Interfaces;
+using NSimpleOLAP.Query.Interfaces;
+using NSimpleOLAP.Query.Predicates;
 
-namespace NSimpleOLAP.Query
+
+namespace NSimpleOLAP.Query.Builder
 {
 	/// <summary>
 	/// Description of WhereBuilder.

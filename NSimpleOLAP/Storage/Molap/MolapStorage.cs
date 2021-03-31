@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSimpleOLAP.Storage.FactsCache;
 using NSimpleOLAP.Query;
+using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Storage.Molap
 {
