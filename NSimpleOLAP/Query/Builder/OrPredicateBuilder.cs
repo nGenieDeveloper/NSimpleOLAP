@@ -33,9 +33,32 @@ namespace NSimpleOLAP.Query.Builder
 		{
 			get { return _root; }
 		}
-		
+
+		public NotPredicateBuilder<T> Not(Func<WhereBuilder<T>, IPredicateBuilder<T>> notPred)
+		{
+
+			return null;
+		}
+
+		public MeasureSlicerBuilder<T> Dimension(string dimension)
+		{
+
+			return null;
+		}
+
+		public DimensionSlicerBuilder<T> Measure(string measure)
+		{
+
+			return null;
+		}
+
+		public BlockPredicateBuilder<T> Block(Func<WhereBuilder<T>, IPredicateBuilder<T>> blockPred)
+		{
+			return null;
+		}
+
 		#endregion
-		
+
 		public IPredicate<T> Build()
 		{
 			var builders = from item in _predicates

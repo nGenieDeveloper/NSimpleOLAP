@@ -14,11 +14,10 @@ namespace NSimpleOLAP.Query.Builder
 		where T: struct, IComparable
 	{
 		private BlockPredicateBuilder<T> _root;
-		private List<IPredicateBuilder<T>> _predicates;
+		private IPredicateBuilder<T> _innerPredicate;
 		
 		internal BlockPredicateBuilder()
 		{
-			_predicates = new List<IPredicateBuilder<T>>();
 		}
 		
 		public BlockPredicateBuilder(BlockPredicateBuilder<T> root) : this()
@@ -28,9 +27,9 @@ namespace NSimpleOLAP.Query.Builder
 		
 		#region Fluent interface
 		
-		public BlockPredicateBuilder<T> Add(IPredicateBuilder<T> builder)
+		public BlockPredicateBuilder<T> Set(IPredicateBuilder<T> builder)
 		{
-			_predicates.Add(builder);
+			_innerPredicate = builder;
 			return this;
 		}
 		
@@ -38,17 +37,32 @@ namespace NSimpleOLAP.Query.Builder
 		{
 			return _root;
 		}
-		
+
+		public AndPredicateBuilder<T> And(params Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>>[] andPreds)
+		{
+
+			return null;
+		}
+
+
+		public OrPredicateBuilder<T> Or(params Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>>[] orPreds)
+		{
+
+			return null;
+		}
+
+		public NotPredicateBuilder<T> Not(Func<WhereBuilder<T>, IPredicateBuilder<T>> notPred)
+		{
+
+			return null;
+		}
+
 		#endregion
-		
+
 		public IPredicate<T> Build()
 		{
-			var builders = from item in _predicates
-				select item.Build();
-			var predicate =  new BlockPredicate<T>(null);
-			// change this
-			// predicate.AddPredicate(builders.ToArray());
-			
+			var predicate =  new BlockPredicate<T>(_innerPredicate.Build());
+
 			return predicate;
 		}
 	}

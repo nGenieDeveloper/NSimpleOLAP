@@ -19,7 +19,8 @@ namespace NSimpleOLAP.Query.Builder
 		private DataSchema<T> _schema;
 		private BlockPredicateBuilder<T> _rootBlock;
 		private IPredicateBuilder<T> _currentBlock;
-		
+
+		//Where(b => b.And(b1 => b1.Measure("x").Equals(7), b1 => b1.Dimension("W").NotEquals("ddd"))
 		
 		private List<IPredicateBuilder<T>> _predicates;
 		
@@ -48,35 +49,56 @@ namespace NSimpleOLAP.Query.Builder
 			return this;
 		}
 		
-		public WhereBuilder<T> And()
+		public AndPredicateBuilder<T> And(params Func<WhereBuilder<T>, IPredicateBuilder<T>>[] andPreds)
 		{
 		
-			return this;
+			return null;
 		}
 		
 		
-		public WhereBuilder<T> Or()
+		public OrPredicateBuilder<T> Or(params Func<WhereBuilder<T>, IPredicateBuilder<T>>[] orPreds)
 		{
 		
-			return this;
+			return null;
 		}
 		
-		public WhereBuilder<T> Not()
+		public NotPredicateBuilder<T> Not(Func<WhereBuilder<T>, IPredicateBuilder<T>> notPred)
 		{
 		
-			return this;
+			return null;
+		}
+
+		public MeasureSlicerBuilder<T> Dimension(string dimension)
+		{
+
+			return null;
+		}
+
+		public DimensionSlicerBuilder<T> Measure(string measure)
+		{
+
+			return null;
+		}
+
+		public BlockPredicateBuilder<T> Block(Func<WhereBuilder<T>, IPredicateBuilder<T>> blockPred)
+		{
+			return null;
 		}
 		
-		public WhereBuilder<T> BeginBlock()
-		{
-			return this;
-		}
-		
-		public WhereBuilder<T> EndBlock()
-		{
-			return this;
-		}
 		
 		#endregion
 	}
+
+	class teste
+  {
+		private void dosomeExample()
+    {
+			var wherebuil = new WhereBuilder<int>(null, null, null);
+
+			wherebuil.And(b => b.Measure("")
+			, b => b.Measure("")
+			, b=> b.Not(n=> n.And(a => a.Dimension("d"), a => a.Dimension("i"))));
+
+    }
+  }
 }
