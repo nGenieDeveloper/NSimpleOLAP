@@ -58,5 +58,35 @@ namespace NSimpleOLAP.Query.Builder
     {
       return builder.SetOperationSegments(LogicalOperators.IN, members);
     }
+
+    public static bool CompatibleType(this object value, Type type)
+    {
+      switch (value)
+      {
+        case int i when (type == typeof(int) 
+        || type == typeof(short)
+        || type == typeof(byte)):
+          return true;
+        case long l when (type == typeof(long)
+        || type == typeof(int)
+        || type == typeof(short)
+        || type == typeof(byte)):
+          return true;
+        case decimal l when (type == typeof(decimal)
+        || type == typeof(double)
+        || type == typeof(int)
+        || type == typeof(short)
+        || type == typeof(byte)):
+          return true;
+        case double db when (type == typeof(double)
+        || type == typeof(decimal)
+        || type == typeof(int)
+        || type == typeof(short)
+        || type == typeof(byte)):
+          return true;
+        default:
+          return false;
+      }
+    }
   }
 }

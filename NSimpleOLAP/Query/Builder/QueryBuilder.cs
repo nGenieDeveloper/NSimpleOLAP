@@ -119,13 +119,22 @@ namespace NSimpleOLAP.Query.Builder
 		
 		public Query<T> Create()
 		{
-			throw new NotImplementedException();
+			return new QueryImplementation(null, _wherebuilder.Build());
 		}
-		
+
 		#endregion
-		
+
 		#region
-		
+
+		private class QueryImplementation : Query<T>
+		{
+			public QueryImplementation(Axis<T> axis, IPredicate<T> predicateTree)
+			{
+				this.axis = axis;
+				this.predicates = predicateTree;
+			}
+		}
+
 		internal class QueryBuilderImpl: QueryBuilder<T>
 		{
 			public QueryBuilderImpl(Cube<T> cube)

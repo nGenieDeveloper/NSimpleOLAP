@@ -47,16 +47,4 @@ namespace NSimpleOLAP.Query.Builder
 
     #endregion fluent interface
   }
-
-  internal class teste
-  {
-    private void dosomeExample()
-    {
-      var wherebuil = new WhereBuilder<int>(null, null, null);
-
-      wherebuil.Where(x => x.And(b => b.Measure("")
-      , b => b.Measure("")
-      , b => b.Not(n => n.And(a => a.Dimension("d"), a => a.Dimension("i")))));
-    }
-  }
 }

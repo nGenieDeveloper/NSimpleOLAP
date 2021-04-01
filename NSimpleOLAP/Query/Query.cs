@@ -1,20 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using NSimpleOLAP;
-using NSimpleOLAP.Schema;
-using NSimpleOLAP.Interfaces;
-using NSimpleOLAP.Storage.Interfaces;
+﻿using NSimpleOLAP.Query.Interfaces;
+using System;
 
 namespace NSimpleOLAP.Query
 {
-	/// <summary>
-	/// Description of Query.
-	/// </summary>
-	public class Query<T>
-		where T: struct, IComparable
-	{
-		public Query()
-		{
-		}
-	}
+  /// <summary>
+  /// Description of Query.
+  /// </summary>
+  public abstract class Query<T>
+    where T : struct, IComparable
+  {
+    protected Axis<T> axis;
+
+    protected IPredicate<T> predicates;
+
+    internal Axis<T> Axis
+    {
+      get { return axis; }
+    }
+
+    internal IPredicate<T> PredicateTree
+    {
+      get { return predicates; }
+    }
+  }
 }
