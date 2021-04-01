@@ -28,28 +28,40 @@ namespace NSimpleOLAP.Query.Builder
 		
 		#region fluent interface
 		
-		public DimensionSlicerBuilder<T> Set(string dimension, LogicalOperators loperator, params string[] members)
+		internal DimensionSlicerBuilder<T> SetDim(string dimension)
 		{
 			_dimension = _translator.GetDimension(dimension);
-			_operator = loperator;
-			
-			foreach (var item in members)
-				_members.Add(_translator.GetDimensionMember(_dimension, item));
 			
 			return this;
 		}
-		
-		public DimensionSlicerBuilder<T> Set(T dimensionKey, LogicalOperators loperator, params T[] memberKeys)
+
+		internal DimensionSlicerBuilder<T> SetDim(T dimensionKey)
 		{
 			_dimension = dimensionKey;
-			_operator = loperator;
-			_members.AddRange(memberKeys);
 			
 			return this;
 		}
-		
+
+		internal DimensionSlicerBuilder<T> SetOperationSegments(LogicalOperators loperator, params string[] members)
+		{
+			_operator = loperator;
+
+			foreach (var item in members)
+				_members.Add(_translator.GetDimensionMember(_dimension, item));
+
+			return this;
+		}
+
+		internal DimensionSlicerBuilder<T> SetOperationSegments(LogicalOperators loperator, params T[] memberKeys)
+		{
+			_operator = loperator;
+			_members.AddRange(memberKeys);
+
+			return this;
+		}
+
 		#endregion
-		
+
 		public IPredicate<T> Build()
 		{
 			return new SliceByDimensionMembers<T>(_dimension, _operator, _members.ToArray());

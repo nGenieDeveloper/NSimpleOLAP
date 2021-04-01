@@ -1,8 +1,8 @@
 ﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Query.Predicates
 {
@@ -16,13 +16,14 @@ namespace NSimpleOLAP.Query.Predicates
     private LogicalOperators _operator;
     private object _value;
     private DataValueType _dataValueType;
+    private Type _measureType;
 
-    public SliceByMeasure(T measureKey, DataValueType valueType,
+    public SliceByMeasure(T measureKey, Type measureType,
                           LogicalOperators loperator, object value)
     {
       _measure = measureKey;
       _operator = loperator;
-      _dataValueType = valueType;
+      _measureType = measureType;
       _value = value;
     }
 

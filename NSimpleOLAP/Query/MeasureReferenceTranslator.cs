@@ -28,5 +28,15 @@ namespace NSimpleOLAP.Query
 			else
 				throw new Exception();
 		}
+
+		public Type MeasureType(T value)
+		{
+			var measure = _schema.Measures[value];
+
+			if (measure != null)
+				return measure.DataType;
+			else
+				throw new Exception();
+		}
 	}
 }

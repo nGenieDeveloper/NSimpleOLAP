@@ -1,69 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Query.Predicates;
-using System.Linq;
-using NSimpleOLAP.Query.Interfaces;
-
+using System;
 
 namespace NSimpleOLAP.Query.Builder
 {
-	/// <summary>
-	/// Description of BlockPredicateBuilder.
-	/// </summary>
-	public class BlockPredicateBuilder<T> : IPredicateBuilder<T>
-		where T: struct, IComparable
-	{
-		private BlockPredicateBuilder<T> _root;
-		private IPredicateBuilder<T> _innerPredicate;
-		
-		internal BlockPredicateBuilder()
-		{
-		}
-		
-		public BlockPredicateBuilder(BlockPredicateBuilder<T> root) : this()
-		{
-			_root = root;
-		}
-		
-		#region Fluent interface
-		
-		public BlockPredicateBuilder<T> Set(IPredicateBuilder<T> builder)
-		{
-			_innerPredicate = builder;
-			return this;
-		}
-		
-		public BlockPredicateBuilder<T> CloseBlock()
-		{
-			return _root;
-		}
+  /// <summary>
+  /// Description of BlockPredicateBuilder.
+  /// </summary>
+  public class BlockPredicateBuilder<T> : IPredicateBuilder<T>
+    where T : struct, IComparable
+  {
+    private IPredicateBuilder<T> _innerPredicate;
+    private PredicateBuilderFactory<T> _factory;
 
-		public AndPredicateBuilder<T> And(params Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>>[] andPreds)
-		{
+    public BlockPredicateBuilder(PredicateBuilderFactory<T> factory)
+    {
+      _factory = factory;
+    }
 
-			return null;
-		}
+    #region Fluent interface
 
+    public AndPredicateBuilder<T> And(params Func<AndPredicateBuilder<T>, IPredicateBuilder<T>>[] andPreds)
+    {
+      var predBuilder = (AndPredicateBuilder<T>)_factory.CreateAndPredicate();
 
-		public OrPredicateBuilder<T> Or(params Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>>[] orPreds)
-		{
+      _innerPredicate = predBuilder;
 
-			return null;
-		}
+      foreach (var builder in andPreds)
+        builder(predBuilder);
 
-		public NotPredicateBuilder<T> Not(Func<WhereBuilder<T>, IPredicateBuilder<T>> notPred)
-		{
+      return predBuilder;
+    }
 
-			return null;
-		}
+    public OrPredicateBuilder<T> Or(params Func<OrPredicateBuilder<T>, IPredicateBuilder<T>>[] orPreds)
+    {
+      var predBuilder = (OrPredicateBuilder<T>)_factory.CreateOrPredicate();
 
-		#endregion
+      _innerPredicate = predBuilder;
 
-		public IPredicate<T> Build()
-		{
-			var predicate =  new BlockPredicate<T>(_innerPredicate.Build());
+      foreach (var builder in orPreds)
+        builder(predBuilder);
 
-			return predicate;
-		}
-	}
+      return predBuilder;
+    }
+
+    public NotPredicateBuilder<T> Not(Func<NotPredicateBuilder<T>, IPredicateBuilder<T>> notPred)
+    {
+      var predBuilder = (NotPredicateBuilder<T>)_factory.CreateNotPredicate();
+
+      _innerPredicate = predBuilder;
+      notPred(predBuilder);
+
+      return predBuilder;
+    }
+
+    public DimensionSlicerBuilder<T> Dimension(string dimension)
+    {
+      var predBuilder = (DimensionSlicerBuilder<T>)_factory.CreateDimensionSlicer();
+
+      _innerPredicate = predBuilder;
+
+      return predBuilder.SetDim(dimension);
+    }
+
+    public MeasureSlicerBuilder<T> Measure(string measure)
+    {
+      var predBuilder = (MeasureSlicerBuilder<T>)_factory.CreateMeasureSlicer();
+
+      _innerPredicate = predBuilder;
+
+      return predBuilder.SetMeasure(measure);
+    }
+
+    #endregion Fluent interface
+
+    public IPredicate<T> Build()
+    {
+      var predicate = new BlockPredicate<T>(_innerPredicate.Build());
+
+      return predicate;
+    }
+  }
 }
