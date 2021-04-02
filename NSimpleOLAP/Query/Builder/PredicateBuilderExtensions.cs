@@ -5,7 +5,7 @@ namespace NSimpleOLAP.Query.Builder
 {
   public static class PredicateBuilderExtensions
   {
-    public static MeasureSlicerBuilder<T> Equals<T>(this MeasureSlicerBuilder<T> builder, object value)
+    public static MeasureSlicerBuilder<T> IsEquals<T>(this MeasureSlicerBuilder<T> builder, object value)
       where T : struct, IComparable
     {
       return builder.SetOperationValuePair(LogicalOperators.EQUALS, value);
@@ -41,7 +41,7 @@ namespace NSimpleOLAP.Query.Builder
       return builder.SetOperationValuePair(LogicalOperators.LOWEROREQUALS, value);
     }
 
-    public static DimensionSlicerBuilder<T> Equals<T>(this DimensionSlicerBuilder<T> builder, string member)
+    public static DimensionSlicerBuilder<T> IsEquals<T>(this DimensionSlicerBuilder<T> builder, string member)
       where T : struct, IComparable
     {
       return builder.SetOperationSegments(LogicalOperators.EQUALS, member);

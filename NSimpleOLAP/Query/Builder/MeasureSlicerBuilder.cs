@@ -45,7 +45,7 @@ namespace NSimpleOLAP.Query.Builder
 
     internal MeasureSlicerBuilder<T> SetOperationValuePair(LogicalOperators loperator, object value)
     {
-      if (value.CompatibleType(_valueType))
+      if (!value.CompatibleType(_valueType))
         throw new Exception();
 
       _operator = loperator;

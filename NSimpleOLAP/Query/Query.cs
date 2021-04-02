@@ -1,5 +1,7 @@
 ﻿using NSimpleOLAP.Query.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NSimpleOLAP.Query
 {
@@ -13,6 +15,13 @@ namespace NSimpleOLAP.Query
 
     protected IPredicate<T> predicates;
 
+    protected Cube<T> cube;
+
+    internal Cube<T> Cube
+    {
+      get { return cube; }
+    }
+
     internal Axis<T> Axis
     {
       get { return axis; }
@@ -21,6 +30,11 @@ namespace NSimpleOLAP.Query
     internal IPredicate<T> PredicateTree
     {
       get { return predicates; }
+    }
+
+    public IEnumerable<Cell<T>> Run()
+    {
+      return null;
     }
   }
 }

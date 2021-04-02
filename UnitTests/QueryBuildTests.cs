@@ -1,0 +1,178 @@
+﻿using NSimpleOLAP;
+using NSimpleOLAP.Common;
+using NSimpleOLAP.Configuration.Fluent;
+using NSimpleOLAP.Query;
+using NSimpleOLAP.Query.Builder;
+using NUnit.Framework;
+
+namespace UnitTests
+{
+  [TestFixture]
+  public class QueryBuildTests
+  {
+    private Cube<int> cube;
+
+    public QueryBuildTests()
+    {
+      Init();
+    }
+
+    public void Init()
+    {
+      CubeBuilder builder = new CubeBuilder();
+
+      builder.SetName("hello")
+        .SetSource((sourcebuild) => sourcebuild.SetSource("sales"))
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("sales")
+            .SetSourceType(DataSourceType.CSV)
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//table.csv")
+                              .SetHasHeader();
+            })
+            .AddField("category", 0, typeof(int))
+            .AddField("sex", 1, typeof(int))
+            .AddField("place", 2, typeof(int))
+            .AddField("expenses", 3, typeof(double))
+            .AddField("items", 4, typeof(int));
+        })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("categories")
+            .SetSourceType(DataSourceType.CSV)
+            .AddField("id", 0, typeof(int))
+            .AddField("description", 1, typeof(string))
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//dimension1.csv")
+                              .SetHasHeader();
+            });
+        })
+        .MetaData(mbuild =>
+        {
+          mbuild.AddDimension("category", (dimbuild) =>
+          {
+            dimbuild.Source("categories")
+              .ValueField("id")
+              .DescField("description");
+          })
+          .AddMeasure("spent", mesbuild =>
+          {
+            mesbuild.ValueField("expenses")
+              .SetType(typeof(double));
+          })
+          .AddMeasure("quantity", mesbuild =>
+          {
+            mesbuild.ValueField("items")
+              .SetType(typeof(int));
+          });
+        });
+
+      cube = builder.Create<int>();
+      cube.Initialize();
+      cube.Process();
+    }
+
+    [OneTimeTearDown]
+    public void Dispose()
+    {
+      cube.Dispose();
+    }
+
+    [Test]
+    public void WhereBuilder_Setup_Test()
+    {
+      Assert.DoesNotThrow(() =>
+      {
+        WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+      });
+    }
+
+    [Test]
+    public void WhereBuilder_Add_MeasureSlicer_Test()
+    {
+      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+
+      builder.Where(b => b.Measure("quantity").GreaterOrEquals(2));
+
+      var predicate = builder.Build();
+
+      Assert.IsNotNull(predicate);
+      Assert.IsFalse(predicate.FiltersOnAggregation());
+    }
+
+    [Test]
+    public void WhereBuilder_Add_DimensionSlicer_Test()
+    {
+      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+
+      builder.Where(b => b.Dimension("category").IsEquals("clothes"));
+
+      var predicate = builder.Build();
+
+      Assert.IsNotNull(predicate);
+      Assert.IsTrue(predicate.FiltersOnAggregation());
+    }
+
+    [Test]
+    public void WhereBuilder_Add_And_Expression_With_DimensionSlicers_Test()
+    {
+      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+
+      builder.Where(b =>
+        b.And(x => x.Dimension("category").IsEquals("clothes"),
+        x => x.Dimension("category").IsEquals("shoes")));
+
+      var predicate = builder.Build();
+
+      Assert.IsNotNull(predicate);
+      Assert.IsTrue(predicate.FiltersOnAggregation());
+    }
+
+    [Test]
+    public void WhereBuilder_Add_Or_Expression_With_DimensionSlicers_Test()
+    {
+      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+
+      builder.Where(b =>
+        b.Or(x => x.Dimension("category").IsEquals("clothes"),
+        x => x.Dimension("category").IsEquals("shoes")));
+
+      var predicate = builder.Build();
+
+      Assert.IsNotNull(predicate);
+      Assert.IsTrue(predicate.FiltersOnAggregation());
+    }
+
+    [Test]
+    public void WhereBuilder_Add_And_Expression_With_DimensionSlicers_And_MeasureSlicer_Test()
+    {
+      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
+        , new DimensionReferenceTranslator<int>(cube.Schema),
+        new MeasureReferenceTranslator<int>(cube.Schema));
+
+      builder.Where(b =>
+        b.And(x => x.Dimension("category").IsEquals("clothes"),
+        x => x.Measure("quantity").GreaterOrEquals(2))
+      );
+
+      var predicate = builder.Build();
+
+      Assert.IsNotNull(predicate);
+      Assert.IsTrue(predicate.FiltersOnAggregation());
+      Assert.IsTrue(predicate.FiltersOnFacts());
+    }
+  }
+}
