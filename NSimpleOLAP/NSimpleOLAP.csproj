@@ -78,6 +78,7 @@
   -->
   <ItemGroup>
     <Compile Include="Common\AbsIdentityKey.cs" />
+    <Compile Include="Common\BadTupleReferenceException.cs" />
     <Compile Include="Common\CanonicFormater.cs" />
     <Compile Include="Common\Collections\TSDictionary.cs" />
     <Compile Include="Common\Collections\TSList.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Common\IntIdentityKey.cs" />
     <Compile Include="Common\Hashing\KeyStreamer.cs" />
     <Compile Include="Common\Hashing\MurmurHash2.cs" />
+    <Compile Include="Common\ReservedAndSpecialValues.cs" />
     <Compile Include="Configuration\CSVConfig.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\CubeSourceElement.cs" />

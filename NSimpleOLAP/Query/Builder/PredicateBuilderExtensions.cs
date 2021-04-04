@@ -59,7 +59,7 @@ namespace NSimpleOLAP.Query.Builder
       return builder.SetOperationSegments(LogicalOperators.IN, members);
     }
 
-    public static bool CompatibleType(this object value, Type type)
+    internal static bool CompatibleType(this object value, Type type)
     {
       switch (value)
       {
