@@ -63,6 +63,7 @@ namespace NSimpleOLAP.Query.Builder
         return tuples;
 
       // to do, this needs to be done differently
+      // Needs to extract dimensionality
       var list = (from pair in tuples
                   select pair.Key).ToList();
       var query = from item in _filterDimensions

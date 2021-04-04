@@ -165,6 +165,7 @@
     <Compile Include="Query\Molap\MolapQueryOrchestrator.cs" />
     <Compile Include="Query\Builder\NotPredicateBuilder.cs" />
     <Compile Include="Query\Builder\OrPredicateBuilder.cs" />
+    <Compile Include="Query\Predicates\NullPredicate.cs" />
     <Compile Include="Query\Predicates\PredicateFactory.cs" />
     <Compile Include="Query\Predicates\AndPredicate.cs" />
     <Compile Include="Query\Predicates\BlockPredicate.cs" />

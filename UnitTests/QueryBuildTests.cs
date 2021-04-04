@@ -50,6 +50,18 @@ namespace UnitTests
                               .SetHasHeader();
             });
         })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("sexes")
+            .SetSourceType(DataSourceType.CSV)
+            .AddField("id", 0, typeof(int))
+            .AddField("description", 1, typeof(string))
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//dimension2.csv")
+                               .SetHasHeader();
+            });
+        })
         .MetaData(mbuild =>
         {
           mbuild.AddDimension("category", (dimbuild) =>
@@ -57,6 +69,12 @@ namespace UnitTests
             dimbuild.Source("categories")
               .ValueField("id")
               .DescField("description");
+          })
+          .AddDimension("sex", (dimbuild) =>
+          {
+            dimbuild.Source("sexes")
+                        .ValueField("id")
+                        .DescField("description");
           })
           .AddMeasure("spent", mesbuild =>
           {
@@ -99,7 +117,7 @@ namespace UnitTests
         , new DimensionReferenceTranslator<int>(cube.Schema),
         new MeasureReferenceTranslator<int>(cube.Schema));
 
-      builder.Where(b => b.Measure("quantity").GreaterOrEquals(2));
+      builder.Define(b => b.Measure("quantity").GreaterOrEquals(2));
 
       var predicate = builder.Build();
 
@@ -114,7 +132,7 @@ namespace UnitTests
         , new DimensionReferenceTranslator<int>(cube.Schema),
         new MeasureReferenceTranslator<int>(cube.Schema));
 
-      builder.Where(b => b.Dimension("category").IsEquals("clothes"));
+      builder.Define(b => b.Dimension("category").IsEquals("clothes"));
 
       var predicate = builder.Build();
 
@@ -129,7 +147,7 @@ namespace UnitTests
         , new DimensionReferenceTranslator<int>(cube.Schema),
         new MeasureReferenceTranslator<int>(cube.Schema));
 
-      builder.Where(b =>
+      builder.Define(b =>
         b.And(x => x.Dimension("category").IsEquals("clothes"),
         x => x.Dimension("category").IsEquals("shoes")));
 
@@ -146,7 +164,7 @@ namespace UnitTests
         , new DimensionReferenceTranslator<int>(cube.Schema),
         new MeasureReferenceTranslator<int>(cube.Schema));
 
-      builder.Where(b =>
+      builder.Define(b =>
         b.Or(x => x.Dimension("category").IsEquals("clothes"),
         x => x.Dimension("category").IsEquals("shoes")));
 
@@ -163,7 +181,7 @@ namespace UnitTests
         , new DimensionReferenceTranslator<int>(cube.Schema),
         new MeasureReferenceTranslator<int>(cube.Schema));
 
-      builder.Where(b =>
+      builder.Define(b =>
         b.And(x => x.Dimension("category").IsEquals("clothes"),
         x => x.Measure("quantity").GreaterOrEquals(2))
       );
@@ -173,6 +191,33 @@ namespace UnitTests
       Assert.IsNotNull(predicate);
       Assert.IsTrue(predicate.FiltersOnAggregation());
       Assert.IsTrue(predicate.FiltersOnFacts());
+    }
+
+    [Test]
+    public void QueryBuilder_Create_Test()
+    {
+      var query = cube.BuildQuery()
+        .OnRows("sex.male")
+        .OnColumns("category.shoes")
+        .AddMeasures("quantity");
+
+      var result = query.Create();
+
+      Assert.IsNotNull(result);
+    }
+
+    [Test]
+    public void QueryBuilder_With_Where_Create_Test()
+    {
+      var query = cube.BuildQuery()
+        .OnRows("sex.male")
+        .OnColumns("category.shoes")
+        .AddMeasures("quantity")
+        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100))) ;
+
+      var result = query.Create();
+
+      Assert.IsNotNull(result);
     }
   }
 }

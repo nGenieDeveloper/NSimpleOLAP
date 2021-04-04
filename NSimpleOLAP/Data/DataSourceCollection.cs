@@ -55,6 +55,11 @@ namespace NSimpleOLAP.Data
       _innerdict.Clear();
     }
 
+    public bool ContainsKey(string name)
+    {
+      return _innerdict.ContainsKey(name);
+    }
+
     public bool Contains(IDataSource item)
     {
       return _innerdict.ContainsKey(item.Name);

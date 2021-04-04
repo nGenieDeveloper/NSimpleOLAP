@@ -76,6 +76,9 @@ namespace NSimpleOLAP.Query.Builder
 
     public IPredicate<T> Build()
     {
+      if (_innerPredicate == null)
+        return new NullPredicate<T>();
+
       var predicate = new BlockPredicate<T>(_innerPredicate.Build());
 
       return predicate;

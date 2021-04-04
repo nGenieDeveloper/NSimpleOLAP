@@ -18,6 +18,7 @@ namespace NSimpleOLAP.Query.Builder
     private LogicalOperators _operator;
     private Type _valueType;
     private MeasureReferenceTranslator<T> _translator;
+    private string _measureName;
 
     public MeasureSlicerBuilder(DataSchema<T> schema, MeasureReferenceTranslator<T> translator)
     {
@@ -29,6 +30,7 @@ namespace NSimpleOLAP.Query.Builder
 
     internal MeasureSlicerBuilder<T> SetMeasure(string measure)
     {
+      _measureName = measure;
       _measure = _translator.Translate(measure);
       _valueType = _translator.MeasureType(_measure);
 
@@ -39,6 +41,7 @@ namespace NSimpleOLAP.Query.Builder
     {
       _measure = measureKey;
       _valueType = _translator.MeasureType(_measure);
+      _measureName = _translator.MeasureName(measureKey); 
 
       return this;
     }
@@ -46,7 +49,7 @@ namespace NSimpleOLAP.Query.Builder
     internal MeasureSlicerBuilder<T> SetOperationValuePair(LogicalOperators loperator, object value)
     {
       if (!value.CompatibleType(_valueType))
-        throw new Exception();
+        throw new Exception($"Attempting to make operation with incompatible value type on Measure {_measureName}.");
 
       _operator = loperator;
       _value = value;

@@ -36,6 +36,16 @@ namespace NSimpleOLAP.Query
         throw new Exception("Measure does not exist in the schema definition.");
     }
 
+    public string MeasureName(T value)
+    {
+      var measure = GetMeasure(value);
+
+      if (measure != null)
+        return measure.Name;
+      else
+        return "";
+    }
+
     private Measure<T> GetMeasure(string value)
     {
       return _schema.Measures.Contains(value) ?

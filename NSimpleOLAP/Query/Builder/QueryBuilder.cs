@@ -19,6 +19,7 @@ namespace NSimpleOLAP.Query.Builder
 
     protected void Init()
     {
+      _measureKeys = new List<T>();
       _dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
       _measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
       _wherebuilder = new WhereBuilder<T>(_innerCube.Schema, _dimTranslator, _measTranslator);

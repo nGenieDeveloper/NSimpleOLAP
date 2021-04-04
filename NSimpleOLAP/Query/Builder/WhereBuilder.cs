@@ -33,7 +33,7 @@ namespace NSimpleOLAP.Query.Builder
 
     #region fluent interface
 
-    public WhereBuilder<T> Where(Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder)
+    public WhereBuilder<T> Define(Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder)
     {
       _currentBlock = blockBuilder(_rootBlock);
 
