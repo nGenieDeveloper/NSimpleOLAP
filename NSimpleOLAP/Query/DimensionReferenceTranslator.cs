@@ -35,7 +35,8 @@ namespace NSimpleOLAP.Query
         {
           index++;
 
-          if (IsReservedWord(values[index]))
+          if (index < values.Length 
+            && IsReservedWord(values[index]))
           {
             tuples.Add(new KeyValuePair<T, T>(key, member));
             tuples.Add(GetReservedWordMappedTuple(values[index]));
@@ -116,7 +117,8 @@ namespace NSimpleOLAP.Query
 
     private bool TryGetDimensionMember(T dimKey, string[] values, int index, out T key)
     {
-      if (index >= values.Length)
+      if (index >= values.Length ||
+        !_schema.Dimensions[dimKey].Members.Contains(values[index]))
       {
         key = default(T);
 

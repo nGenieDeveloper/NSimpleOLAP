@@ -60,7 +60,12 @@ namespace NSimpleOLAP.Schema
 		{
 			return _storage.Contains(item);
 		}
-		
+
+		public bool Contains(string item)
+		{
+			return _storage.Any(x => x.Name.Equals(item));
+		}
+
 		public bool ContainsKey(T key)
 		{
 			return _storage.ContainsKey(key);
