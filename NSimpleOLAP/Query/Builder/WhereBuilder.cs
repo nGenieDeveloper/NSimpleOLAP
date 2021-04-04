@@ -16,8 +16,8 @@ namespace NSimpleOLAP.Query.Builder
     private IPredicateBuilder<T> _currentBlock;
 
     public WhereBuilder(DataSchema<T> schema,
-                            DimensionReferenceTranslator<T> dimTranslator,
-                            MeasureReferenceTranslator<T> mesTranslator)
+                        DimensionReferenceTranslator<T> dimTranslator,
+                        MeasureReferenceTranslator<T> mesTranslator)
     {
       _schema = schema;
       BuilderFactory = new PredicateBuilderFactory<T>(schema, dimTranslator, mesTranslator);

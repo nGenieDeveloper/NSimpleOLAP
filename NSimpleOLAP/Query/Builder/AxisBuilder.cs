@@ -59,6 +59,10 @@ namespace NSimpleOLAP.Query.Builder
 
     private KeyValuePair<T, T>[] AppendFilterDimensionality(KeyValuePair<T, T>[] tuples)
     {
+      if (_filterDimensions.Count == 0)
+        return tuples;
+
+      // to do, this needs to be done differently
       var list = (from pair in tuples
                   select pair.Key).ToList();
       var query = from item in _filterDimensions

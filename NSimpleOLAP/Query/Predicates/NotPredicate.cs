@@ -56,5 +56,14 @@ namespace NSimpleOLAP.Query.Predicates
     {
       return _predicate.FiltersOnAggregation();
     }
+
+    public IEnumerable<Tuple<LogicalOperators, KeyValuePair<T, T>[]>> ExtractFilterDimensionality()
+    {
+      if (FiltersOnAggregation())
+      {
+        foreach (var dims in _predicate.ExtractFilterDimensionality())
+          yield return dims;
+      }
+    }
   }
 }

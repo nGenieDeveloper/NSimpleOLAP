@@ -84,6 +84,21 @@ namespace NSimpleOLAP.Query.Predicates
       return false;
     }
 
+    public IEnumerable<Tuple<LogicalOperators, KeyValuePair<T, T>[]>> ExtractFilterDimensionality()
+    {
+      if (FiltersOnAggregation())
+      {
+        foreach (var item in _predicates)
+        {
+          if (!item.FiltersOnAggregation())
+            continue;
+
+          foreach (var dims in item.ExtractFilterDimensionality())
+            yield return dims;
+        }
+      }
+    }
+
     public override bool Equals(object obj)
     {
       return base.Equals(obj);

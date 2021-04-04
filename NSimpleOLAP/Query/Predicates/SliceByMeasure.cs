@@ -15,7 +15,6 @@ namespace NSimpleOLAP.Query.Predicates
     private T _measure;
     private LogicalOperators _operator;
     private object _value;
-    private DataValueType _dataValueType;
     private Type _measureType;
 
     public SliceByMeasure(T measureKey, Type measureType,
@@ -37,9 +36,9 @@ namespace NSimpleOLAP.Query.Predicates
       get { return _operator; }
     }
 
-    public DataValueType DataValueType
+    public Type MeasureType
     {
-      get { return _dataValueType; }
+      get { return _measureType; }
     }
 
     public object Value
@@ -105,6 +104,11 @@ namespace NSimpleOLAP.Query.Predicates
         ^ _value.GetHashCode();
 
       return result;
+    }
+
+    public IEnumerable<Tuple<LogicalOperators, KeyValuePair<T, T>[]>> ExtractFilterDimensionality()
+    {
+      yield break;
     }
   }
 }
