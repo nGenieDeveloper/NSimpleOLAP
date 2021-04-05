@@ -36,9 +36,7 @@ namespace NSimpleOLAP.Query.Predicates
 
     public override int GetHashCode()
     {
-      var result = 0;
-
-      return result;
+      return 0;
     }
 
     public IEnumerable<Tuple<LogicalOperators, KeyValuePair<T, T>[]>> ExtractFilterDimensionality()

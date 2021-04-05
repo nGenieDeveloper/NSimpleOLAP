@@ -27,6 +27,36 @@ namespace NSimpleOLAP.Query.Molap
 
     public IEnumerable<Cell<T>> Run(Query<T> query)
     {
+      if (query.PredicateTree.FiltersOnFacts())
+      {
+        var id = CreateNewOrReuseAggregation(query);
+
+        return GetCells(id, query);
+      }
+
+      return GetCells(query);
+    }
+
+    private T CreateNewOrReuseAggregation(Query<T> query)
+    {
+      var tuples = query.Axis.UnionAxis.ToArray();
+      T cubeId;
+
+      if (!_cube.Storage.AggregationExists(tuples, query.PredicateTree))
+        cubeId = _cube.Storage.CreateAggregation(tuples, query.PredicateTree);
+      else
+        cubeId = _cube.Storage.GetAggregationId(tuples, query.PredicateTree);
+
+      return cubeId;
+    }
+
+    private IEnumerable<Cell<T>> GetCells(T aggregationId, Query<T> query)
+    {
+      throw new NotImplementedException();
+    }
+
+    private IEnumerable<Cell<T>> GetCells(Query<T> query)
+    {
       throw new NotImplementedException();
     }
   }

@@ -74,6 +74,11 @@ namespace NSimpleOLAP.Storage.Molap
       return _aggregationGraphs[key].PredicateKey == predicateKey;
     }
 
+    public T GetAggregationKey(KeyValuePair<T, T>[] pairs)
+    {
+      return _keyHandler.GetKey(pairs);
+    }
+
     public void RemoveAggregation(KeyValuePair<T, T>[] pairs)
     {
       var key = _keyHandler.GetKey(pairs);

@@ -170,6 +170,14 @@ namespace NSimpleOLAP.Storage.Molap
       return _onDemandAggregations.AggregationHasFilter(axisPairs, predicateRoot.GetHashCode());
     }
 
+    public T GetAggregationId(KeyValuePair<T, T>[] axisPairs, IPredicate<T> predicateRoot)
+    {
+      if (predicateRoot == null || predicateRoot.GetHashCode() == 0)
+        return default(T);
+
+      return _onDemandAggregations.GetAggregationKey(axisPairs);
+    }
+
     public void PopulateNewAggregation(T key, IPredicate<T> predicateRoot)
     {
       var graph = _onDemandAggregations[key];
