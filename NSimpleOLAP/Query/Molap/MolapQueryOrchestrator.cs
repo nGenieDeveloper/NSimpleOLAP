@@ -15,20 +15,17 @@ using NSimpleOLAP.Storage.Molap;
 
 namespace NSimpleOLAP.Query.Molap
 {
-  public class MolapQueryOrchestrator<T, U> : IQueryOrchestrator<T, U>
+  internal class MolapQueryOrchestrator<T> : IQueryOrchestrator<T, Cell<T>>
     where T : struct, IComparable
-    where U : class, ICell<T>
   {
-    private MolapStorage<T, U> _storage;
+    private Cube<T> _cube;
 
-    MolapQueryOrchestrator(MolapStorage<T, U> storage)
+    public MolapQueryOrchestrator(Cube<T> cube)
     {
-      _storage = storage;
-
-      
+      _cube = cube;
     }
 
-    public IEnumerable<U> Run(Query<T> query)
+    public IEnumerable<Cell<T>> Run(Query<T> query)
     {
       throw new NotImplementedException();
     }

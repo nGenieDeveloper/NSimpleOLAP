@@ -157,6 +157,7 @@
     <Compile Include="Query\Builder\BlockPredicateBuilder.cs" />
     <Compile Include="Query\Builder\DimensionSlicerBuilder.cs" />
     <Compile Include="Query\Builder\PredicateBuilderExtensions.cs" />
+    <Compile Include="Query\Interfaces\IQuery.cs" />
     <Compile Include="Query\Interfaces\IQueryOrchestrator.cs" />
     <Compile Include="Query\Interfaces\IPredicate.cs" />
     <Compile Include="Query\Interfaces\IPredicateBuilder.cs" />

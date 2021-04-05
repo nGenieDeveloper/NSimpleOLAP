@@ -1,6 +1,7 @@
 ﻿using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Query.Molap;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -117,7 +118,7 @@ namespace NSimpleOLAP.Query.Builder
 
     public Query<T> Create()
     {
-      return new QueryImplementation(_innerCube, _axisBuilder.Build(), _wherebuilder.Build());
+      return new QueryImplementation(_innerCube, _axisBuilder.Build(), _measureKeys, _wherebuilder.Build());
     }
 
     #endregion fluent interface
@@ -126,11 +127,13 @@ namespace NSimpleOLAP.Query.Builder
 
     private class QueryImplementation : Query<T>
     {
-      public QueryImplementation(Cube<T> cube, Axis<T> axis, IPredicate<T> predicateTree)
+      public QueryImplementation(Cube<T> cube, Axis<T> axis, List<T> measures,IPredicate<T> predicateTree)
       {
         this.cube = cube;
         this.axis = axis;
+        this.measures = measures;
         this.predicates = predicateTree;
+        this.queryOrchestrator = new MolapQueryOrchestrator<T>(this.cube);
       }
     }
 

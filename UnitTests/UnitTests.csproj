@@ -66,6 +66,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuildTests.cs" />
+    <Compile Include="QueryExecutionTests.cs" />
     <Compile Include="ReadDataSourceTests.cs" />
     <Compile Include="SchemaTranslatorsTests.cs" />
   </ItemGroup>

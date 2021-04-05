@@ -1,14 +1,13 @@
 ﻿using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NSimpleOLAP.Query
 {
   /// <summary>
   /// Description of Query.
   /// </summary>
-  public abstract class Query<T>
+  public abstract class Query<T> : IQuery<T, Cell<T>>
     where T : struct, IComparable
   {
     protected Axis<T> axis;
@@ -16,6 +15,18 @@ namespace NSimpleOLAP.Query
     protected IPredicate<T> predicates;
 
     protected Cube<T> cube;
+
+    protected List<T> measures;
+
+    protected IQueryOrchestrator<T, Cell<T>> queryOrchestrator;
+
+    protected IQueryOrchestrator<T, Cell<T>> Orchestrator
+    {
+      get
+      {
+        return queryOrchestrator;
+      }
+    }
 
     internal Cube<T> Cube
     {
@@ -27,6 +38,11 @@ namespace NSimpleOLAP.Query
       get { return axis; }
     }
 
+    internal List<T> Measures
+    {
+      get { return measures; }
+    }
+
     internal IPredicate<T> PredicateTree
     {
       get { return predicates; }
@@ -34,7 +50,7 @@ namespace NSimpleOLAP.Query
 
     public IEnumerable<Cell<T>> Run()
     {
-      return null;
+      return Orchestrator.Run(this);
     }
   }
 }

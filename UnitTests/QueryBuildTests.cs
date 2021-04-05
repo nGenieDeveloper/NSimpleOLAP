@@ -219,5 +219,47 @@ namespace UnitTests
 
       Assert.IsNotNull(result);
     }
+
+    [Test]
+    public void QueryBuilder_With_Where_Create_2_Test()
+    {
+      var query = cube.BuildQuery()
+        .OnRows("sex.male", "sex.female")
+        .OnColumns("category.shoes")
+        .AddMeasures("quantity")
+        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
+
+      var result = query.Create();
+
+      Assert.IsNotNull(result);
+    }
+
+    [Test]
+    public void QueryBuilder_With_Where_Create_3_Test()
+    {
+      var query = cube.BuildQuery()
+        .OnRows("sex.male", "sex.female")
+        .OnColumns("category.shoes", "category.toys")
+        .AddMeasures("quantity")
+        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
+
+      var result = query.Create();
+
+      Assert.IsNotNull(result);
+    }
+
+    [Test]
+    public void QueryBuilder_With_Where_Create_4_Test()
+    {
+      var query = cube.BuildQuery()
+        .OnRows("sex.male", "sex.female")
+        .OnColumns("category.shoes", "category.toys")
+        .AddMeasures("quantity", "spent")
+        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
+
+      var result = query.Create();
+
+      Assert.IsNotNull(result);
+    }
   }
 }
