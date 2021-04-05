@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NSimpleOLAP.Storage.Molap
 
 {
-  internal class MolapAggregationsStorage<T, U>
+  internal class MolapAggregationsStorage<T, U> : IDisposable
     where T : struct, IComparable
     where U : class, ICell<T>
   {
@@ -99,6 +99,14 @@ namespace NSimpleOLAP.Storage.Molap
       var result = Parallel.ForEach(_aggregationGraphs, options, x => x.Value.Dispose());
 
       _aggregationGraphs.Clear();
+    }
+
+    public void Dispose()
+    {
+      if (_aggregationGraphs.Count > 0)
+        Clear();
+
+      _aggregationGraphs.Dispose();
     }
   }
 }

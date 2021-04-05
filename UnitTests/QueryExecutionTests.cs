@@ -27,7 +27,11 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource((sourcebuild) => sourcebuild.SetSource("sales"))
+        .SetSource(
+          (sourcebuild) => sourcebuild.SetSource("sales")
+            .AddMapping("category", "category")
+            .AddMapping("sex", "sex")
+        )
         .AddDataSource(dsbuild =>
         {
           dsbuild.SetName("sales")
@@ -105,17 +109,17 @@ namespace UnitTests
     }
 
     [Test]
-    public void QueryBuilder_With_Where_Create_Test()
+    public void Query_Run_With_Single_Cell_Test()
     {
       var queryBuilder = cube.BuildQuery()
-        .OnRows("sex.male")
+        .OnRows("sex.female")
         .OnColumns("category.shoes")
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
       var result = query.Run().ToList();
 
-      Assert.IsTrue(result.Count > 0);
+      Assert.IsTrue(result.Count == 1);
     }
   }
 }

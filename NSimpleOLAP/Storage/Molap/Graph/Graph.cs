@@ -176,10 +176,11 @@ namespace NSimpleOLAP.Storage.Molap.Graph
     private CoordsCase CoordsType(KeyValuePair<T, T>[] coords)
     {
       KeyValuePair<T, T>[] bcoords = Array.FindAll(coords, x => x.Value.Equals(default(T)));
+      KeyValuePair<T, T>[] bcoordsAll = Array.FindAll(bcoords, x => x.Value.Equals(default(T)) && x.Key.Equals(default(T)));
 
       if (coords.Length == bcoords.Length)
         return CoordsCase.ALL;
-      else if (bcoords.Length > 0)
+      else if (bcoordsAll.Length > 0)
         return CoordsCase.PointAll;
       else
         return CoordsCase.Point;

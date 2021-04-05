@@ -81,7 +81,10 @@ namespace NSimpleOLAP.Query
 
     private IEnumerable<KeyValuePair<T, T>> GetAllUniquePairs()
     {
-      var query = GetAllPairs().Distinct().OrderBy(x => x);
+      var query = GetAllPairs()
+        .Where(x => !x.IsReservedValue())
+        .Distinct(new KeyEqualityComparer<T>())
+        .OrderBy(x => x, new KeyComparer<T>());
 
       foreach (var item in query)
         yield return item;

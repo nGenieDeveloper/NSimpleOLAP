@@ -149,7 +149,7 @@ namespace NSimpleOLAP.Storage.Molap
     public void Dispose()
     {
       _globalGraph.Dispose();
-
+      _onDemandAggregations.Dispose();
       NameSpace.Dispose();
       _factsCache.Dispose();
     }

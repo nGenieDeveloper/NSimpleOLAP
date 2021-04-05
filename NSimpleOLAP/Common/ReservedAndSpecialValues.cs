@@ -17,6 +17,7 @@ namespace NSimpleOLAP.Common
     private static KeyValuePair<UInt64, UInt64> All_ULong = new KeyValuePair<UInt64, UInt64>(0, 0);
 
     public static KeyValuePair<T, T> GetAllValue<T>()
+      where T : struct, IComparable
     {
       var value = default(T);
 
@@ -37,6 +38,14 @@ namespace NSimpleOLAP.Common
         default:
           throw new Exception("Type is not supported.");
       }
+    }
+
+    public static bool IsReservedValue<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      var all = GetAllValue<T>();
+
+      return all.Key.Equals(value.Key) && value.Value.Equals(all.Value);
     }
   }
 }

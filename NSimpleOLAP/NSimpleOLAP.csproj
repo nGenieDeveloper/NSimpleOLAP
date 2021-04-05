@@ -94,6 +94,7 @@
     <Compile Include="Common\IntIdentityKey.cs" />
     <Compile Include="Common\Hashing\KeyStreamer.cs" />
     <Compile Include="Common\Hashing\MurmurHash2.cs" />
+    <Compile Include="Common\KeyEqualityComparer.cs" />
     <Compile Include="Common\ReservedAndSpecialValues.cs" />
     <Compile Include="Configuration\CSVConfig.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />

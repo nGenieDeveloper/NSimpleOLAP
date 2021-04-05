@@ -57,7 +57,12 @@ namespace NSimpleOLAP.Query.Molap
 
     private IEnumerable<Cell<T>> GetCells(Query<T> query)
     {
-      throw new NotImplementedException();
+      var tuples = query.Axis.UnionAxis.ToArray();
+
+      var cells = _cube.Storage.GetCells(tuples);
+
+      foreach (var cell in cells)
+        yield return cell;
     }
   }
 }
