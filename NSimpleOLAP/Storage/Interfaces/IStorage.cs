@@ -18,10 +18,10 @@ namespace NSimpleOLAP.Storage.Interfaces
 		where T: struct, IComparable
 		where U: class
 	{
-		IEnumerable<U> GetCells(KeyValuePair<T,T>[] pairs);
+		IEnumerable<U> GetCells(KeyTuplePairs<T> pairs);
 		U GetCell(KeyValuePair<T,T>[] pairs);
 
-		IEnumerable<U> GetCells(T key, KeyValuePair<T, T>[] pairs);
+		IEnumerable<U> GetCells(T key, KeyTuplePairs<T> pairs);
 		U GetCell(T key, KeyValuePair<T, T>[] pairs);
 
 		IEnumerable<U> CellEnumerator();

@@ -162,6 +162,7 @@
     <Compile Include="Query\Interfaces\IQueryOrchestrator.cs" />
     <Compile Include="Query\Interfaces\IPredicate.cs" />
     <Compile Include="Query\Interfaces\IPredicateBuilder.cs" />
+    <Compile Include="Common\KeyTuplePairs.cs" />
     <Compile Include="Query\MeasureReferenceTranslator.cs" />
     <Compile Include="Query\Builder\MeasureSlicerBuilder.cs" />
     <Compile Include="Query\Molap\MolapQueryOrchestrator.cs" />

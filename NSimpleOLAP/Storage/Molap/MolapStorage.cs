@@ -77,9 +77,9 @@ namespace NSimpleOLAP.Storage.Molap
 
     #region IStorage<T,U> implementation
 
-    public IEnumerable<U> GetCells(KeyValuePair<T, T>[] pairs)
+    public IEnumerable<U> GetCells(KeyTuplePairs<T> pairs)
     {
-      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
+      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs.AnchorTuple);
 
       foreach (var item in _globalGraph.GetNodes(cpairs))
         yield return item.Container;
@@ -102,11 +102,11 @@ namespace NSimpleOLAP.Storage.Molap
         return null;
     }
 
-    public IEnumerable<U> GetCells(T key, KeyValuePair<T, T>[] pairs)
+    public IEnumerable<U> GetCells(T key, KeyTuplePairs<T> pairs)
     {
       var graph = _onDemandAggregations[key];
 
-      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs);
+      KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs.AnchorTuple);
 
       foreach (var item in graph.GetNodes(cpairs))
         yield return item.Container;

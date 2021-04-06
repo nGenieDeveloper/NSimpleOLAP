@@ -52,17 +52,28 @@ namespace NSimpleOLAP.Query.Molap
 
     private IEnumerable<Cell<T>> GetCells(T aggregationId, Query<T> query)
     {
-      throw new NotImplementedException();
+      var tuples = query.Axis.UnionAxisTuples;
+
+      foreach (var tuple in tuples)
+      {
+        var cells = _cube.Storage.GetCells(aggregationId, tuple);
+
+        foreach (var cell in cells)
+          yield return cell;
+      }
     }
 
     private IEnumerable<Cell<T>> GetCells(Query<T> query)
     {
-      var tuples = query.Axis.UnionAxis.ToArray();
+      var tuples = query.Axis.UnionAxisTuples;
 
-      var cells = _cube.Storage.GetCells(tuples);
+      foreach (var tuple in tuples)
+      {
+        var cells = _cube.Storage.GetCells(tuple);
 
-      foreach (var cell in cells)
-        yield return cell;
+        foreach (var cell in cells)
+          yield return cell;
+      }
     }
   }
 }

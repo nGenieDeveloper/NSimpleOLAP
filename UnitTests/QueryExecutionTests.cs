@@ -121,5 +121,19 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 1);
     }
+
+    [Test]
+    public void Query_Run_With_2_Cells_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("sex.female", "sex.male")
+        .OnColumns("category.shoes")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.Run().ToList();
+
+      Assert.IsTrue(result.Count == 2);
+    }
   }
 }

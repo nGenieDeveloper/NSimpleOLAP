@@ -44,6 +44,11 @@ namespace NSimpleOLAP.Query
       get { return GetAllUniquePairs(); }
     }
 
+    public IEnumerable<KeyTuplePairs<T>> UnionAxisTuples
+    {
+      get { return GetAllUniquePairs(GetTuplePairs()); }
+    }
+
     #endregion props
 
     #region public methods
@@ -90,6 +95,34 @@ namespace NSimpleOLAP.Query
         yield return item;
     }
 
+    private IEnumerable<KeyTuplePairs<T>> GetAllUniquePairs(IEnumerable<KeyValuePair<T, T>[]> tuples)
+    {
+      foreach (var item in tuples)
+      {
+        var query = item
+        .Where(x => !x.IsReservedValue())
+        .Distinct(new KeyEqualityComparer<T>())
+        .OrderBy(x => x, new KeyComparer<T>());
+        var selectors = item
+          .Select((x, index) => new { Pair = x, Index = index })
+          .Where(x => x.Pair.IsReservedValue())
+          .ToArray();
+        var list = query.ToList();
+        var anchor = list.ToArray();
+
+        foreach (var selector in selectors)
+        {
+          var value = item[selector.Index - 1];
+          var index = list
+            .FindIndex(x => value.Key.Equals(x.Key) && value.Value.Equals(x.Value));
+
+          list.Insert(index + 1, selector.Pair);
+        }
+
+        yield return new KeyTuplePairs<T>(anchor, list.ToArray());
+      }
+    }
+
     private IEnumerable<KeyValuePair<T, T>> GetAllPairs()
     {
       foreach (var item in _rowsAxis)
@@ -102,6 +135,22 @@ namespace NSimpleOLAP.Query
       {
         foreach (var pair in item)
           yield return pair;
+      }
+    }
+
+    private IEnumerable<KeyValuePair<T, T>[]> GetTuplePairs()
+    {
+      foreach (var col in _columnsAxis)
+      {
+        foreach (var row in _rowsAxis)
+        {
+          var result = new KeyValuePair<T, T>[col.Length + row.Length];
+
+          col.CopyTo(result, 0);
+          row.CopyTo(result, col.Length);
+
+          yield return result;
+        }
       }
     }
 
