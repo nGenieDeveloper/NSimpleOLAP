@@ -1,7 +1,9 @@
 ﻿using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Interfaces;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace NSimpleOLAP.Storage.Molap.Graph
@@ -50,9 +52,9 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       CreateNodes(coords, this.Root, null, 0, vardata);
     }
 
-    public IEnumerable<Node<T, U>> GetNodes(KeyValuePair<T, T>[] coords)
+    public IEnumerable<Node<T, U>> GetNodes(KeyValuePair<T, T>[] coords, KeyTuplePairs<T> selectors)
     {
-      CoordsCase coordstype = CoordsType(coords);
+      CoordsCase coordstype = CoordsType(coords, selectors);
       IEnumerable<Node<T, U>> nodes = null;
 
       switch (coordstype)
@@ -62,7 +64,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
           break;
 
         case CoordsCase.PointAll:
-          nodes = GetPointAllNodes(coords);
+          nodes = GetPointAllNodes(coords, selectors);
           break;
 
         case CoordsCase.ALL:
@@ -97,30 +99,36 @@ namespace NSimpleOLAP.Storage.Molap.Graph
     {
       Node<T, U> currnode = this.Root.GetNode(GetHashPoints(coords));
 
-      if (currnode == null)
-        yield break;
-
-      yield return currnode;
+      if (currnode != null)
+        yield return currnode;
     }
 
-    private IEnumerable<Node<T, U>> GetPointAllNodes(KeyValuePair<T, T>[] coords)
+    private IEnumerable<Node<T, U>> GetPointAllNodes(KeyValuePair<T, T>[] coords, KeyTuplePairs<T> selectors)
     {
-      Node<T, U> currnode = this.Root;
-      List<KeyValuePair<T, T>> pairs = new List<KeyValuePair<T, T>>();
-      KeyValuePair<T, T>[] scoords = Array.FindAll(coords, x => !x.Value.Equals(default(T)));
+      KeyValuePair<T, T>[] scoords = Array.FindAll(selectors.SelectorTuple, x => x.Value.Equals(default(T)));
 
-      foreach (var coord in coords)
-        pairs.Add(new KeyValuePair<T, T>(coord.Key, default(T)));
+      var selcoords = selectors.SelectorTuple
+        .Select(x => new { Selector = selectors.GetSelector(x), Val = x })
+        .Where(x => x.Selector.HasValue)
+        .ToArray();
 
-      currnode = currnode.GetNode(GetHashPoints(pairs.ToArray()));
-
-      if (currnode == null)
-        yield break;
-
-      foreach (var item in currnode.Adjacent)
+      foreach (var sel in selcoords)
       {
-        if (!item.IsRootDim && FilterNode(item, scoords))
-          yield return item;
+        var index = Array.FindIndex(coords, x => sel.Val.Key.Equals(x.Key) && sel.Val.Value.Equals(x.Value));
+        var ncoords = coords.ToList();
+
+        ncoords.RemoveRange(index, ncoords.Count - index);
+
+        var currnode = this.Root.GetNode(GetHashPoints(ncoords.ToArray()));
+
+        if (currnode != null)
+        {
+          foreach (var item in currnode.Adjacent)
+          {
+            if (!item.IsRootDim && FilterNode(item, scoords))
+              yield return item;
+          }
+        }
       }
     }
 
@@ -129,12 +137,12 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       Node<T, U> currnode = this.Root.GetNode(GetHashPoints(coords));
 
       if (currnode == null)
-        yield break;
-
-      foreach (var item in currnode.Adjacent)
       {
-        if (!item.IsRootDim)
-          yield return item;
+        foreach (var item in currnode.Adjacent)
+        {
+          if (!item.IsRootDim)
+            yield return item;
+        }
       }
     }
 
@@ -144,7 +152,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
       foreach (var item in scoords)
       {
-        int val = Array.BinarySearch<KeyValuePair<T, T>>(node.Coords, item);
+        int val = Array.BinarySearch<KeyValuePair<T, T>>(node.Coords, item, new KeyComparer<T>()); //aki mudar o keycomparer
 
         if (val < 0)
         {
@@ -173,17 +181,16 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       return hslist.ToArray();
     }
 
-    private CoordsCase CoordsType(KeyValuePair<T, T>[] coords)
+    private CoordsCase CoordsType(KeyValuePair<T, T>[] coords, KeyTuplePairs<T> selectors)
     {
       KeyValuePair<T, T>[] bcoords = Array.FindAll(coords, x => x.Value.Equals(default(T)));
-      KeyValuePair<T, T>[] bcoordsAll = Array.FindAll(bcoords, x => x.Value.Equals(default(T)) && x.Key.Equals(default(T)));
 
-      if (coords.Length == bcoords.Length)
-        return CoordsCase.ALL;
-      else if (bcoordsAll.Length > 0)
+      if (!selectors.HasSelectors)
+        return CoordsCase.Point;
+      else if (selectors.HasSelectors && bcoords.Length > selectors.SelectorCount())
         return CoordsCase.PointAll;
       else
-        return CoordsCase.Point;
+        return CoordsCase.ALL;
     }
 
     private void CreateNodes(KeyValuePair<T, T>[] coords, Node<T, U> rootnode, Node<T, U> connode, int index, MeasureValuesCollection<T> vardata)

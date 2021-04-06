@@ -109,7 +109,7 @@ namespace NSimpleOLAP.Query
           .ToArray();
         var list = query.ToList();
         var anchor = list.ToArray();
-
+        // to do optimize this
         foreach (var selector in selectors)
         {
           var value = item[selector.Index - 1];

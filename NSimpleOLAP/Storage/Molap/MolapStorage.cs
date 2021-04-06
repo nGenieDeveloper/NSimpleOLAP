@@ -81,7 +81,7 @@ namespace NSimpleOLAP.Storage.Molap
     {
       KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs.AnchorTuple);
 
-      foreach (var item in _globalGraph.GetNodes(cpairs))
+      foreach (var item in _globalGraph.GetNodes(cpairs, pairs))
         yield return item.Container;
     }
 
@@ -108,7 +108,7 @@ namespace NSimpleOLAP.Storage.Molap
 
       KeyValuePair<T, T>[] cpairs = _canonicFormater.Format(pairs.AnchorTuple);
 
-      foreach (var item in graph.GetNodes(cpairs))
+      foreach (var item in graph.GetNodes(cpairs, pairs))
         yield return item.Container;
     }
     public U GetCell(T key, KeyValuePair<T, T>[] pairs)
