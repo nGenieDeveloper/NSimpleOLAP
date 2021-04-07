@@ -31,4 +31,15 @@ namespace NSimpleOLAP.Common
       return x.Value.CompareTo(y.Value);
     }
   }
+
+  internal class AllKeyComparer<T> : IComparer<KeyValuePair<T, T>>
+    where T : struct, IComparable
+  {
+    public int Compare(KeyValuePair<T, T> x, KeyValuePair<T, T> y)
+    {
+      var keyCompare = x.Key.CompareTo(y.Key);
+
+      return keyCompare;
+    }
+  }
 }

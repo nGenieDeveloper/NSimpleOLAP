@@ -121,7 +121,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
         var currnode = this.Root.GetNode(GetHashPoints(ncoords.ToArray()));
 
-        if (currnode != null)
+        if (currnode != null) // needs to be recursive to do
         {
           foreach (var item in currnode.Adjacent)
           {
@@ -152,7 +152,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
       foreach (var item in scoords)
       {
-        int val = Array.BinarySearch<KeyValuePair<T, T>>(node.Coords, item, new KeyComparer<T>()); //aki mudar o keycomparer
+        int val = Array.BinarySearch<KeyValuePair<T, T>>(node.Coords, item, new AllKeyComparer<T>()); //aki mudar o keycomparer
 
         if (val < 0)
         {
