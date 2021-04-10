@@ -117,5 +117,11 @@ namespace NSimpleOLAP.Common
         || value.Key.Equals(values[1].Key) && value.Value.Equals(values[1].Value)
         || value.Key.Equals(values[2].Key) && value.Value.Equals(values[2].Value);
     }
+
+    public static bool IsAll<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      return value.Equals(GetAllValue<T>());
+    }
   }
 }

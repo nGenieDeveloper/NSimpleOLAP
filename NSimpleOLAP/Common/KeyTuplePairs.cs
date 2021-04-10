@@ -12,6 +12,7 @@ namespace NSimpleOLAP.Common
     {
       AnchorTuple = anchor;
       SelectorTuple = selector;
+      Selectors = GetSelectorPairs().ToArray();
 
       _sameValue = anchor.Length == selector.Length;
     }
@@ -28,6 +29,8 @@ namespace NSimpleOLAP.Common
 
     public KeyValuePair<T, T>[] SelectorTuple { get; private set; }
 
+    public Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>[] Selectors { get; private set; }
+
     public KeyValuePair<T, T>? GetSelector(KeyValuePair<T, T> value)
     {
       var query = SelectorTuple.ToList();
@@ -43,6 +46,21 @@ namespace NSimpleOLAP.Common
       }
 
       return null;
+    }
+
+    private IEnumerable<Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>> GetSelectorPairs()
+    {
+      var list = SelectorTuple.
+        Select((x,i) => new { Tup = x, Index = i, IsSelector = x.IsReservedValue() })
+        .ToList();
+     
+      foreach (var item in list)
+      {
+        if (item.IsSelector)
+        {
+          yield return new Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>(list[item.Index-1].Tup, item.Tup);
+        }
+      }
     }
 
     public int SelectorCount()
