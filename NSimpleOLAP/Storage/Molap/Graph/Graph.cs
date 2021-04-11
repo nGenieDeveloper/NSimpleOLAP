@@ -1,10 +1,10 @@
-﻿using NSimpleOLAP.Configuration;
+﻿using NSimpleOLAP.Common;
+using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
-using NSimpleOLAP.Common;
 using NSimpleOLAP.Interfaces;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NSimpleOLAP.Storage.Molap.Graph
 {
@@ -20,6 +20,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
     private MolapKeyHandler<T> _keyHandler;
     private MolapCellValuesHelper<T, U> _cellValueHelper;
     private int _predicateKey;
+    private AllKeyComparer<T> _allKeyComparer;
 
     public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper)
     {
@@ -27,9 +28,10 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       _cellValueHelper = cellValueHelper;
       _keyHandler = new MolapKeyHandler<T>(config.MolapConfig);
       this.Root.Key = _keyHandler.GetKey(this.Root.Coords);
+      _allKeyComparer = new AllKeyComparer<T>();
     }
 
-    public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper, int predicateKey): this(root, config, cellValueHelper)
+    public Graph(T root, StorageConfig config, MolapCellValuesHelper<T, U> cellValueHelper, int predicateKey) : this(root, config, cellValueHelper)
     {
       _predicateKey = predicateKey;
     }
@@ -105,30 +107,99 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
     private IEnumerable<Node<T, U>> GetPointAllNodes(KeyValuePair<T, T>[] coords, KeyTuplePairs<T> selectors)
     {
-      KeyValuePair<T, T>[] scoords = Array.FindAll(selectors.SelectorTuple, x => x.Value.Equals(default(T)));
+      var selectorList = selectors.Selectors;
 
-      var selcoords = selectors.SelectorTuple
-        .Select(x => new { Selector = selectors.GetSelector(x), Val = x })
-        .Where(x => x.Selector.HasValue)
-        .ToArray();
-
-      foreach (var sel in selcoords)
+      if (selectorList.Length > 0)
       {
-        var index = Array.FindIndex(coords, x => sel.Val.Key.Equals(x.Key) && sel.Val.Value.Equals(x.Value));
-        var ncoords = coords.ToList();
+        var ncoords = new KeyValuePair<T, T>[] { };
 
-        ncoords.RemoveRange(index, ncoords.Count - index);
+        foreach (var item in TravelNodes(this.Root, coords, 0, selectors, 0))
+          yield return item;
+      }
+    }
 
-        var currnode = this.Root.GetNode(GetHashPoints(ncoords.ToArray()));
+    private Node<T, U> FilterNodesShallow(Node<T, U> node, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>> selector, KeyValuePair<T, T>[] coords, int coordsLastIndex)
+    {
+      if (!node.IsRootDim && FilterNode(node, new[] { selector.Item1 }))
+        return node;
 
-        if (currnode != null) // needs to be recursive to do
+      return null;
+    }
+
+    private Node<T, U> FilterNodesExtend(Node<T, U> node, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>> selector, KeyValuePair<T, T>[] coords, int coordsLastIndex)
+    {
+      if (!node.IsRootDim && FilterNode(node, new[] { selector.Item1 }))
+      {
+        var xcoords = new KeyValuePair<T, T>[coords.Length];
+
+        Array.Copy(coords, xcoords, coords.Length);
+        xcoords[coordsLastIndex + 1] = node.Coords[node.Coords.Length - 1];
+
+        var xnode = node.GetNode(GetHashPoints(xcoords));
+
+        if (xnode != null)
+          return xnode;
+      }
+
+      return null;
+    }
+
+    private IEnumerable<Node<T, U>> GetLeafNodes(Node<T, U> node, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>> selector, KeyValuePair<T, T>[] coords, int coordsLastIndex)
+    {
+      if (selector.Item2.IsAll())
+      {
+        Func<Node<T, U>, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>, KeyValuePair<T, T>[],int, Node<T, U>> functor = FilterNodesExtend;
+
+        if (coords.Length == coordsLastIndex + 1)
+          functor = FilterNodesShallow;
+
+        foreach (var item in node.Adjacent)
         {
-          foreach (var item in currnode.Adjacent)
+          if (!item.IsRootDim && FilterNode(item, new[] { selector.Item1 }))
           {
-            if (!item.IsRootDim && FilterNode(item, scoords))
-              yield return item;
+            var xnode = functor(item, selector, coords, coordsLastIndex);
+
+            if (xnode != null)
+              yield return xnode;
           }
         }
+      }
+    }
+
+    private IEnumerable<Node<T, U>> TravelNodes(Node<T, U> node, KeyValuePair<T, T>[] coords, int coordsLastIndex, KeyTuplePairs<T> selectors, int selectorIndex)
+    {
+      var currSelector = selectors.Selectors[selectorIndex];
+      var index = Array.FindIndex(coords, x => currSelector.Item1.Key.Equals(x.Key)
+          && currSelector.Item1.Value.Equals(x.Value));
+      var ncoords = new KeyValuePair<T, T>[index];
+      
+      Array.Copy(coords, ncoords, index);
+
+      var nxnode = node.GetNode(GetHashPoints(ncoords));
+
+      if (selectors.Selectors.Length < selectorIndex + 1)
+      {
+        if (currSelector.Item2.IsAll())
+        {
+          foreach (var item in node.Adjacent)
+          {
+            if (!item.IsRootDim && FilterNode(item, new[] { currSelector.Item1 }))
+            {
+              var xcoords = new KeyValuePair<T, T>[coords.Length];
+
+              Array.Copy(coords, xcoords, coords.Length);
+              xcoords[index + 1] = item.Coords[item.Coords.Length - 1];
+
+              foreach (var nxitem in TravelNodes(nxnode, xcoords, index, selectors, selectorIndex++))
+                yield return nxitem;
+            }
+          }
+        }
+      }
+      else
+      {
+        foreach (var item in GetLeafNodes(nxnode, currSelector, coords, index))
+          yield return item;
       }
     }
 
@@ -152,7 +223,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
       foreach (var item in scoords)
       {
-        int val = Array.BinarySearch<KeyValuePair<T, T>>(node.Coords, item, new AllKeyComparer<T>()); //aki mudar o keycomparer
+        int val = Array.BinarySearch(node.Coords, item, _allKeyComparer);
 
         if (val < 0)
         {

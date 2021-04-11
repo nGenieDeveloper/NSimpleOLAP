@@ -17,6 +17,8 @@ namespace NSimpleOLAP.Query
     private List<KeyValuePair<T, T>[]> _columnsAxis;
     private List<T> _rowHashes;
     private List<T> _columnHashes;
+    private KeyComparer<T> _keyComparer;
+    private KeyEqualityComparer<T> _keyEqualityComparer;
 
     public Axis(MolapHashTypes hashingtype)
     {
@@ -25,6 +27,8 @@ namespace NSimpleOLAP.Query
       _rowHashes = new List<T>();
       _columnHashes = new List<T>();
       _hasher = Hasher<T>.Create(hashingtype);
+      _keyComparer = new KeyComparer<T>();
+      _keyEqualityComparer = new KeyEqualityComparer<T>();
     }
 
     #region props
@@ -81,15 +85,15 @@ namespace NSimpleOLAP.Query
 
     private bool ContainsDimension(KeyValuePair<T, T>[] tuples)
     {
-      return tuples.Any(x => IsDimention(x));
+      return tuples.Any(x => IsDimension(x));
     }
 
     private IEnumerable<KeyValuePair<T, T>> GetAllUniquePairs()
     {
       var query = GetAllPairs()
         .Where(x => !x.IsReservedValue())
-        .Distinct(new KeyEqualityComparer<T>())
-        .OrderBy(x => x, new KeyComparer<T>());
+        .Distinct(_keyEqualityComparer)
+        .OrderBy(x => x, _keyComparer);
 
       foreach (var item in query)
         yield return item;
@@ -101,8 +105,8 @@ namespace NSimpleOLAP.Query
       {
         var query = item
         .Where(x => !x.IsReservedValue())
-        .Distinct(new KeyEqualityComparer<T>())
-        .OrderBy(x => x, new KeyComparer<T>());
+        .Distinct(_keyEqualityComparer)
+        .OrderBy(x => x, _keyComparer);
         var selectors = item
           .Select((x, index) => new { Pair = x, Index = index })
           .Where(x => x.Pair.IsReservedValue())
@@ -154,7 +158,7 @@ namespace NSimpleOLAP.Query
       }
     }
 
-    private bool IsDimention(KeyValuePair<T, T> dim)
+    private bool IsDimension(KeyValuePair<T, T> dim)
     {
       var dvalue = default(T);
 
