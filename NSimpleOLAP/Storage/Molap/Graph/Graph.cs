@@ -130,12 +130,21 @@ namespace NSimpleOLAP.Storage.Molap.Graph
     {
       if (!node.IsRootDim && FilterNode(node, new[] { selector.Item1 }))
       {
-        var xcoords = new KeyValuePair<T, T>[coords.Length];
+        var xcoords = coordsLastIndex != 0 ? new KeyValuePair<T, T>[coords.Length] : new KeyValuePair<T, T>[coords.Length + 1];
+        var index = node.Coords.Length-1;
 
-        Array.Copy(coords, xcoords, coords.Length);
-        xcoords[coordsLastIndex + 1] = node.Coords[node.Coords.Length - 1];
+        if (coordsLastIndex == 0)
+        {
+          Array.Copy(node.Coords,1, xcoords,0, node.Coords.Length -1);
+          Array.Copy(coords, 1, xcoords, node.Coords.Length - 1, xcoords.Length - (coords.Length-1));
+        }
+        else
+        {
+          Array.Copy(coords, xcoords, coords.Length);
+          xcoords[coordsLastIndex + 1] = node.Coords[node.Coords.Length - 1];
+        }
 
-        var xnode = node.GetNode(GetHashPoints(xcoords));
+        var xnode = node.GetNode(GetHashPoints(xcoords), index);
 
         if (xnode != null)
           return xnode;
@@ -155,13 +164,10 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
         foreach (var item in node.Adjacent)
         {
-          if (!item.IsRootDim && FilterNode(item, new[] { selector.Item1 }))
-          {
-            var xnode = functor(item, selector, coords, coordsLastIndex);
+          var xnode = functor(item, selector, coords, coordsLastIndex);
 
-            if (xnode != null)
-              yield return xnode;
-          }
+          if (xnode != null)
+            yield return xnode;
         }
       }
     }
@@ -171,13 +177,14 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       var currSelector = selectors.Selectors[selectorIndex];
       var index = Array.FindIndex(coords, x => currSelector.Item1.Key.Equals(x.Key)
           && currSelector.Item1.Value.Equals(x.Value));
-      var ncoords = new KeyValuePair<T, T>[index];
+      var length = index == 0 ? 1 : index;
+      var ncoords = new KeyValuePair<T, T>[length];
       
-      Array.Copy(coords, ncoords, index);
+      Array.Copy(coords, ncoords, length);
 
       var nxnode = node.GetNode(GetHashPoints(ncoords));
 
-      if (selectors.Selectors.Length < selectorIndex + 1)
+      if (selectors.Selectors.Length < selectorIndex)
       {
         if (currSelector.Item2.IsAll())
         {
@@ -261,7 +268,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       else if (selectors.HasSelectors && bcoords.Length > selectors.SelectorCount())
         return CoordsCase.PointAll;
       else
-        return CoordsCase.ALL;
+        return CoordsCase.PointAll; // redefine this todo
     }
 
     private void CreateNodes(KeyValuePair<T, T>[] coords, Node<T, U> rootnode, Node<T, U> connode, int index, MeasureValuesCollection<T> vardata)

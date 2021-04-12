@@ -127,7 +127,7 @@ namespace UnitTests
 
       var result = translator.Translate("quantity");
 
-      Assert.AreEqual(4, result);
+      Assert.AreEqual(5, result);
     }
 
     [Test]

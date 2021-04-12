@@ -24,7 +24,7 @@ namespace UnitTests
 
     public void Init()
     {
-      cube = CubeSourcesFixture.GetBasicCubeTwoDimensionsOneMeasure();
+      cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2();
       cube.Initialize();
       cube.Process();
     }
@@ -75,6 +75,20 @@ namespace UnitTests
       var result = query.Run().ToList();
 
       Assert.IsTrue(result.Count == 3);
+    }
+
+    [Test]
+    public void Query_Run_With_All_Cells_With_Extra_Dims_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("category.All.place.Paris")
+        .OnColumns("sex.male")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.Run().ToList();
+
+      Assert.IsTrue(result.Count == 2);
     }
   }
 }

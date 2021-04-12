@@ -67,7 +67,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 			return this.GetNode(coords, 0);
 		}
 		
-		private Node<T, U> GetNode(T[] coords, int index)
+		public Node<T, U> GetNode(T[] coords, int index)
 		{
 			Node<T, U> node = null;
 			T key = coords[index];
