@@ -33,6 +33,10 @@ namespace NSimpleOLAP.Schema
 				return _storage[name];
 			}
 		}
+
+		public abstract D Next(T key);
+
+		public abstract D Previous(T key);
 		
 		public int Count {
 			get {

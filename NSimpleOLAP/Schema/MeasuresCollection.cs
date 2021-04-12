@@ -17,5 +17,15 @@ namespace NSimpleOLAP.Schema
 			_storage = storage;
 			base.Init();
 		}
-	}
+
+    public override Measure<T> Next(T key)
+    {
+      throw new NotImplementedException();
+    }
+
+    public override Measure<T> Previous(T key)
+    {
+      throw new NotImplementedException();
+    }
+  }
 }

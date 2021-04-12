@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NSimpleOLAP.Schema;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -15,9 +16,9 @@ namespace NSimpleOLAP.Query.Builder
     private List<T> _filterDimensions;
     private DimensionReferenceTranslator<T> _dimensionTranslator;
 
-    public AxisBuilder(MolapHashTypes hashingtype, DimensionReferenceTranslator<T> dimensionTranslator)
+    public AxisBuilder(MolapHashTypes hashingtype, DimensionReferenceTranslator<T> dimensionTranslator, DataSchema<T> schema)
     {
-      _axis = new Axis<T>(hashingtype);
+      _axis = new Axis<T>(hashingtype, schema);
       _dimensionTranslator = dimensionTranslator;
       _filterDimensions = new List<T>();
     }

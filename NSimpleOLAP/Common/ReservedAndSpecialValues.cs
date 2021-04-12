@@ -118,10 +118,39 @@ namespace NSimpleOLAP.Common
         || value.Key.Equals(values[2].Key) && value.Value.Equals(values[2].Value);
     }
 
+    public static bool IsWildcard<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      var values = new[] { GetAllValue<T>() };
+
+      return value.Key.Equals(values[0].Key) && value.Value.Equals(values[0].Value);
+    }
+
+    public static bool IsPositionalHint<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      var values = new[] { GetNextMemberValue<T>(), GetPreviousValue<T>() };
+
+      return value.Key.Equals(values[0].Key) && value.Value.Equals(values[0].Value)
+        || value.Key.Equals(values[1].Key) && value.Value.Equals(values[1].Value);
+    }
+
     public static bool IsAll<T>(this KeyValuePair<T, T> value)
       where T : struct, IComparable
     {
       return value.Equals(GetAllValue<T>());
+    }
+
+    public static bool IsNext<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      return value.Equals(GetNextMemberValue<T>());
+    }
+
+    public static bool IsPrevious<T>(this KeyValuePair<T, T> value)
+      where T : struct, IComparable
+    {
+      return value.Equals(GetPreviousValue<T>());
     }
   }
 }

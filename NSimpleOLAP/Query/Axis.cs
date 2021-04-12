@@ -1,5 +1,6 @@
 ﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Hashing;
+using NSimpleOLAP.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,11 @@ namespace NSimpleOLAP.Query
     private List<T> _columnHashes;
     private KeyComparer<T> _keyComparer;
     private KeyEqualityComparer<T> _keyEqualityComparer;
+    private DataSchema<T> _schema;
 
-    public Axis(MolapHashTypes hashingtype)
+    public Axis(MolapHashTypes hashingtype, DataSchema<T> schema)
     {
+      _schema = schema;
       _rowsAxis = new List<KeyValuePair<T, T>[]>();
       _columnsAxis = new List<KeyValuePair<T, T>[]>();
       _rowHashes = new List<T>();
@@ -59,22 +62,32 @@ namespace NSimpleOLAP.Query
 
     public void AddRowTuples(params KeyValuePair<T, T>[] tuples)
     {
-      T hash = _hasher.HashTuples(tuples);
+      var rtuples = tuples;
+
+      if (tuples.Any(x => x.IsPositionalHint()))
+        rtuples = ReplacePositionalHints(tuples).ToArray();
+
+      T hash = _hasher.HashTuples(rtuples);
 
       if (!_rowHashes.Contains(hash))
       {
-        _rowsAxis.Add(tuples);
+        _rowsAxis.Add(rtuples);
         _rowHashes.Add(hash);
       }
     }
 
     public void AddColumnTuples(params KeyValuePair<T, T>[] tuples)
     {
-      T hash = _hasher.HashTuples(tuples);
+      var rtuples = tuples;
+
+      if (tuples.Any(x => x.IsPositionalHint()))
+        rtuples = ReplacePositionalHints(tuples).ToArray();
+
+      T hash = _hasher.HashTuples(rtuples);
 
       if (!_columnHashes.Contains(hash))
       {
-        _columnsAxis.Add(tuples);
+        _columnsAxis.Add(rtuples);
         _columnHashes.Add(hash);
       }
     }
@@ -91,7 +104,7 @@ namespace NSimpleOLAP.Query
     private IEnumerable<KeyValuePair<T, T>> GetAllUniquePairs()
     {
       var query = GetAllPairs()
-        .Where(x => !x.IsReservedValue())
+        .Where(x => !x.IsWildcard())
         .Distinct(_keyEqualityComparer)
         .OrderBy(x => x, _keyComparer);
 
@@ -109,7 +122,7 @@ namespace NSimpleOLAP.Query
         .OrderBy(x => x, _keyComparer);
         var selectors = item
           .Select((x, index) => new { Pair = x, Index = index })
-          .Where(x => x.Pair.IsReservedValue())
+          .Where(x => x.Pair.IsWildcard())
           .ToArray();
         var list = query.ToList();
         var anchor = list.ToArray();
@@ -155,6 +168,39 @@ namespace NSimpleOLAP.Query
 
           yield return result;
         }
+      }
+    }
+
+    private IEnumerable<KeyValuePair<T, T>> ReplacePositionalHints(KeyValuePair<T, T>[] values)
+    {
+      var query = values
+          .Select((x, index) => new { Pair = x, Index = index, Hint = x.IsPositionalHint() })
+          .ToArray();
+
+      foreach (var item in query)
+      {
+        var last = item.Index > values.Length - 1 
+          ? item.Index : item.Index + 1;
+
+        if (item.Hint)
+        {
+          var keyPair = values[item.Index];
+
+          if (item.Pair.IsNext())
+          {
+            var member = _schema.Dimensions[keyPair.Key].Members.Next(keyPair.Value);
+
+            yield return new KeyValuePair<T, T>(keyPair.Key, member.ID);
+          }
+          else if (item.Pair.IsPrevious())
+          {
+            var member = _schema.Dimensions[keyPair.Key].Members.Previous(keyPair.Value);
+
+            yield return new KeyValuePair<T, T>(keyPair.Key, member.ID);
+          }
+        }
+        else if (!query[last].Hint)
+          yield return item.Pair;
       }
     }
 
