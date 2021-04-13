@@ -20,10 +20,14 @@ namespace NSimpleOLAP.Query.Molap
     where T : struct, IComparable
   {
     private Cube<T> _cube;
+    private AllKeyComparer<T> _allKeyComparer;
+    private KeysBaseEqualityComparer<T> _pairsEqualityComparer;
 
     public MolapQueryOrchestrator(Cube<T> cube)
     {
       _cube = cube;
+      _allKeyComparer = new AllKeyComparer<T>();
+      _pairsEqualityComparer = new KeysBaseEqualityComparer<T>();
     }
 
     public IEnumerable<IOutputCell<T>> Run(Query<T> query)
@@ -36,6 +40,18 @@ namespace NSimpleOLAP.Query.Molap
       }
 
       return GetCells(query);
+    }
+
+    public IEnumerable<IOutputCell<T>[]> Run2(Query<T> query)
+    {
+      if (query.PredicateTree.FiltersOnFacts())
+      {
+        var id = CreateNewOrReuseAggregation(query);
+
+        return LayerByRow(GetCells(id, query), query);
+      }
+
+      return LayerByRow(GetCells(query), query);
     }
 
     private T CreateNewOrReuseAggregation(Query<T> query)
@@ -94,8 +110,59 @@ namespace NSimpleOLAP.Query.Molap
 
     private IEnumerable<IOutputCell<T>[]> LayerByRow(IEnumerable<IOutputCell<T>> cells, Query<T> query)
     {
+      var cols = (from item in query.Axis.ColumnAxis
+                 let result = item.Where(x => !x.IsWildcard<T>()).ToArray()
+                 select result).ToArray();
+      var rows = (from item in query.Axis.RowAxis
+                 let result = item.Where(x => !x.IsWildcard<T>()).ToArray()
+                 select result).ToArray();
+      var ocells = cells.OrderBy(x => x.Coords, new AllKeysComparer<T>()).ToArray();
+      var colsSegments = ocells.Select(x => x.XCoords).Distinct(_pairsEqualityComparer).ToArray();
+      var rowSegments = ocells.Select(x => x.YCoords).Distinct(_pairsEqualityComparer).ToArray();
 
-      return null;
+      var index = 0;
+
+      if (cols.Length > 0 && rows.Length > 0)
+      {
+        foreach (var row in rowSegments)
+        {
+          var values = new IOutputCell<T>[colsSegments.Length];
+
+          for (var i = 0; i< colsSegments.Length; i++)
+          {
+            var col = colsSegments[i];
+            var cell = ocells[index];
+
+            if (index < ocells.Length
+              && _pairsEqualityComparer.Equals(cell.XCoords, col)
+              && _pairsEqualityComparer.Equals(cell.YCoords, row))
+            {
+              values[i] = cell;
+              index++;
+            }
+          }
+
+          yield return values;
+        }
+      }
+    }
+
+    private bool FilterCell(KeyValuePair<T, T>[] cellCoords, KeyValuePair<T, T>[] scoords)
+    {
+      bool ret = true;
+
+      foreach (var item in scoords)
+      {
+        int val = Array.BinarySearch(cellCoords, item, _allKeyComparer);
+
+        if (val < 0)
+        {
+          ret = false;
+          break;
+        }
+      }
+
+      return ret;
     }
   }
 }

@@ -52,5 +52,10 @@ namespace NSimpleOLAP.Query
     {
       return Orchestrator.Run(this);
     }
+
+    public IEnumerable<IOutputCell<T>[]> Run2()
+    {
+      return Orchestrator.Run2(this);
+    }
   }
 }

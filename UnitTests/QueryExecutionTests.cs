@@ -118,5 +118,19 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 19);
     }
+
+    [Test]
+    public void Query_Run_With_All_In_Rows_And_Cols_With_Extra_Dims_Test2()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("category.All.place.Paris")
+        .OnColumns("sex.All")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.Run2().ToList();
+
+      Assert.IsTrue(result.Count == 5);
+    }
   }
 }

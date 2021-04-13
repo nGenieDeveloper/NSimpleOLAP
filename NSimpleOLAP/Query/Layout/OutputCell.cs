@@ -17,6 +17,48 @@ namespace NSimpleOLAP.Query.Layout
       Coords = coords;
       XCoords = xcoords;
       YCoords = ycoords;
+      Init();
+    }
+
+    private void Init()
+    {
+      if (XCoords.Length > 0)
+      {
+        var xcoords2 = new KeyValuePair<T, T>[XCoords.Length];
+        
+        Array.Copy(XCoords, xcoords2, XCoords.Length);
+        ReplaceDefaultSegments(Coords, xcoords2);
+        XCoords = xcoords2;
+      }
+
+      if (YCoords.Length > 0)
+      {
+        var ycoords2 = new KeyValuePair<T, T>[YCoords.Length];
+
+        Array.Copy(YCoords, ycoords2, YCoords.Length);
+        ReplaceDefaultSegments(Coords, ycoords2);
+        YCoords = ycoords2;
+      }
+    }
+
+    private void ReplaceDefaultSegments(KeyValuePair<T, T>[] coords, KeyValuePair<T, T>[] destiny)
+    {
+      var query2 = destiny
+        .Where(x => x.Value.Equals(default(T)))
+        .Select((x, i) => new { Pair2 = x, Index2 = i })
+        .ToArray();
+
+      if (query2.Length > 0)
+      {
+        var query = coords
+        .Select((x, i) => new { Pair1 = x, Index1 = i });
+        var query3 = query
+          .Join(query2, x => x.Pair1.Key, y => y.Pair2.Key, (x, y) => new { Source = x, Target = y })
+          .ToArray();
+
+        foreach (var item in query3)
+          destiny[item.Target.Index2] = item.Source.Pair1;
+      }
     }
 
     public object this[string key] => _values[key];

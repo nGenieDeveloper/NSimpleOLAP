@@ -19,5 +19,7 @@ namespace NSimpleOLAP.Query.Interfaces
     where U : IOutputCell<T>
   {
     IEnumerable<U> Run(Query<T> query);
+
+    IEnumerable<IOutputCell<T>[]> Run2(Query<T> query);
   }
 }
