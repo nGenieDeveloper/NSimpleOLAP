@@ -7,7 +7,7 @@ namespace NSimpleOLAP.Query
   /// <summary>
   /// Description of Query.
   /// </summary>
-  public abstract class Query<T> : IQuery<T, Cell<T>>
+  public abstract class Query<T> : IQuery<T, IOutputCell<T>>
     where T : struct, IComparable
   {
     protected Axis<T> axis;
@@ -18,9 +18,9 @@ namespace NSimpleOLAP.Query
 
     protected List<T> measures;
 
-    protected IQueryOrchestrator<T, Cell<T>> queryOrchestrator;
+    protected IQueryOrchestrator<T, IOutputCell<T>> queryOrchestrator;
 
-    protected IQueryOrchestrator<T, Cell<T>> Orchestrator
+    protected IQueryOrchestrator<T, IOutputCell<T>> Orchestrator
     {
       get
       {
@@ -48,7 +48,7 @@ namespace NSimpleOLAP.Query
       get { return predicates; }
     }
 
-    public IEnumerable<Cell<T>> Run()
+    public IEnumerable<IOutputCell<T>> Run()
     {
       return Orchestrator.Run(this);
     }

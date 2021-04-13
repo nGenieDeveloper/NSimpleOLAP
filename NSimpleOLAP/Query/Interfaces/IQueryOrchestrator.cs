@@ -16,7 +16,7 @@ namespace NSimpleOLAP.Query.Interfaces
 {
   public interface IQueryOrchestrator<T, U>
     where T : struct, IComparable
-    where U : class, ICell<T>
+    where U : IOutputCell<T>
   {
     IEnumerable<U> Run(Query<T> query);
   }

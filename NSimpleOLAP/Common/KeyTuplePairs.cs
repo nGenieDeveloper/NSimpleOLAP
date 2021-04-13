@@ -8,12 +8,13 @@ namespace NSimpleOLAP.Common
     where T : struct, IComparable
   {
     private readonly bool _sameValue;
-    public KeyTuplePairs(KeyValuePair<T, T>[] anchor, KeyValuePair<T, T>[] selector)
+    public KeyTuplePairs(KeyValuePair<T, T>[] anchor, KeyValuePair<T, T>[] selector, KeyValuePair<T, T>[] col, KeyValuePair<T, T>[] row)
     {
       AnchorTuple = anchor;
       SelectorTuple = selector;
       Selectors = GetSelectorPairs().ToArray();
-
+      XAnchorTuple = col;
+      YAnchorTuple = row;
       _sameValue = anchor.Length == selector.Length;
     }
 
@@ -26,6 +27,10 @@ namespace NSimpleOLAP.Common
     }
 
     public KeyValuePair<T, T>[] AnchorTuple { get; private set; }
+
+    public KeyValuePair<T, T>[] XAnchorTuple { get; private set; }
+
+    public KeyValuePair<T, T>[] YAnchorTuple { get; private set; }
 
     public KeyValuePair<T, T>[] SelectorTuple { get; private set; }
 

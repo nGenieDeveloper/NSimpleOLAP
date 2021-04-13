@@ -158,11 +158,13 @@
     <Compile Include="Query\Builder\BlockPredicateBuilder.cs" />
     <Compile Include="Query\Builder\DimensionSlicerBuilder.cs" />
     <Compile Include="Query\Builder\PredicateBuilderExtensions.cs" />
+    <Compile Include="Query\Interfaces\IOutputCell.cs" />
     <Compile Include="Query\Interfaces\IQuery.cs" />
     <Compile Include="Query\Interfaces\IQueryOrchestrator.cs" />
     <Compile Include="Query\Interfaces\IPredicate.cs" />
     <Compile Include="Query\Interfaces\IPredicateBuilder.cs" />
     <Compile Include="Common\KeyTuplePairs.cs" />
+    <Compile Include="Query\Layout\OutputCell.cs" />
     <Compile Include="Query\MeasureReferenceTranslator.cs" />
     <Compile Include="Query\Builder\MeasureSlicerBuilder.cs" />
     <Compile Include="Query\Molap\MolapQueryOrchestrator.cs" />

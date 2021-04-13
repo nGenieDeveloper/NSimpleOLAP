@@ -141,7 +141,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
         else
         {
           Array.Copy(coords, xcoords, coords.Length);
-          xcoords[coordsLastIndex + 1] = node.Coords[node.Coords.Length - 1];
+          xcoords[coordsLastIndex] = node.Coords[node.Coords.Length - 1];
         }
 
         var xnode = node.GetNode(GetHashPoints(xcoords), index);
@@ -182,22 +182,31 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       
       Array.Copy(coords, ncoords, length);
 
-      var nxnode = node.GetNode(GetHashPoints(ncoords));
+      var nxnode = FilterNode(node, ncoords) ? node : node.GetNode(GetHashPoints(ncoords));
 
-      if (selectors.Selectors.Length < selectorIndex)
+      if (selectors.Selectors.Length > selectorIndex + 1)
       {
         if (currSelector.Item2.IsAll())
         {
-          foreach (var item in node.Adjacent)
+          foreach (var item in nxnode.Adjacent)
           {
             if (!item.IsRootDim && FilterNode(item, new[] { currSelector.Item1 }))
             {
-              var xcoords = new KeyValuePair<T, T>[coords.Length];
+              var nlength = index != 0 ? coords.Length : coords.Length + 1;
+              var xcoords = new KeyValuePair<T, T>[nlength];
 
-              Array.Copy(coords, xcoords, coords.Length);
-              xcoords[index + 1] = item.Coords[item.Coords.Length - 1];
+              if (index == 0)
+              {
+                Array.Copy(item.Coords, 1, xcoords, 0, item.Coords.Length - 1);
+                Array.Copy(coords, 1, xcoords, item.Coords.Length - 1, xcoords.Length - (coords.Length - 1));
+              }
+              else
+              {
+                Array.Copy(coords, xcoords, coords.Length);
+                xcoords[index] = item.Coords[item.Coords.Length - 1];
+              }
 
-              foreach (var nxitem in TravelNodes(nxnode, xcoords, index, selectors, selectorIndex++))
+              foreach (var nxitem in TravelNodes(item, xcoords, index, selectors, selectorIndex + 1))
                 yield return nxitem;
             }
           }

@@ -112,15 +112,15 @@ namespace NSimpleOLAP.Query
         yield return item;
     }
 
-    private IEnumerable<KeyTuplePairs<T>> GetAllUniquePairs(IEnumerable<KeyValuePair<T, T>[]> tuples)
+    private IEnumerable<KeyTuplePairs<T>> GetAllUniquePairs(IEnumerable<Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>> tuples)
     {
       foreach (var item in tuples)
       {
-        var query = item
+        var query = item.Item1
         .Where(x => !x.IsReservedValue())
         .Distinct(_keyEqualityComparer)
         .OrderBy(x => x, _keyComparer);
-        var selectors = item
+        var selectors = item.Item1
           .Select((x, index) => new { Pair = x, Index = index })
           .Where(x => x.Pair.IsWildcard())
           .ToArray();
@@ -129,14 +129,14 @@ namespace NSimpleOLAP.Query
         // to do optimize this
         foreach (var selector in selectors)
         {
-          var value = item[selector.Index - 1];
+          var value = item.Item1[selector.Index - 1];
           var index = list
             .FindIndex(x => value.Key.Equals(x.Key) && value.Value.Equals(x.Value));
 
           list.Insert(index + 1, selector.Pair);
         }
 
-        yield return new KeyTuplePairs<T>(anchor, list.ToArray());
+        yield return new KeyTuplePairs<T>(anchor, list.ToArray(), item.Item2, item.Item3);
       }
     }
 
@@ -155,20 +155,51 @@ namespace NSimpleOLAP.Query
       }
     }
 
-    private IEnumerable<KeyValuePair<T, T>[]> GetTuplePairs()
+    private IEnumerable<Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>> GetTuplePairs()
     {
-      foreach (var col in _columnsAxis)
+      if (_columnsAxis.Count > 0 && _rowsAxis.Count > 0)
       {
-        foreach (var row in _rowsAxis)
+        foreach (var col in _columnsAxis)
         {
-          var result = new KeyValuePair<T, T>[col.Length + row.Length];
+          foreach (var row in _rowsAxis)
+          {
+            var result = new KeyValuePair<T, T>[col.Length + row.Length];
 
-          col.CopyTo(result, 0);
-          row.CopyTo(result, col.Length);
+            col.CopyTo(result, 0);
+            row.CopyTo(result, col.Length);
 
-          yield return result;
+            yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
+              col.Where(x => !x.IsWildcard()).ToArray(), row.Where(x => !x.IsWildcard()).ToArray());
+          }
+        }
+
+        if (_columnsAxis.Count == 0 && _rowsAxis.Count > 0)
+        {
+          foreach (var row in _rowsAxis)
+          {
+            var result = new KeyValuePair<T, T>[row.Length];
+
+            row.CopyTo(result, result.Length);
+
+            yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
+              new KeyValuePair<T, T>[] { }, row.Where(x => !x.IsWildcard()).ToArray());
+          }
+        }
+
+        if (_columnsAxis.Count > 0 && _rowsAxis.Count == 0)
+        {
+          foreach (var col in _columnsAxis)
+          {
+            var result = new KeyValuePair<T, T>[col.Length];
+
+            col.CopyTo(result, result.Length);
+
+            yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
+              col.Where(x => !x.IsWildcard()).ToArray(), new KeyValuePair<T, T>[] { });
+          }
         }
       }
+      
     }
 
     private IEnumerable<KeyValuePair<T, T>> ReplacePositionalHints(KeyValuePair<T, T>[] values)
@@ -179,7 +210,7 @@ namespace NSimpleOLAP.Query
 
       foreach (var item in query)
       {
-        var last = item.Index > values.Length - 1 
+        var last = item.Index > values.Length - 1
           ? item.Index : item.Index + 1;
 
         if (item.Hint)
