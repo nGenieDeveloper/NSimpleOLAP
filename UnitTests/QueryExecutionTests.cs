@@ -36,7 +36,7 @@ namespace UnitTests
     }
     
     [Test]
-    public void Query_Run_With_Single_Cell_Test()
+    public void Query_StreamCells_With_Single_Cell_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.female")
@@ -44,13 +44,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 1);
     }
 
     [Test]
-    public void Query_Run_With_2_Cells_Test()
+    public void Query_StreamCells_With_2_Cells_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.female", "sex.male")
@@ -58,13 +58,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 2);
     }
 
     [Test]
-    public void Query_Run_With_All_Cells_Test()
+    public void Query_StreamCells_With_All_Cells_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.All")
@@ -72,13 +72,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 3);
     }
 
     [Test]
-    public void Query_Run_With_All_In_Rows_With_Extra_Dims_Test()
+    public void Query_StreamCells_With_All_In_Rows_With_Extra_Dims_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
@@ -86,13 +86,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 2);
     }
     
     [Test]
-    public void Query_Run_With_All_In_Rows_And_Cols_With_Extra_Dims_Test()
+    public void Query_StreamCells_With_All_In_Rows_And_Cols_With_Extra_Dims_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
@@ -100,13 +100,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 5);
     }
 
     [Test]
-    public void Query_Run_With_All_In_Rows_And_Cols_With_Extra_All_Test()
+    public void Query_StreamCells_With_All_In_Rows_And_Cols_With_Extra_All_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
@@ -114,13 +114,13 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run().ToList();
+      var result = query.StreamCells().ToList();
 
       Assert.IsTrue(result.Count == 19);
     }
 
     [Test]
-    public void Query_Run_With_All_In_Rows_And_Cols_With_Extra_Dims_Test2()
+    public void Query_StreamRows_With_All_In_Rows_And_Cols_With_Extra_Dims_Test()
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
@@ -128,9 +128,51 @@ namespace UnitTests
         .AddMeasures("quantity");
 
       var query = queryBuilder.Create();
-      var result = query.Run2().ToList();
+      var result = query.StreamRows().ToList();
 
-      Assert.IsTrue(result.Count == 5);
+      Assert.IsTrue(result.Count == 4);
+    }
+
+    [Test]
+    public void Query_StreamRows_With_All_In_Rows_With_Extra_Dims_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("category.All.place.Paris")
+        .OnColumns("sex.male")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      Assert.IsTrue(result.Count == 3);
+    }
+
+    [Test]
+    public void Query_StreamRows_With_All_Cells_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("sex.All")
+        .OnColumns("category.shoes")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      Assert.IsTrue(result.Count == 4);
+    }
+
+    [Test]
+    public void Query_StreamRows_With_All_In_Rows_And_Cols_With_Extra_All_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("category.All.place.All")
+        .OnColumns("sex.All")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      Assert.IsTrue(result.Count == 16);
     }
   }
 }

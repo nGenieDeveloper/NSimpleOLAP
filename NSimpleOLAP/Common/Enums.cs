@@ -20,4 +20,6 @@ namespace NSimpleOLAP.Common
 
 	public enum OperationMode { OnDemand, PreAggregate }
 
+	public enum OutputCellType { DATA, COLUMN_LABEL, ROW_LABEL }
+
 }

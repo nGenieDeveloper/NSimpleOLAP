@@ -7,6 +7,8 @@ namespace NSimpleOLAP.Query.Interfaces
     where T : struct, IComparable
     where U : class, IOutputCell<T>
   {
-    IEnumerable<U> Run();
+    IEnumerable<U> StreamCells();
+
+    IEnumerable<U[]> StreamRows();
   }
 }

@@ -56,6 +56,22 @@ namespace NSimpleOLAP.Query
       get { return GetAllUniquePairs(GetTuplePairs()); }
     }
 
+    public bool HasRows
+    {
+      get
+      {
+        return _rowsAxis.Count > 0;
+      }
+    }
+
+    public bool HasColumns
+    {
+      get
+      {
+        return _columnsAxis.Count > 0;
+      }
+    }
+
     #endregion props
 
     #region public methods

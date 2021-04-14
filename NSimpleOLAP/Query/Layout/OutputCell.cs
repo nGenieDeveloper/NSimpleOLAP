@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query.Layout
 {
@@ -14,10 +15,28 @@ namespace NSimpleOLAP.Query.Layout
     public OutputCell(KeyValuePair<T, T>[] coords, KeyValuePair<T, T>[] xcoords, KeyValuePair<T, T>[] ycoords)
     {
       _values = new Dictionary<string, object>();
+      CellType = OutputCellType.DATA;
       Coords = coords;
       XCoords = xcoords;
       YCoords = ycoords;
       Init();
+    }
+
+    public OutputCell(KeyValuePair<T, T>[] coords, KeyValuePair<string, string>[] descriptors, OutputCellType cellType)
+    {
+      CellType = cellType;
+
+      if (CellType == OutputCellType.COLUMN_LABEL)
+      {
+        XCoords = coords;
+        Column = descriptors;
+      }
+
+      if (CellType == OutputCellType.ROW_LABEL)
+      {
+        YCoords = coords;
+        Row = descriptors;
+      }
     }
 
     private void Init()
@@ -25,7 +44,7 @@ namespace NSimpleOLAP.Query.Layout
       if (XCoords.Length > 0)
       {
         var xcoords2 = new KeyValuePair<T, T>[XCoords.Length];
-        
+
         Array.Copy(XCoords, xcoords2, XCoords.Length);
         ReplaceDefaultSegments(Coords, xcoords2);
         XCoords = xcoords2;
@@ -61,6 +80,12 @@ namespace NSimpleOLAP.Query.Layout
       }
     }
 
+    public OutputCellType CellType 
+    { 
+      get;
+      private set;
+    }
+
     public object this[string key] => _values[key];
 
     public object this[int key]
@@ -86,6 +111,18 @@ namespace NSimpleOLAP.Query.Layout
     public KeyValuePair<T, T>[] YCoords
     {
       get;
+      private set;
+    }
+
+    public KeyValuePair<string, string>[] Row
+    {
+      get;
+      private set;
+    }
+
+    public KeyValuePair<string, string>[] Column
+    {
+      get; 
       private set;
     }
 

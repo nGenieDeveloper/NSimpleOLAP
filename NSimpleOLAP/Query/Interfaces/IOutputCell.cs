@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query.Interfaces
 {
@@ -10,10 +11,16 @@ namespace NSimpleOLAP.Query.Interfaces
 
     object this[int key] { get; }
 
+    OutputCellType CellType { get; }
+
     KeyValuePair<T, T>[] Coords { get; }
 
     KeyValuePair<T, T>[] XCoords { get; }
 
     KeyValuePair<T, T>[] YCoords { get; }
+
+    KeyValuePair<string, string>[] Row { get; }
+
+    KeyValuePair<string, string>[] Column { get; }
   }
 }

@@ -1,18 +1,9 @@
-﻿using System;
+﻿using NSimpleOLAP.Common;
+using NSimpleOLAP.Query.Interfaces;
+using NSimpleOLAP.Query.Layout;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration;
-using NSimpleOLAP.Data;
-using NSimpleOLAP.Interfaces;
-using NSimpleOLAP.Schema;
-using NSimpleOLAP.Schema.Interfaces;
-using NSimpleOLAP.Storage.Interfaces;
-using NSimpleOLAP.Query.Interfaces;
-using NSimpleOLAP.Storage.Molap;
-using NSimpleOLAP.Query.Layout;
 
 namespace NSimpleOLAP.Query.Molap
 {
@@ -20,17 +11,17 @@ namespace NSimpleOLAP.Query.Molap
     where T : struct, IComparable
   {
     private Cube<T> _cube;
-    private AllKeyComparer<T> _allKeyComparer;
+    private AllKeysComparer<T> _allKeysComparer;
     private KeysBaseEqualityComparer<T> _pairsEqualityComparer;
 
     public MolapQueryOrchestrator(Cube<T> cube)
     {
       _cube = cube;
-      _allKeyComparer = new AllKeyComparer<T>();
+      _allKeysComparer = new AllKeysComparer<T>();
       _pairsEqualityComparer = new KeysBaseEqualityComparer<T>();
     }
 
-    public IEnumerable<IOutputCell<T>> Run(Query<T> query)
+    public IEnumerable<IOutputCell<T>> GetByCells(Query<T> query)
     {
       if (query.PredicateTree.FiltersOnFacts())
       {
@@ -42,7 +33,7 @@ namespace NSimpleOLAP.Query.Molap
       return GetCells(query);
     }
 
-    public IEnumerable<IOutputCell<T>[]> Run2(Query<T> query)
+    public IEnumerable<IOutputCell<T>[]> GetByRows(Query<T> query)
     {
       if (query.PredicateTree.FiltersOnFacts())
       {
@@ -110,59 +101,148 @@ namespace NSimpleOLAP.Query.Molap
 
     private IEnumerable<IOutputCell<T>[]> LayerByRow(IEnumerable<IOutputCell<T>> cells, Query<T> query)
     {
-      var cols = (from item in query.Axis.ColumnAxis
-                 let result = item.Where(x => !x.IsWildcard<T>()).ToArray()
-                 select result).ToArray();
-      var rows = (from item in query.Axis.RowAxis
-                 let result = item.Where(x => !x.IsWildcard<T>()).ToArray()
-                 select result).ToArray();
-      var ocells = cells.OrderBy(x => x.Coords, new AllKeysComparer<T>()).ToArray();
+      var ocells = cells.OrderBy(x => x.YCoords, _allKeysComparer).ToArray();
       var colsSegments = ocells.Select(x => x.XCoords).Distinct(_pairsEqualityComparer).ToArray();
       var rowSegments = ocells.Select(x => x.YCoords).Distinct(_pairsEqualityComparer).ToArray();
 
+      if (query.Axis.HasColumns)
+      {
+        var columns = GetColumnCells(colsSegments, query);
+
+        yield return columns.ToArray();
+      }
+
       var index = 0;
 
-      if (cols.Length > 0 && rows.Length > 0)
+      if (query.Axis.HasColumns && query.Axis.HasRows)
       {
         foreach (var row in rowSegments)
         {
-          var values = new IOutputCell<T>[colsSegments.Length];
+          var values = new IOutputCell<T>[colsSegments.Length + 1];
 
-          for (var i = 0; i< colsSegments.Length; i++)
+          values[0] = GetRowCell(row, query);
+
+          for (var i = 0; i < colsSegments.Length; i++)
           {
-            var col = colsSegments[i];
+            if (index >= ocells.Length)
+              break;
+
             var cell = ocells[index];
 
-            if (index < ocells.Length
-              && _pairsEqualityComparer.Equals(cell.XCoords, col)
-              && _pairsEqualityComparer.Equals(cell.YCoords, row))
+            if (_pairsEqualityComparer.Equals(cell.YCoords, row))
             {
-              values[i] = cell;
+              var cindex = Array.FindIndex(colsSegments, x => _pairsEqualityComparer.Equals(x, cell.XCoords));
+
+              if (cindex >= 0)
+              {
+                values[cindex + 1] = cell;
+                index++;
+              }
+            }
+          }
+
+          yield return values;
+        }
+
+        if (query.Axis.HasColumns && !query.Axis.HasRows)
+        {
+          var values = new IOutputCell<T>[colsSegments.Length + 1];
+
+          values[0] = GetMeasureCell(query.Measures, query, OutputCellType.ROW_LABEL);
+
+          for (var i = 0; i < colsSegments.Length; i++)
+          {
+            if (index >= ocells.Length)
+              break;
+
+            var cell = ocells[index];
+            var cindex = Array.FindIndex(colsSegments, x => _pairsEqualityComparer.Equals(x, cell.XCoords));
+
+            if (cindex >= 0)
+            {
+              values[cindex + 1] = cell;
               index++;
             }
           }
 
           yield return values;
         }
+
+        if (!query.Axis.HasColumns && query.Axis.HasRows)
+        {
+          var header = new IOutputCell<T>[2];
+
+          header[1] = GetMeasureCell(query.Measures, query, OutputCellType.COLUMN_LABEL);
+
+          foreach (var row in rowSegments)
+          {
+            var values = new IOutputCell<T>[2];
+
+            values[0] = GetRowCell(row, query);
+
+            var cell = ocells[index];
+
+            if (_pairsEqualityComparer.Equals(cell.YCoords, row))
+            {
+              values[1] = cell;
+              index++;
+            }
+
+            yield return values;
+          }
+        }
       }
     }
 
-    private bool FilterCell(KeyValuePair<T, T>[] cellCoords, KeyValuePair<T, T>[] scoords)
+    private IEnumerable<IOutputCell<T>> GetColumnCells(IEnumerable<KeyValuePair<T, T>[]> pairs, Query<T> query)
     {
-      bool ret = true;
+      var schemaDims = query.Cube.Schema.Dimensions;
 
-      foreach (var item in scoords)
+      yield return null;
+
+      foreach (var col in pairs)
       {
-        int val = Array.BinarySearch(cellCoords, item, _allKeyComparer);
+        var descriptors = new List<KeyValuePair<string, string>>();
 
-        if (val < 0)
+        foreach (var item in col)
         {
-          ret = false;
-          break;
+          var value = new KeyValuePair<string, string>(schemaDims[item.Key].Name, schemaDims[item.Key].Members[item.Value].Name);
+
+          descriptors.Add(value);
         }
+
+        yield return new OutputCell<T>(col, descriptors.ToArray(), OutputCellType.COLUMN_LABEL);
+      }
+    }
+
+    private IOutputCell<T> GetRowCell(KeyValuePair<T, T>[] tuple, Query<T> query)
+    {
+      var descriptors = new List<KeyValuePair<string, string>>();
+      var schemaDims = query.Cube.Schema.Dimensions;
+
+      foreach (var item in tuple)
+      {
+        var value = new KeyValuePair<string, string>(schemaDims[item.Key].Name, schemaDims[item.Key].Members[item.Value].Name);
+
+        descriptors.Add(value);
       }
 
-      return ret;
+      return new OutputCell<T>(tuple, descriptors.ToArray(), OutputCellType.ROW_LABEL);
+    }
+
+    private IOutputCell<T> GetMeasureCell(IEnumerable<T> measures, Query<T> query, OutputCellType cellType)
+    {
+      var descriptors = new List<KeyValuePair<string, string>>();
+      var schemaMeasures = query.Cube.Schema.Measures;
+
+      foreach (var item in measures)
+      {
+        var value = new KeyValuePair<string, string>("Measure", schemaMeasures[item].Name);
+
+        descriptors.Add(value);
+      }
+
+      return new OutputCell<T>(new KeyValuePair<T, T>[] { }, descriptors.ToArray(), cellType);
     }
   }
 }

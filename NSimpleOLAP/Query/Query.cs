@@ -48,14 +48,14 @@ namespace NSimpleOLAP.Query
       get { return predicates; }
     }
 
-    public IEnumerable<IOutputCell<T>> Run()
+    public IEnumerable<IOutputCell<T>> StreamCells()
     {
-      return Orchestrator.Run(this);
+      return Orchestrator.GetByCells(this);
     }
 
-    public IEnumerable<IOutputCell<T>[]> Run2()
+    public IEnumerable<IOutputCell<T>[]> StreamRows()
     {
-      return Orchestrator.Run2(this);
+      return Orchestrator.GetByRows(this);
     }
   }
 }

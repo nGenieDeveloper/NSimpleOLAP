@@ -1,16 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration;
-using NSimpleOLAP.Data;
-using NSimpleOLAP.Interfaces;
-using NSimpleOLAP.Schema;
-using NSimpleOLAP.Schema.Interfaces;
-using NSimpleOLAP.Storage.Interfaces;
-
 
 namespace NSimpleOLAP.Query.Interfaces
 {
@@ -18,8 +7,8 @@ namespace NSimpleOLAP.Query.Interfaces
     where T : struct, IComparable
     where U : IOutputCell<T>
   {
-    IEnumerable<U> Run(Query<T> query);
+    IEnumerable<U> GetByCells(Query<T> query);
 
-    IEnumerable<IOutputCell<T>[]> Run2(Query<T> query);
+    IEnumerable<IOutputCell<T>[]> GetByRows(Query<T> query);
   }
 }
