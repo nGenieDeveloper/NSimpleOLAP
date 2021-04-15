@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markdown", "Markdown", "{6122B37A-B7BD-45B8-98DC-39197BF80E14}"
 	ProjectSection(SolutionItems) = preProject
-		README = README
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
