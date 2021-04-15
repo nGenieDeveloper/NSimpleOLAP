@@ -2,9 +2,10 @@
 
 The goal of this project is to build an embeddable .Net **OLAP** library that can be used within the context of console, desktop, or other types of applications.
 
-This was also being developed for educational purposes, as to educate more developers on the utility of aggregation engines beyond the field of Business Intelligence and Finance.
+One of the key motivations for this project is to educate more developers on the utility of aggregation engines beyond the field of Business Intelligence and Finance.
 
 At the present moment this project is still in alpha stage and unstable, it allows for some basic querying and modes of aggregation.
+Some of it's implementations features are experimental, or are there to allow easy testing of different opportunities for optimization or feature enhancement.
 More on that later.
 
 ## Quick Start
@@ -111,6 +112,36 @@ var queryBuilder = cube.BuildQuery()
   .OnRows("sex.female")
   .OnColumns("category.shoes")
   .AddMeasures("quantity");
+
+var query = queryBuilder.Create();
+var result = query.StreamCells().ToList();
+
+``` 
+
+Also you can add some basic expressions to filter on the table facts: 
+
+```csharp
+
+var queryBuilder = cube.BuildQuery()
+  .OnRows("sex.All")
+  .OnColumns("category.All")
+  .AddMeasures("quantity")
+  .Where(b => b.Define(x => x.Measure("quantity").IsEquals(5)));
+
+var query = queryBuilder.Create();
+var result = query.StreamCells().ToList();
+
+``` 
+
+Or you can add some basic expressions to filter on dimension members: 
+
+```csharp
+
+var queryBuilder = cube.BuildQuery()
+  .OnRows("sex.All")
+  .OnColumns("category.All")
+  .AddMeasures("quantity")
+  .Where(b => b.Define(x => x.Dimension("sex").NotEquals("male")));
 
 var query = queryBuilder.Create();
 var result = query.StreamCells().ToList();
