@@ -39,7 +39,7 @@ namespace NSimpleOLAP.Configuration.Fluent
 			return this;
 		}
 		
-		public CubeBuilder SetSource(Action<CubeSourceBuilder> sourceconfig)
+		public CubeBuilder SetSourceMappings(Action<CubeSourceBuilder> sourceconfig)
 		{
 			sourceconfig(_cubeSource);
 			return this;

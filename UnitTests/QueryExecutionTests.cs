@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration.Fluent;
+﻿using NSimpleOLAP;
 using NSimpleOLAP.Query;
-using NSimpleOLAP.Query.Builder;
 using NUnit.Framework;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -34,7 +27,7 @@ namespace UnitTests
     {
       cube.Dispose();
     }
-    
+
     [Test]
     public void Query_StreamCells_With_Single_Cell_Test()
     {
@@ -90,7 +83,7 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 2);
     }
-    
+
     [Test]
     public void Query_StreamCells_With_All_In_Rows_And_Cols_With_Extra_Dims_Test()
     {
@@ -173,6 +166,32 @@ namespace UnitTests
       var result = query.StreamRows().ToList();
 
       Assert.IsTrue(result.Count == 16);
+    }
+
+    [Test]
+    public void Query_StreamRows_With_All_Just_Rows_Cells_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("sex.All")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      Assert.IsTrue(result.Count == 4);
+    }
+
+    [Test]
+    public void Query_StreamRows_With_All_Just_Columns_Cells_Test()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnColumns("sex.All")
+        .AddMeasures("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      Assert.IsTrue(result.Count == 2);
     }
   }
 }

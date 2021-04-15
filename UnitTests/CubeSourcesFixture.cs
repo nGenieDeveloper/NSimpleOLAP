@@ -11,7 +11,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource(
+        .SetSourceMappings(
           (sourcebuild) => sourcebuild.SetSource("sales")
             .AddMapping("category", "category")
             .AddMapping("sex", "sex")
@@ -89,7 +89,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource((sourcebuild) =>
+        .SetSourceMappings((sourcebuild) =>
         {
           sourcebuild.SetSource("sales")
             .AddMapping("category", "category")
@@ -187,7 +187,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource((sourcebuild) =>
+        .SetSourceMappings((sourcebuild) =>
         {
           sourcebuild.SetSource("sales")
             .AddMapping("category", "category")
@@ -256,14 +256,14 @@ namespace UnitTests
           .AddDimension("sex", (dimbuild) =>
           {
             dimbuild.Source("sexes")
-                        .ValueField("id")
-                        .DescField("description");
+              .ValueField("id")
+              .DescField("description");
           })
           .AddDimension("place", (dimbuild) =>
           {
             dimbuild.Source("places")
-                        .ValueField("id")
-                        .DescField("description");
+              .ValueField("id")
+              .DescField("description");
           })
           .AddMeasure("spent", mesbuild =>
           {

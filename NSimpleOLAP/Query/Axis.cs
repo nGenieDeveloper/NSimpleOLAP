@@ -188,34 +188,32 @@ namespace NSimpleOLAP.Query
               col.Where(x => !x.IsWildcard()).ToArray(), row.Where(x => !x.IsWildcard()).ToArray());
           }
         }
-
-        if (_columnsAxis.Count == 0 && _rowsAxis.Count > 0)
+      }
+      if (_columnsAxis.Count == 0 && _rowsAxis.Count > 0)
+      {
+        foreach (var row in _rowsAxis)
         {
-          foreach (var row in _rowsAxis)
-          {
-            var result = new KeyValuePair<T, T>[row.Length];
+          var result = new KeyValuePair<T, T>[row.Length];
 
-            row.CopyTo(result, result.Length);
+          row.CopyTo(result, 0);
 
-            yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
-              new KeyValuePair<T, T>[] { }, row.Where(x => !x.IsWildcard()).ToArray());
-          }
-        }
-
-        if (_columnsAxis.Count > 0 && _rowsAxis.Count == 0)
-        {
-          foreach (var col in _columnsAxis)
-          {
-            var result = new KeyValuePair<T, T>[col.Length];
-
-            col.CopyTo(result, result.Length);
-
-            yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
-              col.Where(x => !x.IsWildcard()).ToArray(), new KeyValuePair<T, T>[] { });
-          }
+          yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
+            new KeyValuePair<T, T>[] { }, row.Where(x => !x.IsWildcard()).ToArray());
         }
       }
-      
+
+      if (_columnsAxis.Count > 0 && _rowsAxis.Count == 0)
+      {
+        foreach (var col in _columnsAxis)
+        {
+          var result = new KeyValuePair<T, T>[col.Length];
+
+          col.CopyTo(result, 0);
+
+          yield return new Tuple<KeyValuePair<T, T>[], KeyValuePair<T, T>[], KeyValuePair<T, T>[]>(result,
+            col.Where(x => !x.IsWildcard()).ToArray(), new KeyValuePair<T, T>[] { });
+        }
+      }
     }
 
     private IEnumerable<KeyValuePair<T, T>> ReplacePositionalHints(KeyValuePair<T, T>[] values)

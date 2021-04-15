@@ -24,7 +24,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource((sourcebuild) => sourcebuild.SetSource("sales"))
+        .SetSourceMappings((sourcebuild) => sourcebuild.SetSource("sales"))
         .AddDataSource(dsbuild =>
         {
           dsbuild.SetName("sales")
@@ -78,7 +78,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello")
-        .SetSource((sourcebuild) => sourcebuild.SetSource("xpto"))
+        .SetSourceMappings((sourcebuild) => sourcebuild.SetSource("xpto"))
         .AddDataSource(dsbuild =>
         {
           dsbuild.SetName("xpto")

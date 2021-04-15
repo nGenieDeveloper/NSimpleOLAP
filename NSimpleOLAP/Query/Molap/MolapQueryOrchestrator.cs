@@ -143,53 +143,55 @@ namespace NSimpleOLAP.Query.Molap
 
           yield return values;
         }
+      }
 
-        if (query.Axis.HasColumns && !query.Axis.HasRows)
+      if (query.Axis.HasColumns && !query.Axis.HasRows)
+      {
+        var values = new IOutputCell<T>[colsSegments.Length + 1];
+
+        values[0] = GetMeasureCell(query.Measures, query, OutputCellType.ROW_LABEL);
+
+        for (var i = 0; i < colsSegments.Length; i++)
         {
-          var values = new IOutputCell<T>[colsSegments.Length + 1];
+          if (index >= ocells.Length)
+            break;
 
-          values[0] = GetMeasureCell(query.Measures, query, OutputCellType.ROW_LABEL);
+          var cell = ocells[index];
+          var cindex = Array.FindIndex(colsSegments, x => _pairsEqualityComparer.Equals(x, cell.XCoords));
 
-          for (var i = 0; i < colsSegments.Length; i++)
+          if (cindex >= 0)
           {
-            if (index >= ocells.Length)
-              break;
+            values[cindex + 1] = cell;
+            index++;
+          }
+        }
 
-            var cell = ocells[index];
-            var cindex = Array.FindIndex(colsSegments, x => _pairsEqualityComparer.Equals(x, cell.XCoords));
+        yield return values;
+      }
 
-            if (cindex >= 0)
-            {
-              values[cindex + 1] = cell;
-              index++;
-            }
+      if (!query.Axis.HasColumns && query.Axis.HasRows)
+      {
+        var header = new IOutputCell<T>[2];
+
+        header[1] = GetMeasureCell(query.Measures, query, OutputCellType.COLUMN_LABEL);
+
+        yield return header;
+
+        foreach (var row in rowSegments)
+        {
+          var values = new IOutputCell<T>[2];
+
+          values[0] = GetRowCell(row, query);
+
+          var cell = ocells[index];
+
+          if (_pairsEqualityComparer.Equals(cell.YCoords, row))
+          {
+            values[1] = cell;
+            index++;
           }
 
           yield return values;
-        }
-
-        if (!query.Axis.HasColumns && query.Axis.HasRows)
-        {
-          var header = new IOutputCell<T>[2];
-
-          header[1] = GetMeasureCell(query.Measures, query, OutputCellType.COLUMN_LABEL);
-
-          foreach (var row in rowSegments)
-          {
-            var values = new IOutputCell<T>[2];
-
-            values[0] = GetRowCell(row, query);
-
-            var cell = ocells[index];
-
-            if (_pairsEqualityComparer.Equals(cell.YCoords, row))
-            {
-              values[1] = cell;
-              index++;
-            }
-
-            yield return values;
-          }
         }
       }
     }
