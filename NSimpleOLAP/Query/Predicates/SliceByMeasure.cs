@@ -99,9 +99,10 @@ namespace NSimpleOLAP.Query.Predicates
 
     public override int GetHashCode()
     {
-      var result = TypeOf.GetHashCode()
-        ^ Operator.GetHashCode()
-        ^ _value.GetHashCode();
+      var ioperator = Operator == LogicalOperators.EQUALS ? -111 : (int)Operator;
+      var result = _value.GetHashCode()
+        ^ ioperator
+        ^ (int) TypeOf;
 
       return result;
     }

@@ -51,7 +51,7 @@ namespace NSimpleOLAP.Query.Predicates
 
     public override int GetHashCode()
     {
-      var result = TypeOf.GetHashCode()
+      var result = -1
         ^ _predicate.GetHashCode();
 
       return result;

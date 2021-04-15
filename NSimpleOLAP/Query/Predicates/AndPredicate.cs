@@ -106,7 +106,7 @@ namespace NSimpleOLAP.Query.Predicates
 
     public override int GetHashCode()
     {
-      var result = TypeOf.GetHashCode();
+      var result = (int)TypeOf;
 
       foreach (var item in _predicates)
         result ^= item.GetHashCode();
