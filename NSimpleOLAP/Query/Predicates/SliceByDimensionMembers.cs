@@ -58,12 +58,21 @@ namespace NSimpleOLAP.Query.Predicates
 
       if (results.Length > 0)
       {
-        return results
-          .Join(Values, x => x.Value, y => y, (x, y) => x)
-          .Any(); // to do change this
+        if (_operator == LogicalOperators.EQUALS || _operator == LogicalOperators.NOTEQUALS)
+        {
+          return Execute(results[0].Value, _values[0]);
+        }
+
+        if (_operator == LogicalOperators.IN)
+        {
+          return results
+            .Join(_values, x => x.Value, y => y, (x, y) => y)
+            .Any();
+        }
       }
 
-      return false;
+      return (_operator == LogicalOperators.EQUALS || _operator == LogicalOperators.IN)
+        ? false : true;
     }
 
     public bool FiltersOnAggregation()
@@ -96,6 +105,49 @@ namespace NSimpleOLAP.Query.Predicates
           .ToArray();
 
         yield return new Tuple<LogicalOperators, KeyValuePair<T, T>[]>(Operator, keypairs);
+      }
+    }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs)
+    {
+      var results = pairs
+        .Where(x => x.Key.Equals(Dimension))
+        .ToArray();
+
+      if (results.Length > 0)
+      {
+        if (_operator == LogicalOperators.EQUALS || _operator == LogicalOperators.NOTEQUALS)
+        {
+          return Execute(results[0].Value, _values[0]);
+        }
+
+        if (_operator == LogicalOperators.IN)
+        {
+          return results
+            .Join(_values, x => x.Value, y => y, (x, y) => y)
+            .Any();
+        }
+      }
+
+      return (_operator == LogicalOperators.EQUALS || _operator == LogicalOperators.IN)
+        ? false : true;
+    }
+
+    private bool Execute(T inValue, T compareValue)
+    {
+      switch (_operator)
+      {
+        case LogicalOperators.EQUALS:
+          return inValue.Equals(compareValue);
+
+        case LogicalOperators.NOTEQUALS:
+          return !inValue.Equals(compareValue);
+
+        case LogicalOperators.IN:
+          return inValue.Equals(compareValue);
+
+        default:
+          return true;
       }
     }
   }

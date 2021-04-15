@@ -65,5 +65,10 @@ namespace NSimpleOLAP.Query.Predicates
           yield return dims;
       }
     }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs)
+    {
+      return _predicate.Execute(pairs);
+    }
   }
 }

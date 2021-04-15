@@ -15,6 +15,8 @@ namespace NSimpleOLAP.Query.Interfaces
 
     bool Execute(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data);
 
+    bool Execute(KeyValuePair<T, T>[] pairs);
+
     bool FiltersOnFacts();
 
     bool FiltersOnAggregation();

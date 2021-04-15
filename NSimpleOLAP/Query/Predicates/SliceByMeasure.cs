@@ -110,5 +110,10 @@ namespace NSimpleOLAP.Query.Predicates
     {
       yield break;
     }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs)
+    {
+      return true;
+    }
   }
 }

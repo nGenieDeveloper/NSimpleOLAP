@@ -113,5 +113,32 @@ namespace NSimpleOLAP.Query.Predicates
 
       return result;
     }
+
+    public bool Execute(KeyValuePair<T, T>[] pairs)
+    {
+      var result = false;
+
+      if (_predicates.Count > 0)
+      {
+        var query = _predicates.Skip(1);
+
+        result = _predicates[0].Execute(pairs);
+
+        if (!result)
+          return result;
+
+        foreach (var item in query)
+        {
+          result = result && item.Execute(pairs);
+
+          if (!result)
+          {
+            break;
+          }
+        }
+      }
+
+      return result;
+    }
   }
 }

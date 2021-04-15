@@ -74,13 +74,24 @@ namespace NSimpleOLAP.Query.Molap
     private IEnumerable<IOutputCell<T>> GetCells(Query<T> query)
     {
       var tuples = query.Axis.UnionAxisTuples;
+      var filterOnAgregation = query
+        .PredicateTree
+        .FiltersOnAggregation();
 
       foreach (var tuple in tuples)
       {
         var cells = _cube.Storage.GetCells(tuple);
 
         foreach (var cell in cells)
+        {
+          if (filterOnAgregation
+            && !query.PredicateTree.Execute(cell.Coords))
+          {
+            continue;
+          }
+
           yield return Map(cell, tuple, query);
+        }
       }
     }
 
