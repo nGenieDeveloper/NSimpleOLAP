@@ -306,6 +306,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       T hashkey = _keyHandler.GetKey(coords);
       Node<T, U> rnode = rootnode.InsertChildNodeIfNotExists(hashkey, coords);
       _cellValueHelper.UpdateMeasures(rnode.Container, vardata);
+      _cellValueHelper.UpdateMetrics(rnode.Container);
 
       return rnode;
     }

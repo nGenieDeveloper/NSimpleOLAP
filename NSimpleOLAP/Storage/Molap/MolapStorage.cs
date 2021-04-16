@@ -2,17 +2,16 @@
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
 using NSimpleOLAP.Interfaces;
+using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Schema;
 using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Storage.FactsCache;
 using NSimpleOLAP.Storage.Interfaces;
 using NSimpleOLAP.Storage.Molap.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NSimpleOLAP.Storage.FactsCache;
-using NSimpleOLAP.Query;
-using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -36,7 +35,7 @@ namespace NSimpleOLAP.Storage.Molap
       this.Config = config;
       _canonicFormater = new CanonicFormater<T>();
       _factsCache = new InMemoryFactsProvider<T>(this.Config.MolapConfig.HashType);
-      
+
       this.Init();
     }
 
@@ -58,7 +57,7 @@ namespace NSimpleOLAP.Storage.Molap
 
           foreach (Dimension<T> item in storage)
             item.Dispose();
-      });
+        });
       this.Measures = new MembersCollection<Measure<T>>(
         ItemType.Measure,
         (measure) => { this.NameSpace.Add(measure); },
@@ -68,7 +67,7 @@ namespace NSimpleOLAP.Storage.Molap
         (metric) => { this.NameSpace.Add(metric); },
         (storage) => this.NameSpace.Clear(ItemType.Metric));
 
-      _cellValuesHelper = new CellValuesHelper(this.Measures);
+      _cellValuesHelper = new CellValuesHelper(this.Measures, this.Dimensions, this.Metrics);
       _globalGraph = new Graph<T, U>(_cubeid, this.Config, _cellValuesHelper);
       _onDemandAggregations = new MolapAggregationsStorage<T, U>(_cubeid, this.Config, _cellValuesHelper, _canonicFormater);
     }
@@ -111,6 +110,7 @@ namespace NSimpleOLAP.Storage.Molap
       foreach (var item in graph.GetNodes(cpairs, pairs))
         yield return item.Container;
     }
+
     public U GetCell(T key, KeyValuePair<T, T>[] pairs)
     {
       var graph = _onDemandAggregations[key];
@@ -127,8 +127,9 @@ namespace NSimpleOLAP.Storage.Molap
     public void AddRowData(KeyValuePair<T, T>[] pairs, MeasureValuesCollection<T> data)
     {
       var tasks = Task.WhenAll(
-        Task.Run(() => _factsCache.AddFRow(pairs, data)), 
-        Task.Run(() => {
+        Task.Run(() => _factsCache.AddFRow(pairs, data)),
+        Task.Run(() =>
+        {
           if (this.Config.MolapConfig.OperationType == OperationMode.PreAggregate)
             _globalGraph.AddRowInfo(data, pairs);
         }));
@@ -273,10 +274,14 @@ namespace NSimpleOLAP.Storage.Molap
     private class CellValuesHelper : MolapCellValuesHelper<T, U>
     {
       private IMemberStorage<T, Measure<T>> _measures;
+      private IMemberStorage<T, Dimension<T>> _dimensions;
+      private IMemberStorage<T, Metric<T>> _metrics;
 
-      public CellValuesHelper(IMemberStorage<T, Measure<T>> measures)
+      public CellValuesHelper(IMemberStorage<T, Measure<T>> measures, IMemberStorage<T, Dimension<T>> dimensions, IMemberStorage<T, Metric<T>> metrics)
       {
         _measures = measures;
+        _dimensions = dimensions;
+        _metrics = metrics;
       }
 
       public override void UpdateMeasures(U cell, MeasureValuesCollection<T> measures)
@@ -295,22 +300,7 @@ namespace NSimpleOLAP.Storage.Molap
             {
               Type measuretype = this._measures[item.Key].DataType;
               ValueType ovalue = mcell.Values[item.Key];
-              Func<ValueType, ValueType, ValueType> functor = null;
-
-              if (measuretype == typeof(int))
-                functor = (x, y) => (int)x + (int)y;
-              else if (measuretype == typeof(long))
-                functor = (x, y) => (long)x + (long)y;
-              else if (measuretype == typeof(uint))
-                functor = (x, y) => (uint)x + (uint)y;
-              else if (measuretype == typeof(ulong))
-                functor = (x, y) => (ulong)x + (ulong)y;
-              else if (measuretype == typeof(decimal))
-                functor = (x, y) => (decimal)x + (decimal)y;
-              else if (measuretype == typeof(float))
-                functor = (x, y) => (float)x + (float)y;
-              else if (measuretype == typeof(double))
-                functor = (x, y) => (double)x + (double)y;
+              var functor = GetMeasureAggregationFunction(measuretype);
 
               if (functor != null)
                 mcell.Values[item.Key] = this.Add(ovalue, nvalue, functor);
@@ -321,9 +311,43 @@ namespace NSimpleOLAP.Storage.Molap
         }
       }
 
+      public override void UpdateMetrics(U cell)
+      {
+        // todo update
+        MolapCell<T> mcell = (MolapCell<T>)(object)cell;
+        /*
+        foreach (var item in _metrics)
+        {
+          
+        }*/
+      }
+
+
       public override void ClearCell(U cell)
       {
         ((MolapCell<T>)(object)cell).Reset();
+      }
+
+      private Func<ValueType, ValueType, ValueType> GetMeasureAggregationFunction(Type measuretype)
+      {
+        Func<ValueType, ValueType, ValueType> functor = null;
+
+        if (measuretype == typeof(int))
+          functor = (x, y) => (int)x + (int)y;
+        else if (measuretype == typeof(long))
+          functor = (x, y) => (long)x + (long)y;
+        else if (measuretype == typeof(uint))
+          functor = (x, y) => (uint)x + (uint)y;
+        else if (measuretype == typeof(ulong))
+          functor = (x, y) => (ulong)x + (ulong)y;
+        else if (measuretype == typeof(decimal))
+          functor = (x, y) => (decimal)x + (decimal)y;
+        else if (measuretype == typeof(float))
+          functor = (x, y) => (float)x + (float)y;
+        else if (measuretype == typeof(double))
+          functor = (x, y) => (double)x + (double)y;
+
+        return functor;
       }
     }
 

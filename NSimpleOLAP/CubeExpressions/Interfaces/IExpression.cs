@@ -7,18 +7,17 @@ using NSimpleOLAP.Interfaces;
 
 namespace NSimpleOLAP.CubeExpressions.Interfaces
 {
-  public interface IExpression<T, U, C>
+  public interface IExpression<T, U>
     where T: struct, IComparable
     where U : class, ICell<T>
-    where C : ICube<T, U>
   {
 
     T ID { get; }
 
     Type ReturnType { get; }
 
-    object Evaluate(IExpressionContext<T, U, C> context);
+    object Evaluate(IExpressionContext<T, U> context);
 
-    V Evaluate<V>(IExpressionContext<T, U, C> context);
+    V Evaluate<V>(IExpressionContext<T, U> context);
   }
 }

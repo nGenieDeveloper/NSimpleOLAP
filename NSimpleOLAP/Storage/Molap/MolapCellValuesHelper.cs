@@ -14,13 +14,14 @@ namespace NSimpleOLAP.Storage.Molap
 		where U: class, ICell<T>
 	{
 		public abstract void UpdateMeasures(U cell, MeasureValuesCollection<T> measures);
-		
+
+		public abstract void UpdateMetrics(U cell);
+
 		public abstract void ClearCell(U cell);
 		
 		public ValueType Add(ValueType oldvalue, ValueType newvalue,Func<ValueType, ValueType, ValueType> functor)
 		{
 			return functor(oldvalue, newvalue);
 		}
-		
 	}
 }
