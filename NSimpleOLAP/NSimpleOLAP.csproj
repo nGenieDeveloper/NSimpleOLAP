@@ -141,6 +141,10 @@
     <Compile Include="CubeDefinitions\Interfaces\ICellCollection.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
     <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
+    <Compile Include="CubeExpressions\CubeExpressionHelperFunctions.cs" />
+    <Compile Include="CubeExpressions\Interfaces\IExpression.cs" />
+    <Compile Include="CubeExpressions\Interfaces\IExpressionContext.cs" />
+    <Compile Include="CubeExpressions\MetricsExpression.cs" />
     <Compile Include="Data\DataRowHelper.cs" />
     <Compile Include="Data\DataSourceCollection.cs" />
     <Compile Include="Data\DefaultDataSource.cs" />
