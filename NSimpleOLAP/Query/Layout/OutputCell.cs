@@ -1,9 +1,9 @@
-﻿using NSimpleOLAP.Query.Interfaces;
+﻿using NSimpleOLAP.Common;
+using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query.Layout
 {
@@ -80,8 +80,8 @@ namespace NSimpleOLAP.Query.Layout
       }
     }
 
-    public OutputCellType CellType 
-    { 
+    public OutputCellType CellType
+    {
       get;
       private set;
     }
@@ -122,7 +122,7 @@ namespace NSimpleOLAP.Query.Layout
 
     public KeyValuePair<string, string>[] Column
     {
-      get; 
+      get;
       private set;
     }
 

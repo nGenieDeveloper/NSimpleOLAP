@@ -5,7 +5,6 @@ namespace NSimpleOLAP.Common
 {
   internal static class ReservedAndSpecialValues
   {
-
     public const string ALL = "ALL";
 
     public const string NEXT_MEMBER = "NEXTMEMBER";

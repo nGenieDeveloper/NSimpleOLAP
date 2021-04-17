@@ -4,7 +4,6 @@ using NSimpleOLAP.Data;
 using NSimpleOLAP.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NSimpleOLAP.Storage.Molap.Graph
 {
@@ -131,12 +130,12 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       if (!node.IsRootDim && FilterNode(node, new[] { selector.Item1 }))
       {
         var xcoords = coordsLastIndex != 0 ? new KeyValuePair<T, T>[coords.Length] : new KeyValuePair<T, T>[coords.Length + 1];
-        var index = node.Coords.Length-1;
+        var index = node.Coords.Length - 1;
 
         if (coordsLastIndex == 0)
         {
-          Array.Copy(node.Coords,1, xcoords,0, node.Coords.Length -1);
-          Array.Copy(coords, 1, xcoords, node.Coords.Length - 1, xcoords.Length - (coords.Length-1));
+          Array.Copy(node.Coords, 1, xcoords, 0, node.Coords.Length - 1);
+          Array.Copy(coords, 1, xcoords, node.Coords.Length - 1, xcoords.Length - (coords.Length - 1));
         }
         else
         {
@@ -157,7 +156,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
     {
       if (selector.Item2.IsAll())
       {
-        Func<Node<T, U>, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>, KeyValuePair<T, T>[],int, Node<T, U>> functor = FilterNodesExtend;
+        Func<Node<T, U>, Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>, KeyValuePair<T, T>[], int, Node<T, U>> functor = FilterNodesExtend;
 
         if (coords.Length == coordsLastIndex + 1)
           functor = FilterNodesShallow;
@@ -179,7 +178,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
           && currSelector.Item1.Value.Equals(x.Value));
       var length = index == 0 ? 1 : index;
       var ncoords = new KeyValuePair<T, T>[length];
-      
+
       Array.Copy(coords, ncoords, length);
 
       var nxnode = FilterNode(node, ncoords) ? node : node.GetNode(GetHashPoints(ncoords));

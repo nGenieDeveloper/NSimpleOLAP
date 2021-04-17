@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Interfaces;
+﻿using NSimpleOLAP.Interfaces;
+using System;
 
 namespace NSimpleOLAP.CubeExpressions.Interfaces
 {
   public interface IExpression<T, U>
-    where T: struct, IComparable
+    where T : struct, IComparable
     where U : class, ICell<T>
   {
-
     T ID { get; }
 
     Type ReturnType { get; }

@@ -1,6 +1,6 @@
 ﻿using NSimpleOLAP.CubeExpressions.Interfaces;
-using System;
 using NSimpleOLAP.Interfaces;
+using System;
 
 namespace NSimpleOLAP.CubeExpressions
 {

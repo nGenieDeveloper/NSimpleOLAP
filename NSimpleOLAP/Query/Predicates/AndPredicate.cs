@@ -1,9 +1,9 @@
 ﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Query.Predicates
 {

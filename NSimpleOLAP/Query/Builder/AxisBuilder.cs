@@ -1,8 +1,8 @@
 ﻿using NSimpleOLAP.Common;
+using NSimpleOLAP.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NSimpleOLAP.Schema;
 
 namespace NSimpleOLAP.Query.Builder
 {

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
-    class Program
+  internal class Program
+  {
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-        }
     }
+  }
 }

@@ -1,6 +1,4 @@
 ﻿using NSimpleOLAP;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration.Fluent;
 using NSimpleOLAP.Query;
 using NSimpleOLAP.Query.Builder;
 using NUnit.Framework;
@@ -144,7 +142,7 @@ namespace UnitTests
         .OnRows("sex.male")
         .OnColumns("category.shoes")
         .AddMeasures("quantity")
-        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100))) ;
+        .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
 
       var result = query.Create();
 

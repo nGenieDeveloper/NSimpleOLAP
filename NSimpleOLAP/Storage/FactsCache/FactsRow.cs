@@ -1,7 +1,7 @@
 ﻿using NSimpleOLAP.Data;
+using NSimpleOLAP.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Storage.Interfaces;
 
 namespace NSimpleOLAP.Storage.FactsCache
 {

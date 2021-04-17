@@ -63,25 +63,29 @@ namespace NSimpleOLAP.Query.Builder
     {
       switch (value)
       {
-        case int i when (type == typeof(int) 
+        case int i when (type == typeof(int)
         || (type == typeof(double))
         || type == typeof(decimal)
         || type == typeof(float)):
           return true;
+
         case long l when (type == typeof(long)
         || type == typeof(int)
         || (type == typeof(double))
         || type == typeof(decimal)
         || type == typeof(float)):
           return true;
+
         case decimal l when (type == typeof(decimal)
         || type == typeof(double)
         || type == typeof(int)):
           return true;
+
         case double db when (type == typeof(double)
         || type == typeof(decimal)
         || type == typeof(float)):
           return true;
+
         default:
           return false;
       }

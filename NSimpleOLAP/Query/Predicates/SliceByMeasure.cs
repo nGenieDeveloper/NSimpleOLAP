@@ -102,7 +102,7 @@ namespace NSimpleOLAP.Query.Predicates
       var ioperator = Operator == LogicalOperators.EQUALS ? -111 : (int)Operator;
       var result = _value.GetHashCode()
         ^ ioperator
-        ^ (int) TypeOf;
+        ^ (int)TypeOf;
 
       return result;
     }

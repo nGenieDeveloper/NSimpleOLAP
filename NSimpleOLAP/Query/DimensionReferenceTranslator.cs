@@ -35,7 +35,7 @@ namespace NSimpleOLAP.Query
         {
           index++;
 
-          if (index < values.Length 
+          if (index < values.Length
             && IsReservedWord(values[index]))
           {
             tuples.Add(new KeyValuePair<T, T>(key, member));

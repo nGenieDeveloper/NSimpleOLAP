@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NSimpleOLAP.Query.Predicates
+﻿namespace NSimpleOLAP.Query.Predicates
 {
   internal static class PredicateHelperFunctions
   {
@@ -12,10 +10,13 @@ namespace NSimpleOLAP.Query.Predicates
         {
           case int t:
             return t.GreaterThan(value2);
+
           case double d:
             return d.GreaterThan(value2);
+
           case decimal dex:
             return dex.GreaterThan(value2);
+
           case float f:
             return f.GreaterThan(value2);
         }
@@ -26,7 +27,7 @@ namespace NSimpleOLAP.Query.Predicates
 
     private static bool GreaterThan(this int value, object value2)
     {
-      return value > (int) value2;
+      return value > (int)value2;
     }
 
     private static bool GreaterThan(this double value, object value2)
@@ -52,10 +53,13 @@ namespace NSimpleOLAP.Query.Predicates
         {
           case int t:
             return t.GreaterOrEquals(value2);
+
           case double d:
             return d.GreaterOrEquals(value2);
+
           case decimal dex:
             return dex.GreaterOrEquals(value2);
+
           case float f:
             return f.GreaterOrEquals(value2);
         }
@@ -92,10 +96,13 @@ namespace NSimpleOLAP.Query.Predicates
         {
           case int t:
             return t.LowerThan(value2);
+
           case double d:
             return d.LowerThan(value2);
+
           case decimal dex:
             return dex.LowerThan(value2);
+
           case float f:
             return f.LowerThan(value2);
         }
@@ -132,10 +139,13 @@ namespace NSimpleOLAP.Query.Predicates
         {
           case int t:
             return t.LowerOrEquals(value2);
+
           case double d:
             return d.LowerOrEquals(value2);
+
           case decimal dex:
             return dex.LowerOrEquals(value2);
+
           case float f:
             return f.LowerOrEquals(value2);
         }

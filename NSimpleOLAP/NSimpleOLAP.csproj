@@ -193,7 +193,6 @@
     <Compile Include="Schema\DataSchema.cs" />
     <Compile Include="Schema\Dimension.cs" />
     <Compile Include="Schema\DimensionCollection.cs" />
-    <Compile Include="Schema\DimensionSlicerPredicateBuilder.cs" />
     <Compile Include="Schema\Interfaces\IDataItem.cs" />
     <Compile Include="Schema\Interfaces\IDataItemCollection.cs" />
     <Compile Include="Schema\Interfaces\IDimension.cs" />

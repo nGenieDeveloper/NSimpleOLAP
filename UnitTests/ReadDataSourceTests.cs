@@ -1,6 +1,4 @@
 ﻿using NSimpleOLAP;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration.Fluent;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -60,98 +58,98 @@ namespace UnitTests
     [Test]
     public void CellsEnumeratorTest()
     {
-  /*    CubeBuilder builder = new CubeBuilder();
+      /*    CubeBuilder builder = new CubeBuilder();
 
-      builder.SetName("hello")
-        .SetSource((sourcebuild) =>
-        {
-          sourcebuild.SetSource("sales")
-            .AddMapping("category", "category")
-            .AddMapping("sex", "sex")
-            .AddMapping("place", "place");
-        })
-        .AddDataSource(dsbuild =>
-        {
-          dsbuild.SetName("sales")
-            .SetSourceType(DataSourceType.CSV)
-            .SetCSVConfig(csvbuild =>
+          builder.SetName("hello")
+            .SetSource((sourcebuild) =>
             {
-              csvbuild.SetFilePath("TestData//table.csv")
-                               .SetHasHeader();
+              sourcebuild.SetSource("sales")
+                .AddMapping("category", "category")
+                .AddMapping("sex", "sex")
+                .AddMapping("place", "place");
             })
-            .AddField("category", 0, typeof(int))
-            .AddField("sex", 1, typeof(int))
-            .AddField("place", 2, typeof(int))
-            .AddField("expenses", 3, typeof(double))
-            .AddField("items", 4, typeof(int));
-        })
-        .AddDataSource(dsbuild =>
-        {
-          dsbuild.SetName("categories")
-            .SetSourceType(DataSourceType.CSV)
-            .AddField("id", 0, typeof(int))
-            .AddField("description", 1, typeof(string))
-            .SetCSVConfig(csvbuild =>
+            .AddDataSource(dsbuild =>
             {
-              csvbuild.SetFilePath("TestData//dimension1.csv")
-                               .SetHasHeader();
-            });
-        })
-        .AddDataSource(dsbuild =>
-        {
-          dsbuild.SetName("sexes")
-            .SetSourceType(DataSourceType.CSV)
-            .AddField("id", 0, typeof(int))
-            .AddField("description", 1, typeof(string))
-            .SetCSVConfig(csvbuild =>
-            {
-              csvbuild.SetFilePath("TestData//dimension2.csv")
-                               .SetHasHeader();
-            });
-        })
-        .AddDataSource(dsbuild =>
-        {
-          dsbuild.SetName("places")
-            .SetSourceType(DataSourceType.CSV)
-            .AddField("id", 0, typeof(int))
-            .AddField("description", 1, typeof(string))
-            .SetCSVConfig(csvbuild =>
-            {
-              csvbuild.SetFilePath("TestData//dimension3.csv")
-                               .SetHasHeader();
-            });
-        })
-        .MetaData(mbuild =>
-        {
-          mbuild.AddDimension("category", (dimbuild) =>
-          {
-            dimbuild.Source("categories")
-              .ValueField("id")
-              .DescField("description");
-          })
-            .AddDimension("sex", (dimbuild) =>
-            {
-              dimbuild.Source("sexes")
-                          .ValueField("id")
-                          .DescField("description");
+              dsbuild.SetName("sales")
+                .SetSourceType(DataSourceType.CSV)
+                .SetCSVConfig(csvbuild =>
+                {
+                  csvbuild.SetFilePath("TestData//table.csv")
+                                   .SetHasHeader();
+                })
+                .AddField("category", 0, typeof(int))
+                .AddField("sex", 1, typeof(int))
+                .AddField("place", 2, typeof(int))
+                .AddField("expenses", 3, typeof(double))
+                .AddField("items", 4, typeof(int));
             })
-            .AddDimension("place", (dimbuild) =>
+            .AddDataSource(dsbuild =>
             {
-              dimbuild.Source("places")
-                          .ValueField("id")
-                          .DescField("description");
+              dsbuild.SetName("categories")
+                .SetSourceType(DataSourceType.CSV)
+                .AddField("id", 0, typeof(int))
+                .AddField("description", 1, typeof(string))
+                .SetCSVConfig(csvbuild =>
+                {
+                  csvbuild.SetFilePath("TestData//dimension1.csv")
+                                   .SetHasHeader();
+                });
             })
-            .AddMeasure("spent", mesbuild =>
+            .AddDataSource(dsbuild =>
             {
-              mesbuild.ValueField("expenses")
-                          .SetType(typeof(double));
+              dsbuild.SetName("sexes")
+                .SetSourceType(DataSourceType.CSV)
+                .AddField("id", 0, typeof(int))
+                .AddField("description", 1, typeof(string))
+                .SetCSVConfig(csvbuild =>
+                {
+                  csvbuild.SetFilePath("TestData//dimension2.csv")
+                                   .SetHasHeader();
+                });
             })
-            .AddMeasure("quantity", mesbuild =>
+            .AddDataSource(dsbuild =>
             {
-              mesbuild.ValueField("items")
-                          .SetType(typeof(int));
-            });
-        });*/
+              dsbuild.SetName("places")
+                .SetSourceType(DataSourceType.CSV)
+                .AddField("id", 0, typeof(int))
+                .AddField("description", 1, typeof(string))
+                .SetCSVConfig(csvbuild =>
+                {
+                  csvbuild.SetFilePath("TestData//dimension3.csv")
+                                   .SetHasHeader();
+                });
+            })
+            .MetaData(mbuild =>
+            {
+              mbuild.AddDimension("category", (dimbuild) =>
+              {
+                dimbuild.Source("categories")
+                  .ValueField("id")
+                  .DescField("description");
+              })
+                .AddDimension("sex", (dimbuild) =>
+                {
+                  dimbuild.Source("sexes")
+                              .ValueField("id")
+                              .DescField("description");
+                })
+                .AddDimension("place", (dimbuild) =>
+                {
+                  dimbuild.Source("places")
+                              .ValueField("id")
+                              .DescField("description");
+                })
+                .AddMeasure("spent", mesbuild =>
+                {
+                  mesbuild.ValueField("expenses")
+                              .SetType(typeof(double));
+                })
+                .AddMeasure("quantity", mesbuild =>
+                {
+                  mesbuild.ValueField("items")
+                              .SetType(typeof(int));
+                });
+            });*/
 
       Cube<int> cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures();
 

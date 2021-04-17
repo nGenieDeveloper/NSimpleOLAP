@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Schema.Interfaces;
-using NSimpleOLAP.Storage.Interfaces;
-
+﻿using NSimpleOLAP.Storage.Interfaces;
+using System;
 
 namespace NSimpleOLAP.Schema
 {
@@ -11,7 +7,7 @@ namespace NSimpleOLAP.Schema
   /// Description of DimensionsCollection.
   /// </summary>
   public class DimensionCollection<T> : BaseDataMemberCollection<T, Dimension<T>>
-    where T: struct, IComparable
+    where T : struct, IComparable
   {
     public DimensionCollection(IMemberStorage<T, Dimension<T>> storage)
     {

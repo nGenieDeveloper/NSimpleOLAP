@@ -1,8 +1,8 @@
 ﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Query.Interfaces;
 using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Query.Interfaces;
 
 namespace NSimpleOLAP.Query.Predicates
 {
@@ -36,7 +36,7 @@ namespace NSimpleOLAP.Query.Predicates
 
     public override int GetHashCode()
     {
-      var result = (int) TypeOf
+      var result = (int)TypeOf
         ^ _predicate.GetHashCode();
 
       return result;

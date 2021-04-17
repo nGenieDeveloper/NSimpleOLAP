@@ -1,7 +1,7 @@
 ﻿using NSimpleOLAP.Query.Interfaces;
+using NSimpleOLAP.Query.Molap;
 using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Query.Molap;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -127,7 +127,7 @@ namespace NSimpleOLAP.Query.Builder
 
     private class QueryImplementation : Query<T>
     {
-      public QueryImplementation(Cube<T> cube, Axis<T> axis, List<T> measures,IPredicate<T> predicateTree)
+      public QueryImplementation(Cube<T> cube, Axis<T> axis, List<T> measures, IPredicate<T> predicateTree)
       {
         this.cube = cube;
         this.axis = axis;

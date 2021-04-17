@@ -53,10 +53,9 @@ namespace NSimpleOLAP.Query.Molap
       if (!_cube.Storage.AggregationExists(tuples, query.PredicateTree))
       {
         cubeId = _cube.Storage.CreateAggregation(tuples, query.PredicateTree);
-        
+
         _cube.Storage.PopulateNewAggregation(cubeId, query.PredicateTree);
       }
-        
       else
         cubeId = _cube.Storage.GetAggregationId(tuples, query.PredicateTree);
 

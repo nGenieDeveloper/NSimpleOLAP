@@ -1,14 +1,12 @@
 ﻿using NSimpleOLAP.CubeExpressions.Interfaces;
-using System;
 using NSimpleOLAP.Interfaces;
+using System;
 
 namespace NSimpleOLAP.CubeExpressions
 {
   public abstract class CellContext<T> : IExpressionContext<T, ICell<T>>
     where T : struct, IComparable
   {
-
-
     public ICell<T> CurrentCell
     {
       get;
@@ -16,5 +14,5 @@ namespace NSimpleOLAP.CubeExpressions
     }
 
     public ICell<T> RootCell { get; }
-}
+  }
 }

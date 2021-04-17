@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NSimpleOLAP.Common;
+using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Query.Interfaces
 {

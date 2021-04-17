@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NSimpleOLAP.CubeExpressions
+﻿namespace NSimpleOLAP.CubeExpressions
 {
   internal static class CubeExpressionHelperFunctions
   {
-
     private static int Max(this int value, object value2)
     {
       return (value > (int)value2) ? value : (int)value2;

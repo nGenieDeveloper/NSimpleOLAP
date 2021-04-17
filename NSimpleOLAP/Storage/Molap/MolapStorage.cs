@@ -318,10 +318,8 @@ namespace NSimpleOLAP.Storage.Molap
         /*
         foreach (var item in _metrics)
         {
-          
         }*/
       }
-
 
       public override void ClearCell(U cell)
       {

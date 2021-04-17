@@ -41,7 +41,7 @@ namespace NSimpleOLAP.Query.Builder
     {
       _measure = measureKey;
       _valueType = _translator.MeasureType(_measure);
-      _measureName = _translator.MeasureName(measureKey); 
+      _measureName = _translator.MeasureName(measureKey);
 
       return this;
     }

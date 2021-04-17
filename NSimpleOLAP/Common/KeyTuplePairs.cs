@@ -8,6 +8,7 @@ namespace NSimpleOLAP.Common
     where T : struct, IComparable
   {
     private readonly bool _sameValue;
+
     public KeyTuplePairs(KeyValuePair<T, T>[] anchor, KeyValuePair<T, T>[] selector, KeyValuePair<T, T>[] col, KeyValuePair<T, T>[] row)
     {
       AnchorTuple = anchor;
@@ -56,14 +57,14 @@ namespace NSimpleOLAP.Common
     private IEnumerable<Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>> GetSelectorPairs()
     {
       var list = SelectorTuple.
-        Select((x,i) => new { Tup = x, Index = i, IsSelector = x.IsReservedValue() })
+        Select((x, i) => new { Tup = x, Index = i, IsSelector = x.IsReservedValue() })
         .ToList();
-     
+
       foreach (var item in list)
       {
         if (item.IsSelector)
         {
-          yield return new Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>(list[item.Index-1].Tup, item.Tup);
+          yield return new Tuple<KeyValuePair<T, T>, KeyValuePair<T, T>>(list[item.Index - 1].Tup, item.Tup);
         }
       }
     }
