@@ -141,8 +141,11 @@
     <Compile Include="CubeDefinitions\Interfaces\ICellCollection.cs" />
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
     <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
+    <Compile Include="CubeExpressions\Builder\CubeExpressionBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\ExpressionElementPickerBuilder.cs" />
     <Compile Include="CubeExpressions\CellContext.cs" />
     <Compile Include="CubeExpressions\CubeExpressionHelperFunctions.cs" />
+    <Compile Include="CubeExpressions\ExpressionPartDefinition.cs" />
     <Compile Include="CubeExpressions\Interfaces\IExpression.cs" />
     <Compile Include="CubeExpressions\Interfaces\IExpressionContext.cs" />
     <Compile Include="CubeExpressions\MetricsExpression.cs" />
@@ -170,7 +173,7 @@
     <Compile Include="Query\Interfaces\IPredicateBuilder.cs" />
     <Compile Include="Common\KeyTuplePairs.cs" />
     <Compile Include="Query\Layout\OutputCell.cs" />
-    <Compile Include="Query\MeasureReferenceTranslator.cs" />
+    <Compile Include="Common\Utils\MeasureReferenceTranslator.cs" />
     <Compile Include="Query\Builder\MeasureSlicerBuilder.cs" />
     <Compile Include="Query\Molap\MolapQueryOrchestrator.cs" />
     <Compile Include="Query\Builder\NotPredicateBuilder.cs" />
@@ -187,7 +190,7 @@
     <Compile Include="Query\Query.cs" />
     <Compile Include="Query\Builder\QueryBuilder.cs" />
     <Compile Include="Query\QueryExtensions.cs" />
-    <Compile Include="Query\DimensionReferenceTranslator.cs" />
+    <Compile Include="Common\Utils\DimensionReferenceTranslator.cs" />
     <Compile Include="Query\Builder\WhereBuilder.cs" />
     <Compile Include="Schema\BaseDataMemberCollection.cs" />
     <Compile Include="Schema\DataSchema.cs" />

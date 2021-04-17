@@ -2,6 +2,7 @@
 using NSimpleOLAP.Query.Molap;
 using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -24,7 +25,7 @@ namespace NSimpleOLAP.Query.Builder
       _dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
       _measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
       _wherebuilder = new WhereBuilder<T>(_innerCube.Schema, _dimTranslator, _measTranslator);
-      _axisBuilder = new AxisBuilder<T>(_innerCube.Config.Storage.MolapConfig.HashType, _dimTranslator, _innerCube.Schema);
+      _axisBuilder = new AxisBuilder<T>(_innerCube.Config.Storage.MolapConfig.HashType, _innerCube.Schema);
     }
 
     #region fluent interface

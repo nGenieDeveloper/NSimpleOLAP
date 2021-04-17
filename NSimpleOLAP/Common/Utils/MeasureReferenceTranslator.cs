@@ -1,7 +1,7 @@
 ﻿using NSimpleOLAP.Schema;
 using System;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Common.Utils
 {
   /// <summary>
   /// Description of MeasureReferenceTranslator.

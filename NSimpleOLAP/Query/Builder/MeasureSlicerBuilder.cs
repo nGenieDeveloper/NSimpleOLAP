@@ -3,6 +3,7 @@ using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Query.Predicates;
 using NSimpleOLAP.Schema;
 using System;
+using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {

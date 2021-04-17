@@ -8,3 +8,11 @@
 *.cache
 *.CopyComplete
 *.nupkg
+*.testlog
+*.manifest
+packages/*
+UnitTests/bin/*
+UnitTests/obj/*
+ExampleApp/bin/*
+ExampleApp/obj/*
+NSimpleOLAP/obj/*

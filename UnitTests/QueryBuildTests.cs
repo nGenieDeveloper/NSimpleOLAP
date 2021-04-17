@@ -2,6 +2,7 @@
 using NSimpleOLAP.Query;
 using NSimpleOLAP.Query.Builder;
 using NUnit.Framework;
+using NSimpleOLAP.Common.Utils;
 
 namespace UnitTests
 {

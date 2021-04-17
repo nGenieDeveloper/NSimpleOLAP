@@ -4,6 +4,7 @@ using NSimpleOLAP.Query.Predicates;
 using NSimpleOLAP.Schema;
 using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {

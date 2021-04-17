@@ -3,7 +3,7 @@ using NSimpleOLAP.Schema;
 using System;
 using System.Collections.Generic;
 
-namespace NSimpleOLAP.Query
+namespace NSimpleOLAP.Common.Utils
 {
   /// <summary>
   /// Description of ReferenceTranslator.
