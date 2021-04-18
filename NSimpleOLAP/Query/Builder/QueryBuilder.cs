@@ -112,7 +112,17 @@ namespace NSimpleOLAP.Query.Builder
     /// <returns></returns>
     public QueryBuilder<T> Where(Action<WhereBuilder<T>> whereBuild)
     {
+    //  _wherebuilder.Define()
+
+    //    Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder
       whereBuild(_wherebuilder);
+
+      return this;
+    }
+
+    public QueryBuilder<T> Where(Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder)
+    {
+      _wherebuilder.Define(blockBuilder);
 
       return this;
     }

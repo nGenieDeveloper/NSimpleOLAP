@@ -142,7 +142,11 @@
     <Compile Include="CubeDefinitions\Interfaces\ICube.cs" />
     <Compile Include="CubeDefinitions\Interfaces\IValueCollection.cs" />
     <Compile Include="CubeExpressions\Builder\CubeExpressionBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\ExpressionBuilder.cs" />
     <Compile Include="CubeExpressions\Builder\ExpressionElementPickerBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\ExpressionElementsBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\ExpressionNodeBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\MetricExpressionBuilder.cs" />
     <Compile Include="CubeExpressions\CellContext.cs" />
     <Compile Include="CubeExpressions\CubeExpressionHelperFunctions.cs" />
     <Compile Include="CubeExpressions\ExpressionPartDefinition.cs" />
