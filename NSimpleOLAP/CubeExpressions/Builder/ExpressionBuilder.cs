@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Common.Utils;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Interfaces;
+using NSimpleOLAP.CubeExpressions.Interfaces;
 
 namespace NSimpleOLAP.CubeExpressions.Builder
 {
@@ -29,9 +31,9 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       expression(_expressionRoot);
     }
 
-    public void Create()
+    internal Func<IExpressionContext<T, ICell<T>>, IExpressionContext<T, ICell<T>>> Create()
     {
-      _expressionRoot.Create();
+      return _expressionRoot.Create();
     }
   }
 }

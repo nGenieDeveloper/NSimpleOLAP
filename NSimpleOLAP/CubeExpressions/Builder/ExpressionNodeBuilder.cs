@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Common.Utils;
 using NSimpleOLAP.Common;
+using NSimpleOLAP.Interfaces;
+using NSimpleOLAP.CubeExpressions.Interfaces;
 
 namespace NSimpleOLAP.CubeExpressions.Builder
 {
@@ -34,11 +36,25 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       _value = value;
     }
 
+    public void Sum(Action<ExpressionElementsBuilder<T>> builder)
+    {
+      _operation = OperationType.SUM;
+
+      builder(_leftNodeBuilder);
+    }
+
     public void Subtract<V>(V value)
       where V : struct
     {
       _operation = OperationType.SUBTRACTION;
       _value = value;
+    }
+
+    public void Subtract(Action<ExpressionElementsBuilder<T>> builder)
+    {
+      _operation = OperationType.SUBTRACTION;
+
+      builder(_leftNodeBuilder);
     }
 
     public void Multiply<V>(V value)
@@ -48,16 +64,40 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       _value = value;
     }
 
+    public void Multiply(Action<ExpressionElementsBuilder<T>> builder)
+    {
+      _operation = OperationType.MULTIPLICATION;
+
+      builder(_leftNodeBuilder);
+    }
+
     public void Divide<V>(V value)
       where V : struct
     {
+      V defvalue = default(V);
+
+      if (defvalue.Equals(value))
+        throw new Exception("Division by 0 is not allowed!");
+
       _operation = OperationType.DIVISION;
       _value = value;
+    }
+
+    public void Divide(Action<ExpressionElementsBuilder<T>> builder)
+    {
+      _operation = OperationType.DIVISION;
+
+      builder(_leftNodeBuilder);
     }
 
     public void Average()
     {
       _operation = OperationType.AVERAGE;
+    }
+
+    public void Value()
+    {
+      _operation = OperationType.VALUE;
     }
 
     public void Max()
@@ -70,9 +110,11 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       _operation = OperationType.MAX;
     }
 
-    public void Create()
+    internal Func<IExpressionContext<T, ICell<T>>, IExpressionContext<T, ICell<T>>> Create()
     {
-
+      return null;
     }
+
+
   }
 }

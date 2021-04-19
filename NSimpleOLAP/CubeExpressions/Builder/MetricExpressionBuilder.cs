@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Query.Interfaces;
-using NSimpleOLAP.Common.Utils;
-using NSimpleOLAP.Common;
-
+﻿using NSimpleOLAP.Common.Utils;
+using NSimpleOLAP.CubeExpressions.Interfaces;
+using NSimpleOLAP.Interfaces;
+using System;
 
 namespace NSimpleOLAP.CubeExpressions.Builder
 {
@@ -33,9 +28,17 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       return _expressionBuilder;
     }
 
-    public void Create()
+    public Func<IExpressionContext<T, ICell<T>>, object> Create()
     {
-      _expressionBuilder.Create();
+      var functor = _expressionBuilder.Create();
+      Func<IExpressionContext<T, ICell<T>>, object> capsule = x =>
+      {
+        IExpressionContext<T, ICell<T>> result = functor(x);
+
+        return null; // todo
+      };
+
+      return capsule;
     }
   }
 }
