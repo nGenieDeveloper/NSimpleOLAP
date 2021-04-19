@@ -1,9 +1,6 @@
-﻿using System;
+﻿using NSimpleOLAP.Common.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.CubeExpressions.Builder
 {
@@ -74,6 +71,11 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       _tuples.AddRange(tuples);
 
       return this;
+    }
+
+    internal Tuple<T, List<KeyValuePair<T, T>[]>> Create()
+    {
+      return new Tuple<T, List<KeyValuePair<T, T>[]>>(Measure, Tuples);
     }
   }
 }

@@ -146,6 +146,7 @@
     <Compile Include="CubeExpressions\Builder\ExpressionElementPickerBuilder.cs" />
     <Compile Include="CubeExpressions\Builder\ExpressionElementsBuilder.cs" />
     <Compile Include="CubeExpressions\Builder\ExpressionNodeBuilder.cs" />
+    <Compile Include="CubeExpressions\Builder\ExpressionUnitFactory.cs" />
     <Compile Include="CubeExpressions\Builder\MetricExpressionBuilder.cs" />
     <Compile Include="CubeExpressions\CellContext.cs" />
     <Compile Include="CubeExpressions\CubeExpressionHelperFunctions.cs" />

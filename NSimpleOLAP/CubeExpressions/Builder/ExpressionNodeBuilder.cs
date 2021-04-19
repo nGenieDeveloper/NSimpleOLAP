@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Query.Interfaces;
+﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Common.Utils;
-using NSimpleOLAP.Common;
-using NSimpleOLAP.Interfaces;
 using NSimpleOLAP.CubeExpressions.Interfaces;
+using NSimpleOLAP.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.CubeExpressions.Builder
 {
@@ -26,7 +22,30 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       _dimTranslator = dimTranslator;
       _measTranslator = measTranslator;
       _picker = picker;
-      _leftNodeBuilder = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
+    }
+
+    internal Tuple<T, List<KeyValuePair<T, T>[]>> Picker
+    {
+      get
+      {
+        return _picker.Create();
+      }
+    }
+
+    internal OperationType Operation
+    {
+      get
+      {
+        return _operation;
+      }
+    }
+
+    internal ValueType ScalarValue
+    {
+      get
+      {
+        return _value;
+      }
     }
 
     public void Sum<V>(V value)
@@ -39,6 +58,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     public void Sum(Action<ExpressionElementsBuilder<T>> builder)
     {
       _operation = OperationType.SUM;
+      _leftNodeBuilder = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
 
       builder(_leftNodeBuilder);
     }
@@ -53,6 +73,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     public void Subtract(Action<ExpressionElementsBuilder<T>> builder)
     {
       _operation = OperationType.SUBTRACTION;
+      _leftNodeBuilder = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
 
       builder(_leftNodeBuilder);
     }
@@ -67,6 +88,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     public void Multiply(Action<ExpressionElementsBuilder<T>> builder)
     {
       _operation = OperationType.MULTIPLICATION;
+      _leftNodeBuilder = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
 
       builder(_leftNodeBuilder);
     }
@@ -86,6 +108,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     public void Divide(Action<ExpressionElementsBuilder<T>> builder)
     {
       _operation = OperationType.DIVISION;
+      _leftNodeBuilder = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
 
       builder(_leftNodeBuilder);
     }
@@ -112,9 +135,10 @@ namespace NSimpleOLAP.CubeExpressions.Builder
 
     internal Func<IExpressionContext<T, ICell<T>>, IExpressionContext<T, ICell<T>>> Create()
     {
-      return null;
+      if (_leftNodeBuilder == null)
+        return ExpressionUnitFactory.Build(this);
+
+      return ExpressionUnitFactory.Build(this, _leftNodeBuilder.Create());
     }
-
-
   }
 }

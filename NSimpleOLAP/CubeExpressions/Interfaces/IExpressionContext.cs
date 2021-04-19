@@ -1,5 +1,6 @@
 ﻿using NSimpleOLAP.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.CubeExpressions.Interfaces
 {
@@ -10,5 +11,11 @@ namespace NSimpleOLAP.CubeExpressions.Interfaces
     U CurrentCell { get; }
 
     U RootCell { get; }
+
+    object Result { get; set; }
+
+    IDictionary<T, ValueType> PreviousValues { get; }
+
+    IDictionary<T, ValueType> NewValues { get; }
   }
 }

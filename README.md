@@ -4,14 +4,14 @@ The goal of this project is to build an embeddable .Net **OLAP** library that ca
 
 One of the key motivations for this project is to educate more developers on the utility of aggregation engines beyond the field of Business Intelligence and Finance.
 
-At the present moment this project is still in alpha stage and unstable, it allows for some basic querying and modes of aggregation.
-Some of it's implementations features are experimental, or are there to allow easy testing of different opportunities for optimization or feature enhancement.
+At the present moment this project is still in alpha stage and unstable, and only allows for some basic querying and modes of aggregation.
+Some of its implementations features are experimental, or are there to allow easy testing of different opportunities for optimization or feature enhancement.
 More on that later.
 
 ## Quick Start
 
-Building a Cube will require some intial setup to identify the data sources, mappings and define the metadata.
-In the following example we will build a Cube from data that is contained in CSV files, and these will be used to define the Cube dimensions and measure.
+Building a Cube will require some intial setup to identify the data sources, mappings and defining the metadata.
+In the following example we will build a Cube from data that is contained in CSV files, and these will be used to define the Cube dimensions and measures.
 
 
 ```csharp
