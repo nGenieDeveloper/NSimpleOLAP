@@ -323,12 +323,32 @@ namespace NSimpleOLAP.Storage.Molap
 
       public override void UpdateMetrics(U cell, CellContext<T> context)
       {
-        // todo update
         MolapCell<T> mcell = (MolapCell<T>)(object)cell;
-        /*
+        
         foreach (var item in _metrics)
         {
-        }*/
+          object nvalue = null;
+
+          try
+          {
+            nvalue = item.MetricExpression.Evaluate(context);
+          }
+          catch (Exception ex)
+          {
+            //to do logging error and error behavior
+            Console.WriteLine(ex.Message);
+          }
+
+          if (nvalue != null)
+          {
+            if (mcell.Values.ContainsKey(item.ID))
+              mcell.Values[item.ID] = (ValueType)nvalue;
+            else
+              mcell.Values.Add(item.ID, (ValueType)nvalue);
+          }
+          else
+            mcell.Values.Remove(item.ID);
+        }
       }
 
       public override void ClearCell(U cell)

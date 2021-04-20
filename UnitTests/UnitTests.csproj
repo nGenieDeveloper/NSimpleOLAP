@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigTests.cs" />
+    <Compile Include="CubeExpressionMetricsTests.cs" />
     <Compile Include="CubeInitializationTests.cs" />
     <Compile Include="CubeSourcesFixture.cs" />
     <Compile Include="Program.cs" />
