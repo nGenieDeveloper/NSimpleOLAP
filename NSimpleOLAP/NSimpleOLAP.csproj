@@ -225,6 +225,7 @@
     <Compile Include="Storage\Molap\AbsMolapMemberCollection.cs" />
     <Compile Include="Storage\Molap\AbsMolapNameSpace.cs" />
     <Compile Include="Storage\Molap\Graph\Graph.cs" />
+    <Compile Include="Storage\Molap\Graph\GraphCellContext.cs" />
     <Compile Include="Storage\Molap\Graph\Node.cs" />
     <Compile Include="Storage\Molap\Graph\NodeCollection.cs" />
     <Compile Include="Storage\Molap\MolapAggregationsStorage.cs" />

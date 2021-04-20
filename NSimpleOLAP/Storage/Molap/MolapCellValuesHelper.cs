@@ -1,6 +1,7 @@
 ﻿using NSimpleOLAP.Data;
 using NSimpleOLAP.Interfaces;
 using System;
+using NSimpleOLAP.CubeExpressions;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -11,9 +12,9 @@ namespace NSimpleOLAP.Storage.Molap
     where T : struct, IComparable
     where U : class, ICell<T>
   {
-    public abstract void UpdateMeasures(U cell, MeasureValuesCollection<T> measures);
+    public abstract void UpdateMeasures(U cell, MeasureValuesCollection<T> measures, CellContext<T> context);
 
-    public abstract void UpdateMetrics(U cell);
+    public abstract void UpdateMetrics(U cell, CellContext<T> context);
 
     public abstract void ClearCell(U cell);
 

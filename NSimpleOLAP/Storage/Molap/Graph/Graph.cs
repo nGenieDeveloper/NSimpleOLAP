@@ -304,8 +304,9 @@ namespace NSimpleOLAP.Storage.Molap.Graph
       KeyValuePair<T, T>[] coords = Node<T, U>.GetCoords(rootnode.Coords, pair);
       T hashkey = _keyHandler.GetKey(coords);
       Node<T, U> rnode = rootnode.InsertChildNodeIfNotExists(hashkey, coords);
-      _cellValueHelper.UpdateMeasures(rnode.Container, vardata);
-      _cellValueHelper.UpdateMetrics(rnode.Container);
+      var context = new GraphCellContext<T>(rnode.Container, rootnode.Container);
+      _cellValueHelper.UpdateMeasures(rnode.Container, vardata, context);
+      _cellValueHelper.UpdateMetrics(rnode.Container, context);
 
       return rnode;
     }

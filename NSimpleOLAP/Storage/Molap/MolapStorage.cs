@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NSimpleOLAP.CubeExpressions;
 
 namespace NSimpleOLAP.Storage.Molap
 {
@@ -284,7 +285,7 @@ namespace NSimpleOLAP.Storage.Molap
         _metrics = metrics;
       }
 
-      public override void UpdateMeasures(U cell, MeasureValuesCollection<T> measures)
+      public override void UpdateMeasures(U cell, MeasureValuesCollection<T> measures, CellContext<T> context)
       {
         MolapCell<T> mcell = (MolapCell<T>)(object)cell;
 
@@ -303,15 +304,24 @@ namespace NSimpleOLAP.Storage.Molap
               var functor = GetMeasureAggregationFunction(measuretype);
 
               if (functor != null)
+              {
+                context.UpdateOldValue(item.Key, ovalue);
+                context.UpdateNewValue(item.Key, nvalue);
                 mcell.Values[item.Key] = this.Add(ovalue, nvalue, functor);
+              }
+                
             }
             else
+            {
+              context.UpdateNewValue(item.Key, nvalue);
               mcell.Values.Add(item.Key, nvalue);
+            }
+              
           }
         }
       }
 
-      public override void UpdateMetrics(U cell)
+      public override void UpdateMetrics(U cell, CellContext<T> context)
       {
         // todo update
         MolapCell<T> mcell = (MolapCell<T>)(object)cell;
