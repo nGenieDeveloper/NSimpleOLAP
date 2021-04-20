@@ -92,6 +92,12 @@ namespace NSimpleOLAP
       internal set;
     }
 
+    internal bool Initialized
+    {
+      get;
+      private set;
+    }
+
     #endregion props
 
     #region IDisposable implementations
@@ -123,6 +129,8 @@ namespace NSimpleOLAP
         this.Storage.Measures,
         this.Storage.Metrics);
       _rowHelper = new DataRowHelper<T>(this.Schema, this.Config.Source);
+
+      Initialized = true;
     }
 
     #region IProcess implementation

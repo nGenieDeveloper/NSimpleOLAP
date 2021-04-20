@@ -8,6 +8,7 @@ namespace NSimpleOLAP.CubeExpressions
     where T : struct, IComparable
   {
     protected T id;
+    protected string name;
     protected Type returnType;
     protected Func<IExpressionContext<T, ICell<T>>, object> expression;
 
@@ -16,6 +17,14 @@ namespace NSimpleOLAP.CubeExpressions
       get
       {
         return id;
+      }
+    }
+
+    public string Name
+    {
+      get
+      {
+        return name;
       }
     }
 

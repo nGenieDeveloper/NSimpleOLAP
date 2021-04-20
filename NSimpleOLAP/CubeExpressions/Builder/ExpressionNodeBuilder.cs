@@ -16,12 +16,14 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     private OperationType _operation;
     private ValueType _value;
     private ExpressionElementsBuilder<T> _leftNodeBuilder;
+    private Type _type;
 
     public ExpressionNodeBuilder(ExpressionElementPickerBuilder<T> picker, DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
     {
       _dimTranslator = dimTranslator;
       _measTranslator = measTranslator;
       _picker = picker;
+      _type = picker.ReturnType;
     }
 
     internal Tuple<T, List<KeyValuePair<T, T>[]>> Picker
@@ -45,6 +47,14 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       get
       {
         return _value;
+      }
+    }
+
+    internal Type ReturnType
+    {
+      get
+      {
+        return _type;
       }
     }
 

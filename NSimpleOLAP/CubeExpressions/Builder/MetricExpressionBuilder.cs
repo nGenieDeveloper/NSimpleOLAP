@@ -13,6 +13,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     private MeasureReferenceTranslator<T> _measTranslator;
     private ExpressionBuilder<T> _expressionBuilder;
 
+
     public MetricExpressionBuilder(DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
     {
       _dimTranslator = dimTranslator;
@@ -28,17 +29,28 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       return _expressionBuilder;
     }
 
-    public Func<IExpressionContext<T, ICell<T>>, object> Create()
+    public MetricsExpression<T> Create()
     {
       var functor = _expressionBuilder.Create();
+      var type = _expressionBuilder.ReturnType;
       Func<IExpressionContext<T, ICell<T>>, object> capsule = x =>
       {
         IExpressionContext<T, ICell<T>> result = functor(x);
 
-        return null; // todo
+        return result.Result;
       };
 
-      return capsule;
+      return new ImplementationMetricsExpression(_name, type, capsule);
+    }
+
+    private class ImplementationMetricsExpression: MetricsExpression<T>
+    {
+      public ImplementationMetricsExpression(string name, Type type, Func<IExpressionContext<T, ICell<T>>, object> functor)
+      {
+        this.name = name;
+        returnType = type;
+        expression = functor;
+      }
     }
   }
 }

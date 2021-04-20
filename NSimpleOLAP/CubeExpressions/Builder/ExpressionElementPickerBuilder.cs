@@ -8,6 +8,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     where T : struct, IComparable
   {
     private T _measure;
+    private Type _type;
     private List<KeyValuePair<T, T>[]> _tuples;
     private DimensionReferenceTranslator<T> _dimTranslator;
     private MeasureReferenceTranslator<T> _measTranslator;
@@ -34,9 +35,18 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       }
     }
 
+    internal Type ReturnType
+    {
+      get
+      {
+        return _type;
+      }
+    }
+
     public ExpressionElementPickerBuilder<T> Set(string measure)
     {
       _measure = _measTranslator.Translate(measure);
+      _type = _measTranslator.MeasureType(_measure);
 
       return this;
     }
@@ -44,6 +54,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     internal ExpressionElementPickerBuilder<T> Set(T measure)
     {
       _measure = measure;
+      _type = _measTranslator.MeasureType(_measure);
 
       return this;
     }

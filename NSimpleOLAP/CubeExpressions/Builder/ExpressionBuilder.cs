@@ -25,6 +25,14 @@ namespace NSimpleOLAP.CubeExpressions.Builder
       expression(_expressionRoot);
     }
 
+    internal Type ReturnType
+    {
+      get
+      {
+        return _expressionRoot.ReturnType;
+      }
+    }
+
     internal Func<IExpressionContext<T, ICell<T>>, IExpressionContext<T, ICell<T>>> Create()
     {
       return _expressionRoot.Create();

@@ -2,6 +2,7 @@
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Configuration.Fluent;
 using NUnit.Framework;
+using NSimpleOLAP.CubeExpressions;
 
 namespace UnitTests
 {
@@ -117,8 +118,6 @@ namespace UnitTests
         });
 
       Cube<int> cube = builder.Create<int>();
-
-      cube.Initialize();
 
       Assert.AreEqual("var1", cube.Schema.Measures["var1"].Name);
       Assert.AreEqual(ItemType.Measure, cube.Schema.Measures["var1"].ItemType);
