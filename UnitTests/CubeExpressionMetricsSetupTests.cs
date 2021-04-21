@@ -71,5 +71,56 @@ namespace UnitTests
       Assert.IsNotNull(cube.Schema.Metrics["testeMax"]);
       Assert.IsNotNull(cube.Schema.Metrics["testeMin"]);
     }
+
+    [Test]
+    public void Basic_Metric_Multiplication_Expression_Setup_Test()
+    {
+      cube.BuildMetrics()
+        .Add("testeMultiply1", exb => exb.Expression(e => e.Set("quantity").Multiply(3)))
+        .Create();
+
+      Assert.IsNotNull(cube.Schema.Metrics["testeMultiply1"]);
+    }
+
+    [Test]
+    public void Basic_Metric_Division_Expression_Setup_Test()
+    {
+      cube.BuildMetrics()
+        .Add("testeDivide1", exb => exb.Expression(e => e.Set("quantity").Divide(2)))
+        .Create();
+
+      Assert.IsNotNull(cube.Schema.Metrics["testeDivide1"]);
+    }
+
+    [Test]
+    public void Basic_Metric_Subtract_Expression_Setup_Test()
+    {
+      cube.BuildMetrics()
+        .Add("testeSubtract1", exb => exb.Expression(e => e.Set("quantity").Subtract(10)))
+        .Create();
+
+      Assert.IsNotNull(cube.Schema.Metrics["testeSubtract1"]);
+    }
+
+    [Test]
+    public void Composite_Metric_Multiplication_Expression_Setup_Test()
+    {
+      cube.BuildMetrics()
+        .Add("testeMultiply2", exb => exb.Expression(e => e.Set("quantity").Multiply(ex => ex.Set("spent").Value())))
+        .Create();
+
+      Assert.IsNotNull(cube.Schema.Metrics["testeMultiply2"]);
+    }
+
+    [Test]
+    public void Composite_Metric_Division_Expression_Setup_Test()
+    {
+      cube.BuildMetrics()
+        .Add("testeDivide2", exb => exb.Expression(e => e.Set("spent").Divide(ex => ex.Set("quantity").Value())))
+        .Create();
+
+      Assert.IsNotNull(cube.Schema.Metrics["testeDivide2"]);
+    }
+
   }
 }

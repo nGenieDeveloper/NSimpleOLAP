@@ -240,10 +240,10 @@ namespace NSimpleOLAP.CubeExpressions.Builder
           var cxtResult = infunctor(x);
 
           if (cxtResult.Result != null
-            && cxtResult.Result is ValueTuple
-            && !((ValueTuple)cxtResult.Result).IsZero()) // change null hanndling by config
+            && cxtResult.Result is ValueType
+            && !((ValueType)cxtResult.Result).IsZero()) // change null hanndling by config
           {
-            x.Result = measureValue.Division((ValueTuple)cxtResult.Result);
+            x.Result = measureValue.Division((ValueType)cxtResult.Result);
           }
         }
 

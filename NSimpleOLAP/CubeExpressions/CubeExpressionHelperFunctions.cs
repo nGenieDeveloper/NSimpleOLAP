@@ -70,6 +70,10 @@ namespace NSimpleOLAP.CubeExpressions
       {
         case int i when y is int:
           return ((int)x).Multiplication((int)y);
+        case int i when y is double:
+          return ((double)y).Multiplication((int)x);
+        case int i when y is decimal:
+          return ((decimal)y).Multiplication((int)x);
 
         case double i when y is int:
           return ((double)x).Multiplication((int)y);

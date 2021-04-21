@@ -101,5 +101,132 @@ namespace UnitTests
         Assert.AreEqual(1, valueMin);
       }
     }
+
+    [Test]
+    public void Basic_Metric_Multiplication_Expression_Execution_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeMultiply1", exb => exb.Expression(e => e.Set("quantity").Multiply(3)))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeMultiply1"]);
+
+        cube.Process();
+
+        var cell = cube.Cells.Take(1).FirstOrDefault();
+
+
+        var valueMeasure = (int)cell.Values[cube.Schema.Measures["quantity"].ID];
+        var value = (int)cell.Values[cube.Schema.Metrics["testeMultiply1"].ID];
+
+        Assert.AreEqual(valueMeasure * 3, value);
+      }
+    }
+
+    [Test]
+    public void Basic_Metric_Division_Expression_Execution_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeDivide1", exb => exb.Expression(e => e.Set("quantity").Divide(2)))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeDivide1"]);
+
+        cube.Process();
+
+        var cell = cube.Cells.Take(1).FirstOrDefault();
+
+
+        var valueMeasure = (int)cell.Values[cube.Schema.Measures["quantity"].ID];
+        var value = (double)cell.Values[cube.Schema.Metrics["testeDivide1"].ID];
+
+        Assert.AreEqual(valueMeasure / 2, value);
+      }
+    }
+
+    [Test]
+    public void Basic_Metric_Subtract_Expression_Execution_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeSubtract1", exb => exb.Expression(e => e.Set("quantity").Subtract(10)))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeSubtract1"]);
+
+        cube.Process();
+
+        var cell = cube.Cells.Take(1).FirstOrDefault();
+
+
+        var valueMeasure = (int)cell.Values[cube.Schema.Measures["quantity"].ID];
+        var value = (int)cell.Values[cube.Schema.Metrics["testeSubtract1"].ID];
+
+        Assert.AreEqual(valueMeasure - 10, value);
+      }
+    }
+
+    [Test]
+    public void Composite_Metric_Multiplication_Expression_Execution_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeMultiply2", exb => exb.Expression(e => e.Set("quantity").Multiply(ex => ex.Set("spent").Value())))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeMultiply2"]);
+
+        cube.Process();
+
+        var cell = cube.Cells.Take(1).FirstOrDefault();
+
+
+        var valueMeasure = (int)cell.Values[cube.Schema.Measures["quantity"].ID];
+        var valueMeasure2 = (double)cell.Values[cube.Schema.Measures["spent"].ID];
+        var value = (double)cell.Values[cube.Schema.Metrics["testeMultiply2"].ID];
+
+        Assert.AreEqual(valueMeasure * valueMeasure2, value);
+      }
+    }
+
+    [Test]
+    public void Composite_Metric_Division_Expression_Execution_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeDivide2", exb => exb.Expression(e => e.Set("spent").Divide(ex => ex.Set("quantity").Value())))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeDivide2"]);
+
+        cube.Process();
+
+        var cell = cube.Cells.Take(1).FirstOrDefault();
+
+
+        var valueMeasure = (int)cell.Values[cube.Schema.Measures["quantity"].ID];
+        var valueMeasure2 = (double)cell.Values[cube.Schema.Measures["spent"].ID];
+        var value = (double)cell.Values[cube.Schema.Metrics["testeDivide2"].ID];
+
+        Assert.AreEqual(valueMeasure2 / valueMeasure, value);
+      }
+    }
   }
 }
