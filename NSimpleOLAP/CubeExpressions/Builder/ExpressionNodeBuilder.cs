@@ -140,7 +140,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
 
     public void Min()
     {
-      _operation = OperationType.MAX;
+      _operation = OperationType.MIN;
     }
 
     internal Func<IExpressionContext<T, ICell<T>>, IExpressionContext<T, ICell<T>>> Create()

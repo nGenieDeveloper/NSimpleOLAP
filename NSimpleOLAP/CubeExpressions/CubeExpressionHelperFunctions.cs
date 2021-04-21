@@ -9,25 +9,25 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i when y is int:
-          return ((int)x).Sum((int)x);
+          return ((int)x).Sum((int)y);
 
         case double i when y is int:
-          return ((double)x).Sum((int)x);
+          return ((double)x).Sum((int)y);
 
         case double i when y is double:
-          return ((double)x).Sum((double)x);
+          return ((double)x).Sum((double)y);
 
         case decimal i when y is int:
-          return ((decimal)x).Sum((int)x);
+          return ((decimal)x).Sum((int)y);
 
         case decimal i when y is decimal:
-          return ((decimal)x).Sum((decimal)x);
+          return ((decimal)x).Sum((decimal)y);
 
         case float i when y is int:
-          return ((float)x).Sum((int)x);
+          return ((float)x).Sum((int)y);
 
         case float i when y is float:
-          return ((float)x).Sum((float)x);
+          return ((float)x).Sum((float)y);
 
         default:
           throw new Exception("Type is not supported.");
@@ -39,25 +39,25 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i when y is int:
-          return ((int)x).Subtraction((int)x);
+          return ((int)x).Subtraction((int)y);
 
         case double i when y is int:
-          return ((double)x).Subtraction((int)x);
+          return ((double)x).Subtraction((int)y);
 
         case double i when y is double:
-          return ((double)x).Subtraction((double)x);
+          return ((double)x).Subtraction((double)y);
 
         case decimal i when y is int:
-          return ((decimal)x).Subtraction((int)x);
+          return ((decimal)x).Subtraction((int)y);
 
         case decimal i when y is decimal:
-          return ((decimal)x).Subtraction((decimal)x);
+          return ((decimal)x).Subtraction((decimal)y);
 
         case float i when y is int:
-          return ((float)x).Subtraction((int)x);
+          return ((float)x).Subtraction((int)y);
 
         case float i when y is float:
-          return ((float)x).Subtraction((float)x);
+          return ((float)x).Subtraction((float)y);
 
         default:
           throw new Exception("Type is not supported.");
@@ -69,25 +69,25 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i when y is int:
-          return ((int)x).Multiplication((int)x);
+          return ((int)x).Multiplication((int)y);
 
         case double i when y is int:
-          return ((double)x).Multiplication((int)x);
+          return ((double)x).Multiplication((int)y);
 
         case double i when y is double:
-          return ((double)x).Multiplication((double)x);
+          return ((double)x).Multiplication((double)y);
 
         case decimal i when y is int:
-          return ((decimal)x).Multiplication((int)x);
+          return ((decimal)x).Multiplication((int)y);
 
         case decimal i when y is decimal:
-          return ((decimal)x).Multiplication((decimal)x);
+          return ((decimal)x).Multiplication((decimal)y);
 
         case float i when y is int:
-          return ((float)x).Multiplication((int)x);
+          return ((float)x).Multiplication((int)y);
 
         case float i when y is float:
-          return ((float)x).Multiplication((float)x);
+          return ((float)x).Multiplication((float)y);
 
         default:
           throw new Exception("Type is not supported.");
@@ -99,25 +99,25 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i when y is int:
-          return ((int)x).Division((int)x);
+          return ((int)x).Division((int)y);
 
         case double i when y is int:
-          return ((double)x).Division((int)x);
+          return ((double)x).Division((int)y);
 
         case double i when y is double:
-          return ((double)x).Division((double)x);
+          return ((double)x).Division((double)y);
 
         case decimal i when y is int:
-          return ((decimal)x).Division((int)x);
+          return ((decimal)x).Division((int)y);
 
         case decimal i when y is decimal:
-          return ((decimal)x).Division((decimal)x);
+          return ((decimal)x).Division((decimal)y);
 
         case float i when y is int:
-          return ((float)x).Division((int)x);
+          return ((float)x).Division((int)y);
 
         case float i when y is float:
-          return ((float)x).Division((float)x);
+          return ((float)x).Division((float)y);
 
         default:
           throw new Exception("Type is not supported.");
@@ -129,16 +129,16 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i:
-          return ((int)x).Min(x);
+          return ((int)x).Min(y);
 
         case double i:
-          return ((double)x).Min(x);
+          return ((double)x).Min(y);
 
         case decimal i:
-          return ((decimal)x).Min(x);
+          return ((decimal)x).Min(y);
 
         case float i:
-          return ((float)x).Min(x);
+          return ((float)x).Min(y);
 
         default:
           throw new Exception("Type is not supported.");
@@ -150,16 +150,16 @@ namespace NSimpleOLAP.CubeExpressions
       switch (x)
       {
         case int i:
-          return ((int)x).Max(x);
+          return ((int)x).Max(y);
 
         case double i:
-          return ((double)x).Max(x);
+          return ((double)x).Max(y);
 
         case decimal i:
-          return ((decimal)x).Max(x);
+          return ((decimal)x).Max(y);
 
         case float i:
-          return ((float)x).Max(x);
+          return ((float)x).Max(y);
 
         default:
           throw new Exception("Type is not supported.");

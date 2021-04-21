@@ -289,6 +289,11 @@ namespace NSimpleOLAP.Storage.Molap
       {
         MolapCell<T> mcell = (MolapCell<T>)(object)cell;
 
+        foreach (var previousValue in mcell.Values)
+        {
+          context.UpdateOldValue(previousValue.Key, previousValue.Value);
+        }
+
         mcell.IncrementOcurrences();
 
         foreach (KeyValuePair<T, object> item in measures)
@@ -305,11 +310,9 @@ namespace NSimpleOLAP.Storage.Molap
 
               if (functor != null)
               {
-                context.UpdateOldValue(item.Key, ovalue);
                 context.UpdateNewValue(item.Key, nvalue);
                 mcell.Values[item.Key] = this.Add(ovalue, nvalue, functor);
               }
-                
             }
             else
             {
@@ -331,6 +334,7 @@ namespace NSimpleOLAP.Storage.Molap
 
           try
           {
+            context.CurrentMetric = item.ID;
             nvalue = item.MetricExpression.Evaluate(context);
           }
           catch (Exception ex)

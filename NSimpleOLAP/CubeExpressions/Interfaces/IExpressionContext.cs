@@ -14,6 +14,8 @@ namespace NSimpleOLAP.CubeExpressions.Interfaces
 
     object Result { get; set; }
 
+    T CurrentMetric { get; set; }
+
     IDictionary<T, ValueType> PreviousValues { get; }
 
     IDictionary<T, ValueType> NewValues { get; }

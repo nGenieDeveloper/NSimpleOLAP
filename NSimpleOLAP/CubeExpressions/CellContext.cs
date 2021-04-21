@@ -30,6 +30,8 @@ namespace NSimpleOLAP.CubeExpressions
 
     public object Result { get; set; }
 
+    public T CurrentMetric { get; set; }
+
     public IDictionary<T, ValueType> PreviousValues
     {
       get
