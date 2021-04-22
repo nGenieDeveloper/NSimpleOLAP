@@ -37,9 +37,9 @@ namespace NSimpleOLAP.Configuration
     }
 
     [ConfigurationProperty("metricFunction")]
-    public object MetricFunction
+    public string MetricFunction
     {
-      get { return (object)this["metricFunction"]; }
+      get { return (string)this["metricFunction"]; }
       set { this["metricFunction"] = value; }
     }
   }

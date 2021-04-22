@@ -20,6 +20,7 @@ namespace NSimpleOLAP.Data.Providers
       }
       catch (Exception ex)
       {
+        Console.WriteLine(ex.Message);
         throw;
         // todo some extra error handling
       }

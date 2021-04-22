@@ -167,7 +167,7 @@ namespace NSimpleOLAP.Query.Molap
       {
         var values = new IOutputCell<T>[colsSegments.Length + 1];
 
-        values[0] = GetMeasureCell(query.MeasuresOrMetrics, query, OutputCellType.ROW_LABEL);
+        values[0] = GetMeasureCell(query.MeasuresOrMetrics, OutputCellType.ROW_LABEL);
 
         for (var i = 0; i < colsSegments.Length; i++)
         {
@@ -191,7 +191,7 @@ namespace NSimpleOLAP.Query.Molap
       {
         var header = new IOutputCell<T>[2];
 
-        header[1] = GetMeasureCell(query.MeasuresOrMetrics, query, OutputCellType.COLUMN_LABEL);
+        header[1] = GetMeasureCell(query.MeasuresOrMetrics, OutputCellType.COLUMN_LABEL);
 
         yield return header;
 
@@ -250,7 +250,7 @@ namespace NSimpleOLAP.Query.Molap
       return new OutputCell<T>(tuple, descriptors.ToArray(), OutputCellType.ROW_LABEL);
     }
 
-    private IOutputCell<T> GetMeasureCell(IEnumerable<T> measures, Query<T> query, OutputCellType cellType)
+    private IOutputCell<T> GetMeasureCell(IEnumerable<T> measures, OutputCellType cellType)
     {
       var descriptors = new List<KeyValuePair<string, string>>();
 

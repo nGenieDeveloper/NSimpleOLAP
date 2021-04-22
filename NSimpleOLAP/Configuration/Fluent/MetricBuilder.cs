@@ -29,7 +29,7 @@ namespace NSimpleOLAP.Configuration.Fluent
       return this;
     }
 
-    public MetricBuilder SetExpression(Expression expression)
+    public MetricBuilder SetExpression(string expression)
     {
       _element.MetricFunction = expression;
       return this;

@@ -96,6 +96,7 @@
     <Compile Include="Common\Hashing\MurmurHash2.cs" />
     <Compile Include="Common\KeyEqualityComparer.cs" />
     <Compile Include="Common\ReservedAndSpecialValues.cs" />
+    <Compile Include="Common\Utils\DateTimeMemberGenerator.cs" />
     <Compile Include="Common\Utils\MetricsReferenceTranslator.cs" />
     <Compile Include="Common\Utils\NamespaceResolver.cs" />
     <Compile Include="Configuration\CSVConfig.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Schema\DataSchema.cs" />
     <Compile Include="Schema\Dimension.cs" />
     <Compile Include="Schema\DimensionCollection.cs" />
+    <Compile Include="Schema\DimensionDateTime.cs" />
     <Compile Include="Schema\Interfaces\IDataItem.cs" />
     <Compile Include="Schema\Interfaces\IDataItemCollection.cs" />
     <Compile Include="Schema\Interfaces\IDimension.cs" />

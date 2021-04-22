@@ -93,6 +93,7 @@ namespace NSimpleOLAP.Data.Readers
       }
       catch (Exception ex)
       {
+        Console.WriteLine(ex.Message);
         throw;
 
         // todo some extra error handling

@@ -60,11 +60,11 @@ namespace NSimpleOLAP.Schema
       private set;
     }
 
-    public bool HasLevels { get; }
+    public virtual bool HasLevels { get; }
 
-    public int LevelPosition { get; }
+    public virtual int LevelPosition { get; }
 
-    public void Process()
+    public virtual void Process()
     {
       using (AbsReader reader = this.DataSource.GetReader())
       {
@@ -79,7 +79,7 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    public void Refresh()
+    public virtual void Refresh()
     {
       throw new NotImplementedException();
     }

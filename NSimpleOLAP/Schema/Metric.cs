@@ -62,10 +62,12 @@ namespace NSimpleOLAP.Schema
 
       try
       {
-        this.MetricExpression = (MetricsExpression<T>)config.MetricFunction;
+        // todo parser for expressions
+        // this.MetricExpression = (MetricsExpression<T>)config.MetricFunction;
       }
       catch (Exception ex)
       {
+        Console.WriteLine(ex.Message);
         throw;
         // todo extra error handling
       }

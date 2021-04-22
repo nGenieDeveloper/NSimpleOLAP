@@ -30,5 +30,11 @@ namespace NSimpleOLAP.Schema
     {
       get { return ItemType.Member; }
     }
+
+    public string Alias
+    {
+      get;
+      set;
+    }
   }
 }
