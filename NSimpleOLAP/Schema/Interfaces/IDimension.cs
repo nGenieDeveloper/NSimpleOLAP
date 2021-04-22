@@ -10,5 +10,9 @@ namespace NSimpleOLAP.Schema.Interfaces
     MemberCollection<T> Members { get; }
     DimensionConfig Config { get; set; }
     IDataSource DataSource { get; }
+
+    bool HasLevels { get; }
+
+    int LevelPosition { get; }
   }
 }

@@ -1,8 +1,8 @@
-﻿using NSimpleOLAP.Query.Interfaces;
+﻿using NSimpleOLAP.Common.Utils;
+using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Query.Molap;
 using System;
 using System.Collections.Generic;
-using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -14,17 +14,15 @@ namespace NSimpleOLAP.Query.Builder
   {
     protected WhereBuilder<T> _wherebuilder;
     protected Cube<T> _innerCube;
-    protected DimensionReferenceTranslator<T> _dimTranslator;
-    protected MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
     protected AxisBuilder<T> _axisBuilder;
-    protected List<T> _measureKeys;
+    protected List<T> _measureOrMetricKeys;
 
     protected void Init()
     {
-      _measureKeys = new List<T>();
-      _dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
-      _measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
-      _wherebuilder = new WhereBuilder<T>(_innerCube.Schema, _dimTranslator, _measTranslator);
+      _measureOrMetricKeys = new List<T>();
+      _resolver = new NamespaceResolver<T>(_innerCube);
+      _wherebuilder = new WhereBuilder<T>(_resolver);
       _axisBuilder = new AxisBuilder<T>(_innerCube.Config.Storage.MolapConfig.HashType, _innerCube.Schema);
     }
 
@@ -38,7 +36,7 @@ namespace NSimpleOLAP.Query.Builder
     public QueryBuilder<T> OnRows(params string[] tuples)
     {
       foreach (var item in tuples)
-        _axisBuilder.AddRowTuples(_dimTranslator.Translate(item));
+        _axisBuilder.AddRowTuples(_resolver.DimensionTranslate(item));
 
       return this;
     }
@@ -63,7 +61,7 @@ namespace NSimpleOLAP.Query.Builder
     public QueryBuilder<T> OnColumns(params string[] tuples)
     {
       foreach (var item in tuples)
-        _axisBuilder.AddColumnTuples(_dimTranslator.Translate(item));
+        _axisBuilder.AddColumnTuples(_resolver.DimensionTranslate(item));
 
       return this;
     }
@@ -83,12 +81,20 @@ namespace NSimpleOLAP.Query.Builder
     /// <summary>
     /// Assign measures
     /// </summary>
-    /// <param name="measures">Measure's names</param>
+    /// <param name="measuresOrMetrics">Measure's names</param>
     /// <returns></returns>
-    public QueryBuilder<T> AddMeasures(params string[] measures)
+    public QueryBuilder<T> AddMeasuresOrMetrics(params string[] measuresOrMetrics)
     {
-      foreach (var item in measures)
-        _measureKeys.Add(_measTranslator.Translate(item));
+      foreach (var item in measuresOrMetrics)
+      {
+        var dataItem = _resolver.GetDataItemInfo(item);
+
+        if (dataItem.ItemType == Common.ItemType.Measure
+          || dataItem.ItemType == Common.ItemType.Metric)
+          _measureOrMetricKeys.Add(dataItem.ID);
+        else
+          throw new Exception($"Entity {item} does not exist as a measure or as a metric.");
+      }
 
       return this;
     }
@@ -96,11 +102,11 @@ namespace NSimpleOLAP.Query.Builder
     /// <summary>
     /// Assign measures
     /// </summary>
-    /// <param name="measureKeys">Measure's keys</param>
+    /// <param name="measureOrMetricsKeys">Measure's keys</param>
     /// <returns></returns>
-    public QueryBuilder<T> AddMeasures(params T[] measureKeys)
+    public QueryBuilder<T> AddMeasuresOrMetrics(params T[] measureOrMetricsKeys)
     {
-      _measureKeys.AddRange(measureKeys);
+      _measureOrMetricKeys.AddRange(measureOrMetricsKeys);
 
       return this;
     }
@@ -112,9 +118,9 @@ namespace NSimpleOLAP.Query.Builder
     /// <returns></returns>
     public QueryBuilder<T> Where(Action<WhereBuilder<T>> whereBuild)
     {
-    //  _wherebuilder.Define()
+      //  _wherebuilder.Define()
 
-    //    Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder
+      //    Func<BlockPredicateBuilder<T>, IPredicateBuilder<T>> blockBuilder
       whereBuild(_wherebuilder);
 
       return this;
@@ -129,7 +135,7 @@ namespace NSimpleOLAP.Query.Builder
 
     public Query<T> Create()
     {
-      return new QueryImplementation(_innerCube, _axisBuilder.Build(), _measureKeys, _wherebuilder.Build());
+      return new QueryImplementation(_innerCube, _axisBuilder.Build(), _measureOrMetricKeys, _wherebuilder.Build());
     }
 
     #endregion fluent interface

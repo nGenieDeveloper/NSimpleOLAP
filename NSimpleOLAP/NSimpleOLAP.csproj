@@ -96,6 +96,8 @@
     <Compile Include="Common\Hashing\MurmurHash2.cs" />
     <Compile Include="Common\KeyEqualityComparer.cs" />
     <Compile Include="Common\ReservedAndSpecialValues.cs" />
+    <Compile Include="Common\Utils\MetricsReferenceTranslator.cs" />
+    <Compile Include="Common\Utils\NamespaceResolver.cs" />
     <Compile Include="Configuration\CSVConfig.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\CubeSourceElement.cs" />

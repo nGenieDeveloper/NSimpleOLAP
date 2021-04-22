@@ -118,5 +118,15 @@ namespace NSimpleOLAP.Storage.Molap
     }
 
     #endregion INamespace<T> implementation
+
+    public bool HasEntity(string memberKey)
+    {
+      return _index.ContainsKey(memberKey);
+    }
+
+    public bool HasEntity(T memberKey)
+    {
+      return _items.ContainsKey(memberKey);
+    }
   }
 }

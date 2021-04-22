@@ -14,24 +14,22 @@ namespace NSimpleOLAP.Query.Builder
   public class DimensionSlicerBuilder<T> : IPredicateBuilder<T>
     where T : struct, IComparable
   {
-    private DataSchema<T> _schema;
     private T _dimension;
     private List<T> _members;
     private LogicalOperators _operator;
-    private DimensionReferenceTranslator<T> _translator;
+    private NamespaceResolver<T> _resolver;
 
-    public DimensionSlicerBuilder(DataSchema<T> schema, DimensionReferenceTranslator<T> translator)
+    public DimensionSlicerBuilder(NamespaceResolver<T> resolver)
     {
-      _schema = schema;
       _members = new List<T>();
-      _translator = translator;
+      _resolver = resolver;
     }
 
     #region fluent interface
 
     internal DimensionSlicerBuilder<T> SetDim(string dimension)
     {
-      _dimension = _translator.GetDimension(dimension);
+      _dimension = _resolver.GetDimension(dimension);
 
       return this;
     }
@@ -48,7 +46,7 @@ namespace NSimpleOLAP.Query.Builder
       _operator = loperator;
 
       foreach (var item in members)
-        _members.Add(_translator.GetDimensionMember(_dimension, item));
+        _members.Add(_resolver.GetDimensionMember(_dimension, item));
 
       return this;
     }

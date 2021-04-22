@@ -10,14 +10,12 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     private T _measure;
     private Type _type;
     private List<KeyValuePair<T, T>[]> _tuples;
-    private DimensionReferenceTranslator<T> _dimTranslator;
-    private MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
 
-    public ExpressionElementPickerBuilder(DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
+    public ExpressionElementPickerBuilder(NamespaceResolver<T> resolver)
     {
-      _dimTranslator = dimTranslator;
-      _measTranslator = measTranslator;
-    }
+      _resolver = resolver;
+  }
 
     internal T Measure
     {
@@ -45,8 +43,8 @@ namespace NSimpleOLAP.CubeExpressions.Builder
 
     public ExpressionElementPickerBuilder<T> Set(string measure)
     {
-      _measure = _measTranslator.Translate(measure);
-      _type = _measTranslator.MeasureType(_measure);
+      _measure = _resolver.MeasureTranslate(measure);
+      _type = _resolver.MeasureType(_measure);
 
       return this;
     }
@@ -54,7 +52,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     internal ExpressionElementPickerBuilder<T> Set(T measure)
     {
       _measure = measure;
-      _type = _measTranslator.MeasureType(_measure);
+      _type = _resolver.MeasureType(_measure);
 
       return this;
     }
@@ -67,7 +65,7 @@ namespace NSimpleOLAP.CubeExpressions.Builder
 
       foreach (var item in tuples)
       {
-        _tuples.Add(_dimTranslator.Translate(item));
+        _tuples.Add(_resolver.DimensionTranslate(item));
       }
 
       return this;

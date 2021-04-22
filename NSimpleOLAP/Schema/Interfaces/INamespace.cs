@@ -13,6 +13,10 @@ namespace NSimpleOLAP.Schema.Interfaces
     IDataItem<T> this[T key] { get; }
     IDataItem<T> this[string name] { get; }
 
+    bool HasEntity(string memberKey);
+
+    bool HasEntity(T memberKey);
+
     void Clear(ItemType type);
   }
 }

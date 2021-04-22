@@ -1,9 +1,8 @@
 ﻿using NSimpleOLAP.Common;
+using NSimpleOLAP.Common.Utils;
 using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Query.Predicates;
-using NSimpleOLAP.Schema;
 using System;
-using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -13,18 +12,16 @@ namespace NSimpleOLAP.Query.Builder
   public class MeasureSlicerBuilder<T> : IPredicateBuilder<T>
     where T : struct, IComparable
   {
-    private DataSchema<T> _schema;
     private T _measure;
     private object _value;
     private LogicalOperators _operator;
     private Type _valueType;
-    private MeasureReferenceTranslator<T> _translator;
+    private NamespaceResolver<T> _resolver;
     private string _measureName;
 
-    public MeasureSlicerBuilder(DataSchema<T> schema, MeasureReferenceTranslator<T> translator)
+    public MeasureSlicerBuilder(NamespaceResolver<T> resolver)
     {
-      _schema = schema;
-      _translator = translator;
+      _resolver = resolver;
     }
 
     #region fluent interface
@@ -32,8 +29,8 @@ namespace NSimpleOLAP.Query.Builder
     internal MeasureSlicerBuilder<T> SetMeasure(string measure)
     {
       _measureName = measure;
-      _measure = _translator.Translate(measure);
-      _valueType = _translator.MeasureType(_measure);
+      _measure = _resolver.MeasureTranslate(measure);
+      _valueType = _resolver.MeasureType(_measure);
 
       return this;
     }
@@ -41,8 +38,8 @@ namespace NSimpleOLAP.Query.Builder
     internal MeasureSlicerBuilder<T> SetMeasure(T measureKey)
     {
       _measure = measureKey;
-      _valueType = _translator.MeasureType(_measure);
-      _measureName = _translator.MeasureName(measureKey);
+      _valueType = _resolver.MeasureType(_measure);
+      _measureName = _resolver.MeasureName(measureKey);
 
       return this;
     }

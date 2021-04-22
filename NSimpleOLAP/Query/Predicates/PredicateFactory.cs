@@ -1,6 +1,5 @@
 ﻿using NSimpleOLAP.Query.Builder;
 using NSimpleOLAP.Query.Interfaces;
-using NSimpleOLAP.Schema;
 using System;
 using NSimpleOLAP.Common.Utils;
 
@@ -12,29 +11,23 @@ namespace NSimpleOLAP.Query.Predicates
   public class PredicateBuilderFactory<T>
     where T : struct, IComparable
   {
-    private DataSchema<T> _schema;
-    private DimensionReferenceTranslator<T> _dimTranslator;
-    private MeasureReferenceTranslator<T> _mesTranslator;
+    private NamespaceResolver<T> _resolver;
 
-    public PredicateBuilderFactory(DataSchema<T> schema,
-                            DimensionReferenceTranslator<T> dimTranslator,
-                            MeasureReferenceTranslator<T> mesTranslator)
+    public PredicateBuilderFactory(NamespaceResolver<T> resolver)
     {
-      _schema = schema;
-      _dimTranslator = dimTranslator;
-      _mesTranslator = mesTranslator;
+      _resolver = resolver;
     }
 
     #region Create Predicates
 
     public IPredicateBuilder<T> CreateDimensionSlicer()
     {
-      return new DimensionSlicerBuilder<T>(_schema, _dimTranslator);
+      return new DimensionSlicerBuilder<T>(_resolver);
     }
 
     public IPredicateBuilder<T> CreateMeasureSlicer()
     {
-      return new MeasureSlicerBuilder<T>(_schema, _mesTranslator);
+      return new MeasureSlicerBuilder<T>(_resolver);
     }
 
     internal IPredicateBuilder<T> CreateAndPredicate()

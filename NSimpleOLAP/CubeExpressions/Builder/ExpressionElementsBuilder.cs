@@ -14,22 +14,20 @@ namespace NSimpleOLAP.CubeExpressions.Builder
   public class ExpressionElementsBuilder<T>
    where T : struct, IComparable
   {
-    private DimensionReferenceTranslator<T> _dimTranslator;
-    private MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
     private ExpressionNodeBuilder<T> _node;
     private Type _type;
 
-    public ExpressionElementsBuilder(DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
+    public ExpressionElementsBuilder(NamespaceResolver<T> resolver)
     {
-      _dimTranslator = dimTranslator;
-      _measTranslator = measTranslator;
+      _resolver = resolver;
     }
 
     public ExpressionNodeBuilder<T> Set(string measure)
     {
-      var picker = new ExpressionElementPickerBuilder<T>(_dimTranslator, _measTranslator);
+      var picker = new ExpressionElementPickerBuilder<T>(_resolver);
 
-      _node = new ExpressionNodeBuilder<T>(picker.Set(measure), _dimTranslator, _measTranslator);
+      _node = new ExpressionNodeBuilder<T>(picker.Set(measure), _resolver);
       _type = _node.ReturnType;
 
       return _node;
@@ -37,9 +35,9 @@ namespace NSimpleOLAP.CubeExpressions.Builder
 
     public ExpressionNodeBuilder<T> Set(string measure, params string[] tuples)
     {
-      var picker = new ExpressionElementPickerBuilder<T>(_dimTranslator, _measTranslator);
+      var picker = new ExpressionElementPickerBuilder<T>(_resolver);
 
-      _node = new ExpressionNodeBuilder<T>(picker.Set(measure, tuples), _dimTranslator, _measTranslator);
+      _node = new ExpressionNodeBuilder<T>(picker.Set(measure, tuples), _resolver);
       _type = _node.ReturnType;
 
       return _node;

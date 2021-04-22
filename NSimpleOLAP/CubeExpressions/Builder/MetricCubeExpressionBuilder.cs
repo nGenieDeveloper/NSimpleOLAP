@@ -10,20 +10,18 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     where T : struct, IComparable
   {
     protected Cube<T> _innerCube;
-    protected DimensionReferenceTranslator<T> _dimTranslator;
-    protected MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
     protected Dictionary<string, MetricExpressionBuilder<T>> _expressionBuilders;
 
     protected void Init()
     {
-      _dimTranslator = new DimensionReferenceTranslator<T>(_innerCube.Schema);
-      _measTranslator = new MeasureReferenceTranslator<T>(_innerCube.Schema);
+      _resolver = new NamespaceResolver<T>(_innerCube);
       _expressionBuilders = new Dictionary<string, MetricExpressionBuilder<T>>();
     }
 
     public MetricCubeExpressionBuilder<T> Add(string name, Action<ExpressionBuilder<T>> abuilder)
     {
-      var builder = new MetricExpressionBuilder<T>(_dimTranslator, _measTranslator);
+      var builder = new MetricExpressionBuilder<T>(_resolver);
       var expressionBuilder = builder.Metric(name);
 
       abuilder(expressionBuilder);

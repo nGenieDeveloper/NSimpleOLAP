@@ -4,6 +4,7 @@ using NSimpleOLAP.Query.Layout;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Molap
 {
@@ -11,12 +12,14 @@ namespace NSimpleOLAP.Query.Molap
     where T : struct, IComparable
   {
     private Cube<T> _cube;
+    private NamespaceResolver<T> _resolver;
     private AllKeysComparer<T> _allKeysComparer;
     private KeysBaseEqualityComparer<T> _pairsEqualityComparer;
 
     public MolapQueryOrchestrator(Cube<T> cube)
     {
       _cube = cube;
+      _resolver = new NamespaceResolver<T>(cube);
       _allKeysComparer = new AllKeysComparer<T>();
       _pairsEqualityComparer = new KeysBaseEqualityComparer<T>();
     }
@@ -103,12 +106,12 @@ namespace NSimpleOLAP.Query.Molap
     {
       var ocell = new OutputCell<T>(cell.Coords, tuples.XAnchorTuple, tuples.YAnchorTuple);
 
-      foreach (var item in query.Measures)
+      foreach (var item in query.MeasuresOrMetrics)
       {
-        var measure = _cube.Schema.Measures[item];
+        var dataItem = _resolver.GetDataItemInfo(item);
         var value = cell.Values[item];
 
-        ocell.Add(measure.Name, value);
+        ocell.Add(dataItem.Name, value);
       }
 
       return ocell;
@@ -164,7 +167,7 @@ namespace NSimpleOLAP.Query.Molap
       {
         var values = new IOutputCell<T>[colsSegments.Length + 1];
 
-        values[0] = GetMeasureCell(query.Measures, query, OutputCellType.ROW_LABEL);
+        values[0] = GetMeasureCell(query.MeasuresOrMetrics, query, OutputCellType.ROW_LABEL);
 
         for (var i = 0; i < colsSegments.Length; i++)
         {
@@ -188,7 +191,7 @@ namespace NSimpleOLAP.Query.Molap
       {
         var header = new IOutputCell<T>[2];
 
-        header[1] = GetMeasureCell(query.Measures, query, OutputCellType.COLUMN_LABEL);
+        header[1] = GetMeasureCell(query.MeasuresOrMetrics, query, OutputCellType.COLUMN_LABEL);
 
         yield return header;
 
@@ -250,11 +253,11 @@ namespace NSimpleOLAP.Query.Molap
     private IOutputCell<T> GetMeasureCell(IEnumerable<T> measures, Query<T> query, OutputCellType cellType)
     {
       var descriptors = new List<KeyValuePair<string, string>>();
-      var schemaMeasures = query.Cube.Schema.Measures;
 
       foreach (var item in measures)
       {
-        var value = new KeyValuePair<string, string>("Measure", schemaMeasures[item].Name);
+        var dataItem = _resolver.GetDataItemInfo(item);
+        var value = new KeyValuePair<string, string>("Measure", dataItem.Name);
 
         descriptors.Add(value);
       }

@@ -10,6 +10,7 @@ namespace UnitTests
   public class QueryBuildTests
   {
     private Cube<int> cube;
+    private NamespaceResolver<int> _resolver;
 
     public QueryBuildTests()
     {
@@ -21,6 +22,8 @@ namespace UnitTests
       cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2();
       cube.Initialize();
       cube.Process();
+
+      _resolver = new NamespaceResolver<int>(cube);
     }
 
     [OneTimeTearDown]
@@ -34,18 +37,14 @@ namespace UnitTests
     {
       Assert.DoesNotThrow(() =>
       {
-        WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+        WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
       });
     }
 
     [Test]
     public void WhereBuilder_Add_MeasureSlicer_Test()
     {
-      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+      WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
 
       builder.Define(b => b.Measure("quantity").GreaterOrEquals(2));
 
@@ -58,9 +57,7 @@ namespace UnitTests
     [Test]
     public void WhereBuilder_Add_DimensionSlicer_Test()
     {
-      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+      WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
 
       builder.Define(b => b.Dimension("category").IsEquals("clothes"));
 
@@ -73,9 +70,7 @@ namespace UnitTests
     [Test]
     public void WhereBuilder_Add_And_Expression_With_DimensionSlicers_Test()
     {
-      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+      WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
 
       builder.Define(b =>
         b.And(x => x.Dimension("category").IsEquals("clothes"),
@@ -90,9 +85,7 @@ namespace UnitTests
     [Test]
     public void WhereBuilder_Add_Or_Expression_With_DimensionSlicers_Test()
     {
-      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+      WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
 
       builder.Define(b =>
         b.Or(x => x.Dimension("category").IsEquals("clothes"),
@@ -107,9 +100,7 @@ namespace UnitTests
     [Test]
     public void WhereBuilder_Add_And_Expression_With_DimensionSlicers_And_MeasureSlicer_Test()
     {
-      WhereBuilder<int> builder = new WhereBuilder<int>(cube.Schema
-        , new DimensionReferenceTranslator<int>(cube.Schema),
-        new MeasureReferenceTranslator<int>(cube.Schema));
+      WhereBuilder<int> builder = new WhereBuilder<int>(_resolver);
 
       builder.Define(b =>
         b.And(x => x.Dimension("category").IsEquals("clothes"),
@@ -129,7 +120,7 @@ namespace UnitTests
       var query = cube.BuildQuery()
         .OnRows("sex.male")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var result = query.Create();
 
@@ -142,7 +133,7 @@ namespace UnitTests
       var query = cube.BuildQuery()
         .OnRows("sex.male")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
 
       var result = query.Create();
@@ -156,7 +147,7 @@ namespace UnitTests
       var query = cube.BuildQuery()
         .OnRows("sex.male", "sex.female")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
 
       var result = query.Create();
@@ -170,7 +161,7 @@ namespace UnitTests
       var query = cube.BuildQuery()
         .OnRows("sex.male", "sex.female")
         .OnColumns("category.shoes", "category.toys")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
 
       var result = query.Create();
@@ -184,7 +175,7 @@ namespace UnitTests
       var query = cube.BuildQuery()
         .OnRows("sex.male", "sex.female")
         .OnColumns("category.shoes", "category.toys")
-        .AddMeasures("quantity", "spent")
+        .AddMeasuresOrMetrics("quantity", "spent")
         .Where(b => b.Define(x => x.Measure("spent").GreaterOrEquals(100)));
 
       var result = query.Create();

@@ -9,18 +9,16 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     where T : struct, IComparable
   {
     private ExpressionElementsBuilder<T> _expressionRoot;
-    private DimensionReferenceTranslator<T> _dimTranslator;
-    private MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
 
-    public ExpressionBuilder(DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
+    public ExpressionBuilder(NamespaceResolver<T> resolver)
     {
-      _dimTranslator = dimTranslator;
-      _measTranslator = measTranslator;
+      _resolver = resolver;
     }
 
     public void Expression(Action<ExpressionElementsBuilder<T>> expression)
     {
-      _expressionRoot = new ExpressionElementsBuilder<T>(_dimTranslator, _measTranslator);
+      _expressionRoot = new ExpressionElementsBuilder<T>(_resolver);
 
       expression(_expressionRoot);
     }

@@ -35,7 +35,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.female")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -49,7 +49,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.female", "sex.male")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -63,7 +63,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.All")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -77,7 +77,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
         .OnColumns("sex.male")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -91,7 +91,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
         .OnColumns("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -105,7 +105,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
         .OnColumns("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamCells().ToList();
@@ -119,7 +119,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
         .OnColumns("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -133,7 +133,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.Paris")
         .OnColumns("sex.male")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -147,7 +147,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.All")
         .OnColumns("category.shoes")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -161,7 +161,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
         .OnColumns("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -174,7 +174,7 @@ namespace UnitTests
     {
       var queryBuilder = cube.BuildQuery()
         .OnRows("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -187,7 +187,7 @@ namespace UnitTests
     {
       var queryBuilder = cube.BuildQuery()
         .OnColumns("sex.All")
-        .AddMeasures("quantity");
+        .AddMeasuresOrMetrics("quantity");
 
       var query = queryBuilder.Create();
       var result = query.StreamRows().ToList();
@@ -201,7 +201,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
         .OnColumns("sex.All")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Dimension("sex").IsEquals("male")));
 
       var query = queryBuilder.Create();
@@ -217,7 +217,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
         .OnColumns("sex.All")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Dimension("sex").NotEquals("male")));
 
       var query = queryBuilder.Create();
@@ -233,7 +233,7 @@ namespace UnitTests
       var queryBuilder = cube.BuildQuery()
         .OnRows("category.All.place.All")
         .OnColumns("sex.All")
-        .AddMeasures("quantity")
+        .AddMeasuresOrMetrics("quantity")
         .Where(b => b.Define(x => x.Measure("quantity").IsEquals(5)));
 
       var query = queryBuilder.Create();

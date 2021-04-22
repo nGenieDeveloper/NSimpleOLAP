@@ -111,7 +111,7 @@ Querying the Cube will be done by using the querying interface, here's a basic e
 var queryBuilder = cube.BuildQuery()
   .OnRows("sex.female")
   .OnColumns("category.shoes")
-  .AddMeasures("quantity");
+  .AddMeasuresOrMetrics("quantity");
 
 var query = queryBuilder.Create();
 var result = query.StreamCells().ToList();
@@ -125,7 +125,7 @@ Also you can add some basic expressions to filter on the table facts:
 var queryBuilder = cube.BuildQuery()
   .OnRows("sex.All")
   .OnColumns("category.All")
-  .AddMeasures("quantity")
+  .AddMeasuresOrMetrics("quantity")
   .Where(b => b.Define(x => x.Measure("quantity").IsEquals(5)));
 
 var query = queryBuilder.Create();
@@ -140,7 +140,7 @@ Or you can add some basic expressions to filter on dimension members:
 var queryBuilder = cube.BuildQuery()
   .OnRows("sex.All")
   .OnColumns("category.All")
-  .AddMeasures("quantity")
+  .AddMeasuresOrMetrics("quantity")
   .Where(b => b.Define(x => x.Dimension("sex").NotEquals("male")));
 
 var query = queryBuilder.Create();

@@ -38,7 +38,7 @@ namespace NSimpleOLAP.Query
       get { return axis; }
     }
 
-    internal List<T> Measures
+    internal List<T> MeasuresOrMetrics
     {
       get { return measures; }
     }

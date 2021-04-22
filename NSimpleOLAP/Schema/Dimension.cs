@@ -60,6 +60,10 @@ namespace NSimpleOLAP.Schema
       private set;
     }
 
+    public bool HasLevels { get; }
+
+    public int LevelPosition { get; }
+
     public void Process()
     {
       using (AbsReader reader = this.DataSource.GetReader())

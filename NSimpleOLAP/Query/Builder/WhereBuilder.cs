@@ -1,8 +1,7 @@
-﻿using NSimpleOLAP.Query.Interfaces;
+﻿using NSimpleOLAP.Common.Utils;
+using NSimpleOLAP.Query.Interfaces;
 using NSimpleOLAP.Query.Predicates;
-using NSimpleOLAP.Schema;
 using System;
-using NSimpleOLAP.Common.Utils;
 
 namespace NSimpleOLAP.Query.Builder
 {
@@ -12,16 +11,14 @@ namespace NSimpleOLAP.Query.Builder
   public class WhereBuilder<T>
     where T : struct, IComparable
   {
-    private DataSchema<T> _schema;
+    private NamespaceResolver<T> _resolver;
     private BlockPredicateBuilder<T> _rootBlock;
     private IPredicateBuilder<T> _currentBlock;
 
-    public WhereBuilder(DataSchema<T> schema,
-                        DimensionReferenceTranslator<T> dimTranslator,
-                        MeasureReferenceTranslator<T> mesTranslator)
+    public WhereBuilder(NamespaceResolver<T> resolver)
     {
-      _schema = schema;
-      BuilderFactory = new PredicateBuilderFactory<T>(schema, dimTranslator, mesTranslator);
+      _resolver = resolver;
+      BuilderFactory = new PredicateBuilderFactory<T>(_resolver);
       _rootBlock = new BlockPredicateBuilder<T>(BuilderFactory);
       _currentBlock = _rootBlock;
     }

@@ -9,22 +9,20 @@ namespace NSimpleOLAP.CubeExpressions.Builder
     where T : struct, IComparable
   {
     private string _name;
-    private DimensionReferenceTranslator<T> _dimTranslator;
-    private MeasureReferenceTranslator<T> _measTranslator;
+    private NamespaceResolver<T> _resolver;
     private ExpressionBuilder<T> _expressionBuilder;
 
 
-    public MetricExpressionBuilder(DimensionReferenceTranslator<T> dimTranslator, MeasureReferenceTranslator<T> measTranslator)
+    public MetricExpressionBuilder(NamespaceResolver<T> resolver)
     {
-      _dimTranslator = dimTranslator;
-      _measTranslator = measTranslator;
+      _resolver = resolver;
     }
 
     public ExpressionBuilder<T> Metric(string name)
     {
       _name = name;
 
-      _expressionBuilder = new ExpressionBuilder<T>(_dimTranslator, _measTranslator);
+      _expressionBuilder = new ExpressionBuilder<T>(_resolver);
 
       return _expressionBuilder;
     }

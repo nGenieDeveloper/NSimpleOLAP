@@ -228,5 +228,38 @@ namespace UnitTests
         Assert.AreEqual(valueMeasure2 / valueMeasure, value);
       }
     }
+
+    [Test]
+    public void Basic_Multiple_Metric_Expressions_Execution_With_Query_On_Metric_Test()
+    {
+      using (var cube = CubeSourcesFixture.GetBasicCubeThreeDimensionsTwoMeasures2())
+      {
+        cube.Initialize();
+
+        cube.BuildMetrics()
+        .Add("testeAverage",
+          exb => exb.Expression(e => e.Set("quantity").Average()))
+        .Add("testeMax",
+          exb => exb.Expression(e => e.Set("quantity").Max()))
+        .Add("testeMin",
+          exb => exb.Expression(e => e.Set("quantity").Min()))
+        .Create();
+
+        Assert.IsNotNull(cube.Schema.Metrics["testeAverage"]);
+        Assert.IsNotNull(cube.Schema.Metrics["testeMax"]);
+        Assert.IsNotNull(cube.Schema.Metrics["testeMin"]);
+
+        cube.Process();
+
+        var queryBuilder = cube.BuildQuery()
+            .OnColumns("sex.All")
+            .AddMeasuresOrMetrics("testeAverage");
+
+        var query = queryBuilder.Create();
+        var result = query.StreamRows().ToList();
+
+        Assert.IsTrue(result.Count == 2);
+      }
+    }
   }
 }
