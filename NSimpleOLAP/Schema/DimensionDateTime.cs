@@ -17,6 +17,19 @@ namespace NSimpleOLAP.Schema
   public class DimensionDateTime<T> : Dimension<T>
     where T : struct, IComparable
   {
-    
+    private int _level;
+    private bool _hasLevels;
+
+    public new DimensionType TypeOf { get { return DimensionType.Date; } }
+
+    public new int LevelPosition { get { return _level; } }
+
+    public new bool HasLevels { get { return _hasLevels; } }
+
+    public DimensionDateTimeCollection<T> DateDimensions
+    {
+      get;
+      private set;
+    }
   }
 }

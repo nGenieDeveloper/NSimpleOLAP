@@ -13,6 +13,12 @@ namespace NSimpleOLAP.Common.Utils
         yield return TransformToDateId<T>(date, level);
     }
 
+    public static IEnumerable<string> GetLevelNames(this DateTime date, DateTimeLevels[] levels)
+    {
+      foreach (var level in levels)
+        yield return GetLevelName(date, level);
+    }
+
     public static T TransformToDateId<T>(DateTime date, DateTimeLevels level)
       where T : struct, IComparable
     {

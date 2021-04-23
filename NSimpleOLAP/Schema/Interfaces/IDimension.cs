@@ -1,5 +1,6 @@
 ﻿using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data.Interfaces;
+using NSimpleOLAP.Common;
 using System;
 
 namespace NSimpleOLAP.Schema.Interfaces
@@ -10,6 +11,8 @@ namespace NSimpleOLAP.Schema.Interfaces
     MemberCollection<T> Members { get; }
     DimensionConfig Config { get; set; }
     IDataSource DataSource { get; }
+
+    DimensionType TypeOf { get; }
 
     bool HasLevels { get; }
 

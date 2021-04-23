@@ -1,4 +1,5 @@
 ﻿using NSimpleOLAP.Common;
+using System.Linq;
 using System;
 
 namespace NSimpleOLAP.Configuration.Fluent
@@ -54,6 +55,31 @@ namespace NSimpleOLAP.Configuration.Fluent
     public DataSourceBuilder AddField(string name, Type type)
     {
       FieldConfig field = new FieldConfig() { Name = name, FieldType = type };
+      _element.Fields.Add(field);
+      return this;
+    }
+
+    public DataSourceBuilder AddDateField(string name, string format, params DateTimeLevels[] levels)
+    {
+      FieldConfig field = new FieldConfig() {
+        Name = name,
+        FieldType = typeof(DateTime),
+        Format = format,
+        Levels = levels.ToList()
+      };
+      _element.Fields.Add(field);
+      return this;
+    }
+
+    public DataSourceBuilder AddDateField(string name, int index, string format, params DateTimeLevels[] levels)
+    {
+      FieldConfig field = new FieldConfig() { 
+        Name = name, 
+        FieldType = typeof(DateTime),
+        Index = index,
+        Format = format,
+        Levels = levels.ToList()
+      };
       _element.Fields.Add(field);
       return this;
     }

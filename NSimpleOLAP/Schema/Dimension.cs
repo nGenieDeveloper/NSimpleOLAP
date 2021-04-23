@@ -42,6 +42,8 @@ namespace NSimpleOLAP.Schema
       get { return ItemType.Dimension; }
     }
 
+    public virtual DimensionType TypeOf { get { return DimensionType.Numeric; } }
+
     public MemberCollection<T> Members
     {
       get;
@@ -60,9 +62,9 @@ namespace NSimpleOLAP.Schema
       private set;
     }
 
-    public virtual bool HasLevels { get; }
+    public virtual bool HasLevels { get { return false; } }
 
-    public virtual int LevelPosition { get; }
+    public virtual int LevelPosition { get { return 0; } }
 
     public virtual void Process()
     {

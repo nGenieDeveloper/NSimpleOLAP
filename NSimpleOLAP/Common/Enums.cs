@@ -1,6 +1,6 @@
 ﻿namespace NSimpleOLAP.Common
 {
-  public enum DimensionType { Numeric = 0, Date = 1, DayHour = 2 }
+  public enum DimensionType { Numeric = 0, Date = 1, DayHour = 2, Levels = 3 }
 
   public enum StorageType { Molap = 0, Rolap = 1 }
 
