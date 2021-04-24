@@ -44,7 +44,7 @@ namespace NSimpleOLAP.Schema
 
     public virtual DimensionType TypeOf { get { return DimensionType.Numeric; } }
 
-    public MemberCollection<T> Members
+    public virtual MemberCollection<T> Members
     {
       get;
       private set;

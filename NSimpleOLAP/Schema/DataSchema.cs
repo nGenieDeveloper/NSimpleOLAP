@@ -4,6 +4,8 @@ using NSimpleOLAP.Data;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Storage.Interfaces;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Schema
 {
@@ -94,8 +96,26 @@ namespace NSimpleOLAP.Schema
         }
         if (item.DimensionType == DimensionType.Date)
         {
-          var ndim = new DimensionDateTime<T>(item) { Name = item.Name };
-          this.Dimensions.Add(ndim);
+          var dtLevels = new List<DimensionDateTime<T>>();
+
+          for (var i = 0; i < item.Levels.Count; i++)
+          {
+            var ndim = new DimensionDateTime<T>(item, item.Levels[i], i)
+            { 
+              Name = item.LevelLabels[i],
+            };
+            dtLevels.Add(ndim);
+            this.Dimensions.Add(ndim);
+          }
+
+          foreach (var dtItem in dtLevels)
+          {
+            var query = dtLevels
+              .Where(x => x.LevelPosition > dtItem.LevelPosition)
+              .ToList();
+
+            query.ForEach(x => dtItem.DateDimensions.Add(x));
+          }
         }
       }
     }

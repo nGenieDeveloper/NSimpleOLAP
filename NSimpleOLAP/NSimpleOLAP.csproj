@@ -100,7 +100,7 @@
     <Compile Include="Common\Utils\DateTimeMemberGenerator.cs" />
     <Compile Include="Common\Utils\MetricsReferenceTranslator.cs" />
     <Compile Include="Common\Utils\NamespaceResolver.cs" />
-    <Compile Include="Common\Converters\DateLevelArrayFieldConverter.cs" />
+    <Compile Include="Common\Converters\DateLevelListFieldConverter.cs" />
     <Compile Include="Configuration\CSVConfig.cs" />
     <Compile Include="Configuration\CubeElementCollection.cs" />
     <Compile Include="Configuration\CubeSourceElement.cs" />
@@ -208,7 +208,6 @@
     <Compile Include="Schema\Dimension.cs" />
     <Compile Include="Schema\DimensionCollection.cs" />
     <Compile Include="Schema\DimensionDateTime.cs" />
-    <Compile Include="Schema\DimensionDateTimeCollection.cs" />
     <Compile Include="Schema\Interfaces\IDataItem.cs" />
     <Compile Include="Schema\Interfaces\IDataItemCollection.cs" />
     <Compile Include="Schema\Interfaces\IDimension.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="Schema\MeasuresCollection.cs" />
     <Compile Include="Schema\Member.cs" />
     <Compile Include="Schema\MemberCollection.cs" />
+    <Compile Include="Schema\MemberDateTimeCollection.cs" />
     <Compile Include="Schema\Metric.cs" />
     <Compile Include="Schema\MetricsCollection.cs" />
     <Compile Include="Storage\FactsCache\FactsRow.cs" />

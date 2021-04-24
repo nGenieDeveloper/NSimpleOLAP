@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NSimpleOLAP.Storage.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
-  public class DimensionDateTimeCollection<T> : BaseDataMemberCollection<T, DimensionDateTime<T>>
+  public class MemberDateTimeCollection<T> : MemberCollection<T>
     where T : struct, IComparable
   {
+    public MemberDateTimeCollection():base(null)
+    {
+      // change this
+    }
 
-    public override DimensionDateTime<T> Next(T key)
+    public override Member<T> Next(T key)
     {
       var linkedList = new LinkedList<T>(this.Select(x => x.ID));
       var node = linkedList.Find(key);
@@ -24,7 +27,7 @@ namespace NSimpleOLAP.Schema
       return this[linkedList.First.Value];
     }
 
-    public override DimensionDateTime<T> Previous(T key)
+    public override Member<T> Previous(T key)
     {
       var linkedList = new LinkedList<T>(this.Select(x => x.ID));
       var node = linkedList.Find(key);

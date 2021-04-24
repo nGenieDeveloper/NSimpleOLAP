@@ -80,11 +80,21 @@ namespace NSimpleOLAP.Configuration
     ///
     /// </summary>
     [ConfigurationProperty("levels", IsRequired = false)]
-    [TypeConverter(typeof(DateLevelArrayFieldConverter))]
+    [TypeConverter(typeof(DateLevelListFieldConverter))]
     public List<DateTimeLevels> Levels
     {
       get { return (List<DateTimeLevels>)this["levels"]; }
       set { this["levels"] = value; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [ConfigurationProperty("levelLabels", IsRequired = false)]
+    public string[] LevelLabels
+    {
+      get { return (string[])this["levelLabels"]; }
+      set { this["levelLabels"] = value; }
     }
   }
 }

@@ -19,7 +19,7 @@ namespace NSimpleOLAP.Schema
     {
     }
 
-    public D this[T key]
+    public virtual D this[T key]
     {
       get
       {
@@ -27,7 +27,7 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    public D this[string name]
+    public virtual D this[string name]
     {
       get
       {
@@ -39,7 +39,7 @@ namespace NSimpleOLAP.Schema
 
     public abstract D Previous(T key);
 
-    public int Count
+    public virtual int Count
     {
       get
       {
@@ -47,7 +47,7 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    public bool IsReadOnly
+    public virtual bool IsReadOnly
     {
       get
       {
@@ -55,42 +55,42 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    public void Add(D item)
+    public virtual void Add(D item)
     {
       _storage.Add(item);
     }
 
-    public void Clear()
+    public virtual void Clear()
     {
       _storage.Clear();
     }
 
-    public bool Contains(D item)
+    public virtual bool Contains(D item)
     {
       return _storage.Contains(item);
     }
 
-    public bool Contains(string item)
+    public virtual bool Contains(string item)
     {
       return _storage.Any(x => x.Name.Equals(item));
     }
 
-    public bool ContainsKey(T key)
+    public virtual bool ContainsKey(T key)
     {
       return _storage.ContainsKey(key);
     }
 
-    public void CopyTo(D[] array, int arrayIndex)
+    public virtual void CopyTo(D[] array, int arrayIndex)
     {
       _storage.CopyTo(array, arrayIndex);
     }
 
-    public bool Remove(D item)
+    public virtual bool Remove(D item)
     {
       return _storage.Remove(item);
     }
 
-    public IEnumerator<D> GetEnumerator()
+    public virtual IEnumerator<D> GetEnumerator()
     {
       foreach (var item in _storage)
         yield return item;

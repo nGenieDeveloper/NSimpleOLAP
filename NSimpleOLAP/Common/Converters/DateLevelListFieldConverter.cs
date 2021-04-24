@@ -1,5 +1,4 @@
-﻿using NSimpleOLAP.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -8,7 +7,7 @@ using System.Linq;
 
 namespace NSimpleOLAP.Common.Converters
 {
-  public class DateLevelArrayFieldConverter : ConfigurationConverterBase
+  public class DateLevelListFieldConverter : ConfigurationConverterBase
   {
     public override object ConvertFrom(ITypeDescriptorContext ctx, CultureInfo culture, object value)
     {

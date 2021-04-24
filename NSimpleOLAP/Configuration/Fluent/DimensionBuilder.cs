@@ -1,5 +1,6 @@
 ﻿using NSimpleOLAP.Common;
 using System.Linq;
+using System;
 
 namespace NSimpleOLAP.Configuration.Fluent
 {
@@ -33,6 +34,7 @@ namespace NSimpleOLAP.Configuration.Fluent
     public DimensionBuilder DescField(int index)
     {
       _element.ValueFieldIndex = index;
+      Validate();
       return this;
     }
 
@@ -46,6 +48,7 @@ namespace NSimpleOLAP.Configuration.Fluent
     public DimensionBuilder ValueField(int index)
     {
       _element.ValueFieldIndex = index;
+      Validate();
       return this;
     }
 
@@ -59,6 +62,7 @@ namespace NSimpleOLAP.Configuration.Fluent
     public DimensionBuilder AllowsMembersWithSameName()
     {
       _element.AllowsMembersWithSameName = true;
+      Validate();
       return this;
     }
 
@@ -66,6 +70,14 @@ namespace NSimpleOLAP.Configuration.Fluent
     {
       _element.DimensionType = DimensionType.Date;
       _element.Levels = levels.ToList();
+      Validate();
+      return this;
+    }
+
+    public DimensionBuilder SetLevelLabels(params string[] levels)
+    {
+      _element.LevelLabels = levels;
+      Validate();
       return this;
     }
 
@@ -74,10 +86,19 @@ namespace NSimpleOLAP.Configuration.Fluent
       if (_element.DimensionType == DimensionType.Date)
       {
         if (!string.IsNullOrEmpty(_element.Source))
-          throw new System.Exception("Date dimensions don't have a table source.");
+          throw new Exception("Date dimensions don't have a table source.");
         if (!string.IsNullOrEmpty(_element.DesFieldName) ||
             !string.IsNullOrEmpty(_element.ValueFieldName))
-          throw new System.Exception("Date dimensions don't need a descriptor table mappings.");
+          throw new Exception("Date dimensions don't need a descriptor table mappings.");
+        if (_element.LevelLabels.Length > 0 && 
+            _element.Levels.Count != _element.LevelLabels.Length)
+          throw new Exception("The number of Date Time Levels don\'t match the number of Level Labels.");
+      }
+
+      if (_element.DimensionType == DimensionType.Numeric)
+      {
+        if (_element.Levels?.Count > 0)
+          throw new Exception("Non Date dimensions can\'t have date time levels.");
       }
     }
 

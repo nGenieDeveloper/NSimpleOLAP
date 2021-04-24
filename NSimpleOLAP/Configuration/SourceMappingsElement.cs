@@ -1,4 +1,7 @@
 ﻿using System.Configuration;
+using NSimpleOLAP.Common;
+using NSimpleOLAP.Common.Converters;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Configuration
 {
@@ -19,7 +22,7 @@ namespace NSimpleOLAP.Configuration
     }
 
     /// <summary>
-    /// A demonstration of how to use a boolean property.
+    /// 
     /// </summary>
     [ConfigurationProperty("dimension")]
     public string Dimension
@@ -27,5 +30,17 @@ namespace NSimpleOLAP.Configuration
       get { return (string)this["dimension"]; }
       set { this["dimension"] = value; }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ConfigurationProperty("labels")]
+    public string[] Labels
+    {
+      get { return (string[])this["labels"]; }
+      set { this["labels"] = value; }
+    }
+
+
   }
 }

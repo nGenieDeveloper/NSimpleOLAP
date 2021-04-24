@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP.Common;
+﻿using NSimpleOLAP.Common;
 using NSimpleOLAP.Configuration;
-using NSimpleOLAP.Data.Interfaces;
-using NSimpleOLAP.Schema.Interfaces;
-using NSimpleOLAP.Storage.Interfaces;
-
-using NSimpleOLAP.Common.Interfaces;
-
+using System;
+using System.Collections.Generic;
 
 namespace NSimpleOLAP.Schema
 {
@@ -18,23 +9,40 @@ namespace NSimpleOLAP.Schema
     where T : struct, IComparable
   {
     private int _level;
-    private bool _hasLevels;
+    private MemberDateTimeCollection<T> _members;
 
-    public DimensionDateTime(DimensionConfig dimconfig)
+    public DimensionDateTime(DimensionConfig dimconfig, DateTimeLevels level, int levelIndex)
     {
       this.Config = dimconfig;
+      DateLevel = level;
+      _level = levelIndex;
+      DateDimensions = new List<DimensionDateTime<T>>();
+      _members = new MemberDateTimeCollection<T>();
+      Members = _members;
     }
+
+    public DateTimeLevels DateLevel { get; private set; }
 
     public new DimensionType TypeOf { get { return DimensionType.Date; } }
 
     public new int LevelPosition { get { return _level; } }
 
-    public new bool HasLevels { get { return _hasLevels; } }
+    public new bool HasLevels { get { return DateDimensions.Count > 0; } }
 
-    public DimensionDateTimeCollection<T> DateDimensions
+    public IList<DimensionDateTime<T>> DateDimensions
     {
       get;
       private set;
     }
+
+    public new MemberCollection<T> Members
+    {
+      get;
+      private set;
+    }
+
+
+
+    // Change Members
   }
 }

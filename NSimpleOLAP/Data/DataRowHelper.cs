@@ -3,6 +3,8 @@ using NSimpleOLAP.Data.Readers;
 using NSimpleOLAP.Schema;
 using System;
 using System.Collections.Generic;
+using NSimpleOLAP.Common.Utils;
+using NSimpleOLAP.Common;
 
 namespace NSimpleOLAP.Data
 {
@@ -23,21 +25,41 @@ namespace NSimpleOLAP.Data
 
     public KeyValuePair<T, T>[] GetDimensions(AbsRowData rowdata)
     {
-
-      // Mudar AKI!!!
       List<KeyValuePair<T, T>> retlist = new List<KeyValuePair<T, T>>();
 
       foreach (SourceMappingsElement item in _config.Fields)
       {
         if (rowdata[item.Field] != null)
         {
-          T segment = (T)Convert.ChangeType(rowdata[item.Field], typeof(T));
-          Dimension<T> dimension = _schema.Dimensions[item.Dimension];
-
-          if (dimension.Members.ContainsKey(segment))
+          if (!string.IsNullOrEmpty(item.Dimension))
           {
-            KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
-            retlist.Add(pair);
+            Dimension<T> dimension = _schema.Dimensions[item.Dimension];
+            T segment = (T)Convert.ChangeType(rowdata[item.Field], typeof(T));
+
+            if (dimension.Members.ContainsKey(segment))
+            {
+              KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
+              retlist.Add(pair);
+            }
+          }
+          else if (item.Labels?.Length > 0)
+          {
+            for (var i = 0; i < item.Labels.Length; i++)
+            {
+              var dimension = _schema.Dimensions[item.Labels[i]];
+
+              if (dimension.TypeOf == DimensionType.Date)
+              {
+                if (rowdata[item.Field] != null)
+                {
+                  var value = ((DateTime?)rowdata[item.Field]).Value;
+                  T segment = DateTimeMemberGenerator.TransformToDateId<T>(value, ((DimensionDateTime<T>)dimension).DateLevel);
+
+                  KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
+                  retlist.Add(pair);
+                }
+              }
+            }
           }
         }
       }

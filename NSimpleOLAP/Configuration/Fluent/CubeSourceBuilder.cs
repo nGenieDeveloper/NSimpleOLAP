@@ -26,6 +26,12 @@
       return this;
     }
 
+    public CubeSourceBuilder AddMapping(string fieldname, params string[] dimensionLabels)
+    {
+      _element.Fields.Add(new SourceMappingsElement() { Field = fieldname, Labels = dimensionLabels });
+      return this;
+    }
+
     internal CubeSourceConfig Create()
     {
       return _element;
