@@ -1,5 +1,6 @@
 ﻿using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Configuration.Extensions;
+using NSimpleOLAP.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -75,9 +76,15 @@ namespace NSimpleOLAP.Data.Readers
       {
         string value = strs[i].Trim();
 
-        if (value != string.Empty && !value.Contains("."))
+        if (string.IsNullOrEmpty(value))
+        {
+          values[i] = null;
+          continue;
+        }
+
+        if (!value.Contains(".") && string.IsNullOrEmpty(Config.Fields[i].Format))
           values[i] = Convert.ChangeType(value, this.Config.Fields[i].FieldType);
-        else if (value != string.Empty && value.Contains("."))
+        else if (value.Contains(".") && string.IsNullOrEmpty(Config.Fields[i].Format))
         {
           double val = 0;
 
@@ -86,8 +93,9 @@ namespace NSimpleOLAP.Data.Readers
           else
             values[i] = null;
         }
-        else
-          values[i] = null;
+        else if (!string.IsNullOrEmpty(Config.Fields[i].Format) 
+          && Config.Fields[i].FieldType == typeof(DateTime))
+          values[i] = value.GetDate(Config.Fields[i].Format);
       }
 
       return values;

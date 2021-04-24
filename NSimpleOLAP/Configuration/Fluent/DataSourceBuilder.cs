@@ -59,26 +59,24 @@ namespace NSimpleOLAP.Configuration.Fluent
       return this;
     }
 
-    public DataSourceBuilder AddDateField(string name, string format, params DateTimeLevels[] levels)
+    public DataSourceBuilder AddDateField(string name, string format)
     {
       FieldConfig field = new FieldConfig() {
         Name = name,
         FieldType = typeof(DateTime),
         Format = format,
-        Levels = levels.ToList()
       };
       _element.Fields.Add(field);
       return this;
     }
 
-    public DataSourceBuilder AddDateField(string name, int index, string format, params DateTimeLevels[] levels)
+    public DataSourceBuilder AddDateField(string name, int index, string format)
     {
       FieldConfig field = new FieldConfig() { 
         Name = name, 
         FieldType = typeof(DateTime),
         Index = index,
         Format = format,
-        Levels = levels.ToList()
       };
       _element.Fields.Add(field);
       return this;

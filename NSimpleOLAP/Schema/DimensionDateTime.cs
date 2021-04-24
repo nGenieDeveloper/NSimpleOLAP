@@ -20,6 +20,11 @@ namespace NSimpleOLAP.Schema
     private int _level;
     private bool _hasLevels;
 
+    public DimensionDateTime(DimensionConfig dimconfig)
+    {
+      this.Config = dimconfig;
+    }
+
     public new DimensionType TypeOf { get { return DimensionType.Date; } }
 
     public new int LevelPosition { get { return _level; } }

@@ -6,7 +6,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 
-namespace NSimpleOLAP.Configuration.Converters
+namespace NSimpleOLAP.Common.Converters
 {
   public class DateLevelArrayFieldConverter : ConfigurationConverterBase
   {

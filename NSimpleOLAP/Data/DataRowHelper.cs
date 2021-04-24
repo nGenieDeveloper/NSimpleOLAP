@@ -23,6 +23,8 @@ namespace NSimpleOLAP.Data
 
     public KeyValuePair<T, T>[] GetDimensions(AbsRowData rowdata)
     {
+
+      // Mudar AKI!!!
       List<KeyValuePair<T, T>> retlist = new List<KeyValuePair<T, T>>();
 
       foreach (SourceMappingsElement item in _config.Fields)

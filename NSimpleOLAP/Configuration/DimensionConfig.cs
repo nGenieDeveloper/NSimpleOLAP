@@ -1,4 +1,9 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Collections.Generic;
+using NSimpleOLAP.Common;
+using NSimpleOLAP.Common.Converters;
+using System.ComponentModel;
 
 namespace NSimpleOLAP.Configuration
 {
@@ -62,6 +67,24 @@ namespace NSimpleOLAP.Configuration
     {
       get { return (bool)this["allowsNameDuplicates"]; }
       set { this["allowsNameDuplicates"] = value; }
+    }
+
+    [ConfigurationProperty("dimensionType", DefaultValue = DimensionType.Numeric)]
+    public DimensionType DimensionType
+    {
+      get { return (DimensionType) this["dimensionType"]; }
+      set { this["dimensionType"] = value; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [ConfigurationProperty("levels", IsRequired = false)]
+    [TypeConverter(typeof(DateLevelArrayFieldConverter))]
+    public List<DateTimeLevels> Levels
+    {
+      get { return (List<DateTimeLevels>)this["levels"]; }
+      set { this["levels"] = value; }
     }
   }
 }

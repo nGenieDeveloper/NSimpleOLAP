@@ -1,6 +1,7 @@
 ﻿using NSimpleOLAP.Common.Interfaces;
 using NSimpleOLAP.Configuration;
 using NSimpleOLAP.Data;
+using NSimpleOLAP.Common;
 using NSimpleOLAP.Storage.Interfaces;
 using System;
 
@@ -82,11 +83,20 @@ namespace NSimpleOLAP.Schema
     {
       foreach (DimensionConfig item in this.Config.Dimensions)
       {
-        if (!_datasources.ContainsKey(item.Source))
+        if (item.DimensionType == DimensionType.Numeric 
+          && !_datasources.ContainsKey(item.Source))
           throw new Exception($"Datasource {item.Source} does not exist in sources definitions.");
 
-        Dimension<T> ndim = new Dimension<T>(item, _datasources[item.Source]) { Name = item.Name };
-        this.Dimensions.Add(ndim);
+        if (item.DimensionType == DimensionType.Numeric)
+        {
+          Dimension<T> ndim = new Dimension<T>(item, _datasources[item.Source]) { Name = item.Name };
+          this.Dimensions.Add(ndim);
+        }
+        if (item.DimensionType == DimensionType.Date)
+        {
+          var ndim = new DimensionDateTime<T>(item) { Name = item.Name };
+          this.Dimensions.Add(ndim);
+        }
       }
     }
 

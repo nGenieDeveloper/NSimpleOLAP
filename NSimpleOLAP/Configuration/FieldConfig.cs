@@ -1,8 +1,4 @@
-﻿using NSimpleOLAP.Common;
-using NSimpleOLAP.Configuration.Converters;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Configuration;
 
 namespace NSimpleOLAP.Configuration
@@ -41,17 +37,6 @@ namespace NSimpleOLAP.Configuration
     {
       get { return (int)this["index"]; }
       set { this["index"] = value; }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    [ConfigurationProperty("levels", IsRequired = false)]
-    [TypeConverter(typeof(DateLevelArrayFieldConverter))]
-    public List<DateTimeLevels> Levels
-    {
-      get { return (List<DateTimeLevels>)this["levels"]; }
-      set { this["levels"] = value; }
     }
 
     [ConfigurationProperty("format", IsRequired = false)]
