@@ -50,7 +50,14 @@ namespace NSimpleOLAP.Storage.Molap
         (dimension) =>
         {
           this.NameSpace.Add(dimension);
-          dimension.SetMembersStorage(new DimensionMembersCollection());
+          
+          if (dimension.TypeOf == DimensionType.Date)
+          {
+            //todo change this
+            ((DimensionDateTime<T>)dimension).SetMembersStorage(new DimensionMembersCollection());
+          }
+          else
+            dimension.SetMembersStorage(new DimensionMembersCollection());
         },
         (storage) =>
         {

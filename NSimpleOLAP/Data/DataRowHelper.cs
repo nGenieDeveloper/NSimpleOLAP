@@ -29,48 +29,13 @@ namespace NSimpleOLAP.Data
 
       foreach (SourceMappingsElement item in _config.Fields)
       {
-        if (rowdata[item.Field] != null)
-        {
-          if (!string.IsNullOrEmpty(item.Dimension))
-          {
-            Dimension<T> dimension = _schema.Dimensions[item.Dimension];
-            T segment = (T)Convert.ChangeType(rowdata[item.Field], typeof(T));
+        if (rowdata[item.Field] == null)
+          continue;
 
-            if (dimension.Members.ContainsKey(segment))
-            {
-              KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
-              retlist.Add(pair);
-            }
-          }
-          else if (item.Labels?.Length > 0)
-          {
-            for (var i = 0; i < item.Labels.Length; i++)
-            {
-              var dimension = _schema.Dimensions[item.Labels[i]];
-
-              if (dimension.TypeOf == DimensionType.Date)
-              {
-                if (rowdata[item.Field] != null)
-                {
-                  var value = ((DateTime?)rowdata[item.Field]).Value;
-                  T segment = DateTimeMemberGenerator.TransformToDateId<T>(value, ((DimensionDateTime<T>)dimension).DateLevel);
-
-                  KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
-                  retlist.Add(pair);
-
-                  if (!dimension.Members.ContainsKey(segment))
-                  {
-                    dimension.Members.Add(new Member<T> 
-                    { 
-                      ID = segment, 
-                      Name = DateTimeMemberGenerator.GetLevelName(value,((DimensionDateTime<T>)dimension).DateLevel) 
-                    });
-                  }
-                }
-              }
-            }
-          }
-        }
+        if (!string.IsNullOrEmpty(item.Dimension))
+          HandleSimpleDimension(rowdata, item, retlist);
+        else if (item.Labels?.Length > 0)
+          HandleLevels(rowdata, item, retlist);
       }
 
       retlist.Sort(ComparePairs);
@@ -89,6 +54,45 @@ namespace NSimpleOLAP.Data
       }
 
       return vars;
+    }
+
+    private void HandleSimpleDimension(AbsRowData rowdata, SourceMappingsElement item, List<KeyValuePair<T, T>> retlist)
+    {
+      Dimension<T> dimension = _schema.Dimensions[item.Dimension];
+      T segment = (T)Convert.ChangeType(rowdata[item.Field], typeof(T));
+
+      if (dimension.Members.ContainsKey(segment))
+      {
+        KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
+        retlist.Add(pair);
+      }
+    }
+
+    private void HandleLevels(AbsRowData rowdata, SourceMappingsElement item, List<KeyValuePair<T, T>> retlist)
+    {
+      for (var i = 0; i < item.Labels.Length; i++)
+      {
+        var dimension = _schema.Dimensions[item.Labels[i]];
+
+        if (dimension.TypeOf == DimensionType.Date)
+        {
+          var dtDimension = (DimensionDateTime<T>)dimension;
+          var value = ((DateTime?)rowdata[item.Field]).Value;
+          T segment = DateTimeMemberGenerator.TransformToDateId<T>(value, dtDimension.DateLevel);
+
+          KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
+          retlist.Add(pair);
+
+          if (!dtDimension.Members.ContainsKey(segment))
+          {
+            dtDimension.Members.Add(new Member<T>
+            {
+              ID = segment,
+              Name = DateTimeMemberGenerator.GetLevelName(value, dtDimension.DateLevel)
+            });
+          }
+        }
+      }
     }
 
     private int ComparePairs(KeyValuePair<T, T> a, KeyValuePair<T, T> b)

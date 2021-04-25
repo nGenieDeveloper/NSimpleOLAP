@@ -65,6 +65,7 @@
     <Compile Include="CubeExpressionMetricsExecutionTests.cs" />
     <Compile Include="CubeExpressionMetricsSetupTests.cs" />
     <Compile Include="CubeInitializationTests.cs" />
+    <Compile Include="CubeInitializationWithDateTests.cs" />
     <Compile Include="CubeSourcesFixture.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +84,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\dimension3.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\tableWithDate.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\table.csv">

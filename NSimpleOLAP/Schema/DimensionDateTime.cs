@@ -3,6 +3,11 @@ using NSimpleOLAP.Configuration;
 using System;
 using System.Collections.Generic;
 using NSimpleOLAP.Common.Utils;
+using NSimpleOLAP.Common.Interfaces;
+using NSimpleOLAP.Data.Interfaces;
+using NSimpleOLAP.Data.Readers;
+using NSimpleOLAP.Schema.Interfaces;
+using NSimpleOLAP.Storage.Interfaces;
 
 namespace NSimpleOLAP.Schema
 {
@@ -10,21 +15,18 @@ namespace NSimpleOLAP.Schema
     where T : struct, IComparable
   {
     private int _level;
-    private MemberDateTimeCollection<T> _members;
+   // private MemberDateTimeCollection<T> _members;
 
     public DimensionDateTime(DimensionConfig dimconfig, DateTimeLevels level, int levelIndex)
     {
+      typeOf = DimensionType.Date;
       this.Config = dimconfig;
       DateLevel = level;
       _level = levelIndex;
       LevelDimensions = new List<DimensionDateTime<T>>();
-      _members = new MemberDateTimeCollection<T>();
-      Members = _members;
     }
 
     public DateTimeLevels DateLevel { get; private set; }
-
-    public new DimensionType TypeOf { get { return DimensionType.Date; } }
 
     public new int LevelPosition { get { return _level; } }
 
@@ -36,11 +38,6 @@ namespace NSimpleOLAP.Schema
       private set;
     }
 
-    public new MemberCollection<T> Members
-    {
-      get;
-      private set;
-    }
 
     public override void Process()
     {
@@ -54,7 +51,11 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    
+    internal override void SetMembersStorage(IMemberStorage<T, Member<T>> storage)
+    {
+      _members = new MemberCollection<T>(storage); //todo change this
+    }
+
     private IEnumerable<Tuple<T, string>> PrePopulate()
     {
       var tempDate = DateTime.Now;

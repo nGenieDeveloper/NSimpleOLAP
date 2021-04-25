@@ -15,11 +15,16 @@ namespace NSimpleOLAP.Schema
   public class Dimension<T> : IDimension<T>, IProcess
     where T : struct, IComparable
   {
+    protected DimensionType typeOf;
+
+    protected MemberCollection<T> _members;
+
     public Dimension()
     {
+      typeOf = DimensionType.Numeric;
     }
 
-    public Dimension(DimensionConfig dimconfig, IDataSource datasource)
+    public Dimension(DimensionConfig dimconfig, IDataSource datasource):this()
     {
       this.Config = dimconfig;
       this.DataSource = datasource;
@@ -42,12 +47,11 @@ namespace NSimpleOLAP.Schema
       get { return ItemType.Dimension; }
     }
 
-    public virtual DimensionType TypeOf { get { return DimensionType.Numeric; } }
+    public virtual DimensionType TypeOf { get { return typeOf; } }
 
-    public virtual MemberCollection<T> Members
+    public MemberCollection<T> Members
     {
-      get;
-      private set;
+      get { return _members; }
     }
 
     public DimensionConfig Config
@@ -88,9 +92,9 @@ namespace NSimpleOLAP.Schema
 
     #region
 
-    internal void SetMembersStorage(IMemberStorage<T, Member<T>> storage)
+    internal virtual void SetMembersStorage(IMemberStorage<T, Member<T>> storage)
     {
-      this.Members = new MemberCollection<T>(storage);
+      _members = new MemberCollection<T>(storage);
     }
 
     #endregion

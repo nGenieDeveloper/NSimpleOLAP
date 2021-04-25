@@ -90,7 +90,7 @@ namespace NSimpleOLAP.Configuration.Fluent
         if (!string.IsNullOrEmpty(_element.DesFieldName) ||
             !string.IsNullOrEmpty(_element.ValueFieldName))
           throw new Exception("Date dimensions don't need a descriptor table mappings.");
-        if (_element.LevelLabels.Length > 0 && 
+        if (_element.LevelLabels?.Length > 0 && 
             _element.Levels.Count != _element.LevelLabels.Length)
           throw new Exception("The number of Date Time Levels don\'t match the number of Level Labels.");
       }
