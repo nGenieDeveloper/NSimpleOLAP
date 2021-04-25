@@ -24,6 +24,9 @@ namespace NSimpleOLAP.Common.Utils
     {
       switch (level)
       {
+        case DateTimeLevels.DAY:
+          return TransformToDay<T>(date);
+
         case DateTimeLevels.DATE:
           return TransformToDate<T>(date);
 
@@ -44,6 +47,47 @@ namespace NSimpleOLAP.Common.Utils
 
         default:
           throw new Exception("Type not supported.");
+      }
+    }
+
+    public static IEnumerable<Tuple<T,string>> GetAllMonthsInYear<T>()
+      where T : struct, IComparable
+    {
+      for (var i = 1; i <= 12; i++)
+      {
+        var tempDate = new DateTime(2000, i, 1);
+
+        yield return new Tuple<T, string>((T)Convert.ChangeType(i, typeof(T)), tempDate.ToString("MMMM"));
+      }
+    }
+
+    public static IEnumerable<Tuple<T, string>> GetAllMonthsInYear<T>(DateTime value)
+      where T : struct, IComparable
+    {
+      for (var i = 1; i <= 12; i++)
+      {
+        var tempDate = new DateTime(value.Year, i, 1);
+
+        yield return new Tuple<T, string>(TransformToDateId<T>(tempDate, DateTimeLevels.MONTH), 
+          GetLevelName(tempDate, DateTimeLevels.MONTH));
+      }
+    }
+
+    public static IEnumerable<Tuple<T, string>> GetAllDays<T>()
+      where T : struct, IComparable
+    {
+      for (var i = 1; i <= 31; i++)
+      {
+        yield return new Tuple<T, string>((T)Convert.ChangeType(i, typeof(T)), i.ToString());
+      }
+    }
+
+    public static IEnumerable<Tuple<T, string>> GetAllWeeksInYear<T>()
+      where T : struct, IComparable
+    {
+      for (var i = 1; i <= 52; i++)
+      {
+        yield return new Tuple<T, string>((T)Convert.ChangeType(i, typeof(T)), i.ToString());
       }
     }
 
@@ -69,6 +113,8 @@ namespace NSimpleOLAP.Common.Utils
     {
       switch (level)
       {
+        case DateTimeLevels.DAY:
+          return date.ToString("dd");
         case DateTimeLevels.DATE:
           return date.ToString("yyyy-MM-dd");
         case DateTimeLevels.YEAR:
@@ -93,6 +139,14 @@ namespace NSimpleOLAP.Common.Utils
         .GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 
       return weekNumber;
+    }
+
+    public static T TransformToDay<T>(DateTime date)
+      where T : struct, IComparable
+    {
+      var value = date.Day;
+
+      return value.SetOutput<T>();
     }
 
     public static T TransformToWeek<T>(DateTime date)

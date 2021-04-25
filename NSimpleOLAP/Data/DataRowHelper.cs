@@ -57,6 +57,15 @@ namespace NSimpleOLAP.Data
 
                   KeyValuePair<T, T> pair = new KeyValuePair<T, T>(dimension.ID, segment);
                   retlist.Add(pair);
+
+                  if (!dimension.Members.ContainsKey(segment))
+                  {
+                    dimension.Members.Add(new Member<T> 
+                    { 
+                      ID = segment, 
+                      Name = DateTimeMemberGenerator.GetLevelName(value,((DimensionDateTime<T>)dimension).DateLevel) 
+                    });
+                  }
                 }
               }
             }

@@ -111,10 +111,10 @@ namespace NSimpleOLAP.Schema
           foreach (var dtItem in dtLevels)
           {
             var query = dtLevels
-              .Where(x => x.LevelPosition > dtItem.LevelPosition)
+              .Where(x => x.LevelPosition != dtItem.LevelPosition)
               .ToList();
 
-            query.ForEach(x => dtItem.DateDimensions.Add(x));
+            query.ForEach(x => dtItem.LevelDimensions.Add(x));
           }
         }
       }

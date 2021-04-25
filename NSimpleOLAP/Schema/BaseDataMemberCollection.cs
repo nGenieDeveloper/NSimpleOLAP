@@ -39,7 +39,7 @@ namespace NSimpleOLAP.Schema
 
     public abstract D Previous(T key);
 
-    public virtual int Count
+    public int Count
     {
       get
       {
@@ -47,7 +47,7 @@ namespace NSimpleOLAP.Schema
       }
     }
 
-    public virtual bool IsReadOnly
+    public bool IsReadOnly
     {
       get
       {
