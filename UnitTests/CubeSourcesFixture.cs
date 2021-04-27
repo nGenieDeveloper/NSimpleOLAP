@@ -279,5 +279,110 @@ namespace UnitTests
 
       return builder.Create<int>();
     }
+
+    public static Cube<int> GetBasicCubeThreeSimpleDimensionsTwoMeasuresAndThreeDateDimensions()
+    {
+      CubeBuilder builder = new CubeBuilder();
+
+      builder.SetName("hello")
+        .SetSourceMappings((sourcebuild) =>
+        {
+          sourcebuild.SetSource("sales")
+            .AddMapping("category", "category")
+            .AddMapping("sex", "sex")
+            .AddMapping("place", "place")
+            .AddMapping("date", "Year", "Month", "Day");
+        })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("sales")
+            .SetSourceType(DataSourceType.CSV)
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//tableWithDate.csv")
+                              .SetHasHeader();
+            })
+            .AddField("category", 0, typeof(int))
+            .AddField("sex", 1, typeof(int))
+            .AddField("place", 2, typeof(int))
+            .AddDateField("date", 3, "yyyy-MM-dd")
+            .AddField("expenses", 4, typeof(double))
+            .AddField("items", 5, typeof(int));
+        })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("categories")
+            .SetSourceType(DataSourceType.CSV)
+            .AddField("id", 0, typeof(int))
+            .AddField("description", 1, typeof(string))
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//dimension1.csv")
+                              .SetHasHeader();
+            });
+        })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("sexes")
+            .SetSourceType(DataSourceType.CSV)
+            .AddField("id", 0, typeof(int))
+            .AddField("description", 1, typeof(string))
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//dimension2.csv")
+                               .SetHasHeader();
+            });
+        })
+        .AddDataSource(dsbuild =>
+        {
+          dsbuild.SetName("places")
+            .SetSourceType(DataSourceType.CSV)
+            .AddField("id", 0, typeof(int))
+            .AddField("description", 1, typeof(string))
+            .SetCSVConfig(csvbuild =>
+            {
+              csvbuild.SetFilePath("TestData//dimension3.csv")
+                               .SetHasHeader();
+            });
+        })
+        .MetaData(mbuild =>
+        {
+          mbuild.AddDimension("category", (dimbuild) =>
+          {
+            dimbuild.Source("categories")
+              .ValueField("id")
+              .DescField("description");
+          })
+          .AddDimension("sex", (dimbuild) =>
+          {
+            dimbuild.Source("sexes")
+              .ValueField("id")
+              .DescField("description");
+          })
+          .AddDimension("place", (dimbuild) =>
+          {
+            dimbuild.Source("places")
+              .ValueField("id")
+              .DescField("description");
+          })
+          .AddDimension("date", dimbuild => {
+            dimbuild
+            .SetToDateSource(DateTimeLevels.YEAR, DateTimeLevels.MONTH, DateTimeLevels.DAY)
+            .SetLevelLabels("Year", "Month", "Day");
+          })
+          .AddMeasure("spent", mesbuild =>
+          {
+            mesbuild.ValueField("expenses")
+              .SetType(typeof(double));
+          })
+          .AddMeasure("quantity", mesbuild =>
+          {
+            mesbuild.ValueField("items")
+              .SetType(typeof(int));
+          });
+        });
+
+      return builder.Create<int>();
+    }
   }
 }

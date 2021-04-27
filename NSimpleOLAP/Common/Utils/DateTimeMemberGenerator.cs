@@ -30,7 +30,7 @@ namespace NSimpleOLAP.Common.Utils
         case DateTimeLevels.DATE:
           return TransformToDate<T>(date);
 
-        case DateTimeLevels.MONTH:
+        case DateTimeLevels.MONTH_WITH_YEAR:
           return TransformToMonth<T>(date);
 
         case DateTimeLevels.YEAR:
@@ -42,7 +42,7 @@ namespace NSimpleOLAP.Common.Utils
         case DateTimeLevels.WEEK:
           return TransformToWeek<T>(date);
 
-        case DateTimeLevels.MONTH_SOLO:
+        case DateTimeLevels.MONTH:
           return TransformToMonthOfYear<T>(date);
 
         default:
@@ -68,8 +68,8 @@ namespace NSimpleOLAP.Common.Utils
       {
         var tempDate = new DateTime(value.Year, i, 1);
 
-        yield return new Tuple<T, string>(TransformToDateId<T>(tempDate, DateTimeLevels.MONTH), 
-          GetLevelName(tempDate, DateTimeLevels.MONTH));
+        yield return new Tuple<T, string>(TransformToDateId<T>(tempDate, DateTimeLevels.MONTH_WITH_YEAR), 
+          GetLevelName(tempDate, DateTimeLevels.MONTH_WITH_YEAR));
       }
     }
 
@@ -119,9 +119,9 @@ namespace NSimpleOLAP.Common.Utils
           return date.ToString("yyyy-MM-dd");
         case DateTimeLevels.YEAR:
           return date.ToString("yyyy");
-        case DateTimeLevels.MONTH_SOLO:
-          return date.ToString("MMMM");
         case DateTimeLevels.MONTH:
+          return date.ToString("MMMM");
+        case DateTimeLevels.MONTH_WITH_YEAR:
           return date.ToString("yyyy MMMM");
         case DateTimeLevels.WEEK:
           return string.Format("{0} Week {1}", date.ToString("yyyy"), DateToWeek(date));

@@ -22,5 +22,5 @@
 
   public enum OperationType { NONE = 0, SUM = 1, SUBTRACTION = 2, MULTIPLICATION = 3, DIVISION = 4, MIN = 5, MAX = 6, AVERAGE = 7, VALUE = 8 }
 
-  public enum DateTimeLevels { DATE = 0, DAY = 1 , MONTH = 2, QUARTER = 3 , YEAR = 4, WEEK = 5, MONTH_SOLO = 6 }
+  public enum DateTimeLevels { DATE = 0, DAY = 1 , MONTH_WITH_YEAR = 2, QUARTER = 3 , YEAR = 4, WEEK = 5, MONTH = 6 }
 }

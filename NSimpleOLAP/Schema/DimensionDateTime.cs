@@ -67,9 +67,9 @@ namespace NSimpleOLAP.Schema
             new Tuple<T, string>(DateTimeMemberGenerator.TransformToDateId<T>(tempDate, DateLevel), 
             DateTimeMemberGenerator.GetLevelName(tempDate, DateLevel)) 
           };
-        case DateTimeLevels.MONTH:
+        case DateTimeLevels.MONTH_WITH_YEAR:
           return DateTimeMemberGenerator.GetAllMonthsInYear<T>(tempDate);
-        case DateTimeLevels.MONTH_SOLO:
+        case DateTimeLevels.MONTH:
           return DateTimeMemberGenerator.GetAllMonthsInYear<T>();
         case DateTimeLevels.DAY:
           return DateTimeMemberGenerator.GetAllDays<T>();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP;
+﻿using NSimpleOLAP;
 using NSimpleOLAP.Common;
 using NSimpleOLAP.Configuration.Fluent;
 using NUnit.Framework;
@@ -13,7 +8,6 @@ namespace UnitTests
   [TestFixture]
   public class CubeInitializationWithDateTests
   {
-
     [Test]
     public void MolapAddDateDimensionInit_Test()
     {
@@ -57,9 +51,10 @@ namespace UnitTests
               .ValueField("id")
               .DescField("description");
           })
-          .AddDimension("date", dimbuild => {
+          .AddDimension("date", dimbuild =>
+          {
             dimbuild
-            .SetToDateSource(DateTimeLevels.YEAR, DateTimeLevels.MONTH, DateTimeLevels.MONTH_SOLO, DateTimeLevels.DAY)
+            .SetToDateSource(DateTimeLevels.YEAR, DateTimeLevels.MONTH_WITH_YEAR, DateTimeLevels.MONTH, DateTimeLevels.DAY)
             .SetLevelLabels("Year", "Year Month", "Month", "Day");
           });
         });
@@ -79,7 +74,7 @@ namespace UnitTests
       CubeBuilder builder = new CubeBuilder();
 
       builder.SetName("hello2")
-        .SetSourceMappings((sourcebuild) => 
+        .SetSourceMappings((sourcebuild) =>
           sourcebuild.SetSource("sales")
           .AddMapping("category", "category")
           .AddMapping("date", "Year", "Year Month", "Month", "Day")
@@ -120,9 +115,10 @@ namespace UnitTests
               .ValueField("id")
               .DescField("description");
           })
-          .AddDimension("date", dimbuild => {
+          .AddDimension("date", dimbuild =>
+          {
             dimbuild
-            .SetToDateSource(DateTimeLevels.YEAR, DateTimeLevels.MONTH, DateTimeLevels.MONTH_SOLO, DateTimeLevels.DAY)
+            .SetToDateSource(DateTimeLevels.YEAR, DateTimeLevels.MONTH_WITH_YEAR, DateTimeLevels.MONTH, DateTimeLevels.DAY)
             .SetLevelLabels("Year", "Year Month", "Month", "Day");
           });
         });

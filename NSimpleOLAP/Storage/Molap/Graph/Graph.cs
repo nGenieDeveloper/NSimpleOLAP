@@ -135,7 +135,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
         if (coordsLastIndex == 0)
         {
           Array.Copy(node.Coords, 1, xcoords, 0, node.Coords.Length - 1);
-          Array.Copy(coords, 1, xcoords, node.Coords.Length - 1, xcoords.Length - (coords.Length - 1));
+          Array.Copy(coords, 1, xcoords, node.Coords.Length - 1, xcoords.Length - (node.Coords.Length - 1));
         }
         else
         {
@@ -197,7 +197,7 @@ namespace NSimpleOLAP.Storage.Molap.Graph
               if (index == 0)
               {
                 Array.Copy(item.Coords, 1, xcoords, 0, item.Coords.Length - 1);
-                Array.Copy(coords, 1, xcoords, item.Coords.Length - 1, xcoords.Length - (coords.Length - 1));
+                Array.Copy(coords, 1, xcoords, item.Coords.Length - 1, xcoords.Length - (item.Coords.Length - 1));
               }
               else
               {
