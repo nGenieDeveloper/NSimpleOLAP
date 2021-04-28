@@ -203,6 +203,8 @@
     <Compile Include="Query\QueryExtensions.cs" />
     <Compile Include="Common\Utils\DimensionReferenceTranslator.cs" />
     <Compile Include="Query\Builder\WhereBuilder.cs" />
+    <Compile Include="Renderers\ConsoleRenderer.cs" />
+    <Compile Include="Renderers\RenderingExtensions.cs" />
     <Compile Include="Schema\BaseDataMemberCollection.cs" />
     <Compile Include="Schema\DataSchema.cs" />
     <Compile Include="Schema\Dimension.cs" />

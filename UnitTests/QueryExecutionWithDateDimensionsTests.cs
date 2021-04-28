@@ -8,6 +8,7 @@ using NSimpleOLAP.Common;
 using NSimpleOLAP.Query;
 using NSimpleOLAP.Query.Builder;
 using NUnit.Framework;
+using NSimpleOLAP.Renderers;
 
 namespace UnitTests
 {
@@ -49,33 +50,7 @@ namespace UnitTests
       Assert.IsTrue(result.Count == 13);
 
       // output for checking, temporary
-      Console.WriteLine();
-
-      foreach (var row in result)
-      {
-        foreach (var col in row)
-        {
-          Console.Write("|");
-          if (col == null)
-            Console.Write("   ");
-           else
-          {
-            if (col.CellType == OutputCellType.COLUMN_LABEL)
-            {
-              foreach (var value in col.Column)
-                Console.Write($"{value.Key}.{value.Value}.");
-            }
-            if (col.CellType == OutputCellType.ROW_LABEL)
-            {
-              foreach (var value in col.Row)
-                Console.Write($"{value.Key}.{value.Value}.");
-            }
-            if (col.CellType == OutputCellType.DATA)
-              Console.Write(col["quantity"]);
-          }
-        }
-        Console.WriteLine();
-      }
+      result.RenderInConsole();
     }
   }
 }

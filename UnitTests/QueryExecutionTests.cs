@@ -3,6 +3,7 @@ using NSimpleOLAP.Query;
 using NSimpleOLAP.Query.Builder;
 using NUnit.Framework;
 using System.Linq;
+using NSimpleOLAP.Renderers;
 
 namespace UnitTests
 {
@@ -125,6 +126,8 @@ namespace UnitTests
       var result = query.StreamRows().ToList();
 
       Assert.IsTrue(result.Count == 4);
+
+      result.RenderInConsole();
     }
 
     [Test]
@@ -209,6 +212,8 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 8);
       Assert.IsTrue(result[0].Length == 2);
+
+      result.RenderInConsole();
     }
 
     [Test]
@@ -225,6 +230,8 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 13);
       Assert.IsTrue(result[0].Length == 3);
+
+      result.RenderInConsole();
     }
 
     [Test]
