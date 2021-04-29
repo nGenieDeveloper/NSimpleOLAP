@@ -183,38 +183,41 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
       var nxnode = FilterNode(node, ncoords) ? node : node.GetNode(GetHashPoints(ncoords));
 
-      if (selectors.Selectors.Length > selectorIndex + 1)
+      if (nxnode != null)
       {
-        if (currSelector.Item2.IsAll())
+        if (selectors.Selectors.Length > selectorIndex + 1)
         {
-          foreach (var item in nxnode.Adjacent)
+          if (currSelector.Item2.IsAll())
           {
-            if (!item.IsRootDim && FilterNode(item, new[] { currSelector.Item1 }))
+            foreach (var item in nxnode.Adjacent)
             {
-              var nlength = index != 0 ? coords.Length : coords.Length + 1;
-              var xcoords = new KeyValuePair<T, T>[nlength];
-
-              if (index == 0)
+              if (!item.IsRootDim && FilterNode(item, new[] { currSelector.Item1 }))
               {
-                Array.Copy(item.Coords, 1, xcoords, 0, item.Coords.Length - 1);
-                Array.Copy(coords, 1, xcoords, item.Coords.Length - 1, xcoords.Length - (item.Coords.Length - 1));
-              }
-              else
-              {
-                Array.Copy(coords, xcoords, coords.Length);
-                xcoords[index] = item.Coords[item.Coords.Length - 1];
-              }
+                var nlength = index != 0 ? coords.Length : coords.Length + 1;
+                var xcoords = new KeyValuePair<T, T>[nlength];
 
-              foreach (var nxitem in TravelNodes(item, xcoords, index, selectors, selectorIndex + 1))
-                yield return nxitem;
+                if (index == 0)
+                {
+                  Array.Copy(item.Coords, 1, xcoords, 0, item.Coords.Length - 1);
+                  Array.Copy(coords, 1, xcoords, item.Coords.Length - 1, xcoords.Length - (item.Coords.Length - 1));
+                }
+                else
+                {
+                  Array.Copy(coords, xcoords, coords.Length);
+                  xcoords[index] = item.Coords[item.Coords.Length - 1];
+                }
+
+                foreach (var nxitem in TravelNodes(item, xcoords, index, selectors, selectorIndex + 1))
+                  yield return nxitem;
+              }
             }
           }
         }
-      }
-      else
-      {
-        foreach (var item in GetLeafNodes(nxnode, currSelector, coords, index))
-          yield return item;
+        else
+        {
+          foreach (var item in GetLeafNodes(nxnode, currSelector, coords, index))
+            yield return item;
+        }
       }
     }
 

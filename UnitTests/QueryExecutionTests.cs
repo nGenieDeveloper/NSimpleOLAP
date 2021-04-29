@@ -248,5 +248,8 @@ namespace UnitTests
 
       Assert.IsTrue(result.Count == 4);
     }
+
+    //todo new test
+    // rows: Month.All columns: place.Paris.gender.All measures: quantity
   }
 }
