@@ -63,8 +63,8 @@ namespace NSimpleOLAP.Query.Layout
     private void ReplaceDefaultSegments(KeyValuePair<T, T>[] coords, KeyValuePair<T, T>[] destiny)
     {
       var query2 = destiny
-        .Where(x => x.Value.Equals(default(T)))
         .Select((x, i) => new { Pair2 = x, Index2 = i })
+        .Where(x => x.Pair2.Value.Equals(default(T)))
         .ToArray();
 
       if (query2.Length > 0)

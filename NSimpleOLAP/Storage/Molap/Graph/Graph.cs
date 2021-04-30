@@ -183,6 +183,12 @@ namespace NSimpleOLAP.Storage.Molap.Graph
 
       var nxnode = FilterNode(node, ncoords) ? node : node.GetNode(GetHashPoints(ncoords));
 
+      if (nxnode == null &&
+        index >= node.Coords.Length)
+      {
+        nxnode = node.GetNode(GetHashPoints(ncoords), node.Coords.Length -1);
+      }
+
       if (nxnode != null)
       {
         if (selectors.Selectors.Length > selectorIndex + 1)

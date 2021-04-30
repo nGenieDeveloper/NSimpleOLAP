@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSimpleOLAP;
-using NSimpleOLAP.Common;
+﻿using NSimpleOLAP;
 using NSimpleOLAP.Query;
-using NSimpleOLAP.Query.Builder;
-using NUnit.Framework;
 using NSimpleOLAP.Renderers;
+using NUnit.Framework;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -51,6 +45,57 @@ namespace UnitTests
 
       // output for checking, temporary
       result.RenderInConsole();
+    }
+
+    [Test]
+    public void Simple_Query_Month_Extra_All_On_Measure_Quantity()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("Month.All")
+        .OnColumns("place.Paris.sex.All")
+        .AddMeasuresOrMetrics("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      result.RenderInConsole();
+
+      Assert.IsTrue(result[0].Length == 3);
+      Assert.IsTrue(result.Count == 5);
+    }
+
+    [Test]
+    public void Simple_Query_Month_Extra_All_On_Reverse_Measure_Quantity()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("Month.All")
+        .OnColumns("sex.All.place.Paris")
+        .AddMeasuresOrMetrics("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      result.RenderInConsole();
+
+      Assert.IsTrue(result[0].Length == 3);
+      Assert.IsTrue(result.Count == 5);
+    }
+
+    [Test]
+    public void Simple_Query_Month_Day_Extra_All_Measure_Quantity()
+    {
+      var queryBuilder = cube.BuildQuery()
+        .OnRows("sex.All.Day.All")
+        .OnColumns("Month.January", "Month.February", "Month.March")
+        .AddMeasuresOrMetrics("quantity");
+
+      var query = queryBuilder.Create();
+      var result = query.StreamRows().ToList();
+
+      result.RenderInConsole();
+
+      Assert.IsTrue(result[0].Length == 4);
+      Assert.IsTrue(result.Count == 8);
     }
   }
 }

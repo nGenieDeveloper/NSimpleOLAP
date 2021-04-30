@@ -217,6 +217,7 @@ namespace NSimpleOLAP.Query.Molap
     private IEnumerable<IOutputCell<T>> GetColumnCells(IEnumerable<KeyValuePair<T, T>[]> pairs, Query<T> query)
     {
       var schemaDims = query.Cube.Schema.Dimensions;
+      var defaultValue = default(T);
 
       yield return null;
 
@@ -226,9 +227,13 @@ namespace NSimpleOLAP.Query.Molap
 
         foreach (var item in col)
         {
-          var value = new KeyValuePair<string, string>(schemaDims[item.Key].Name, schemaDims[item.Key].Members[item.Value].Name);
+          if (!item.Value.Equals(defaultValue))
+          {
+            var value = new KeyValuePair<string, string>(schemaDims[item.Key].Name, schemaDims[item.Key].Members[item.Value].Name);
 
-          descriptors.Add(value);
+            descriptors.Add(value);
+          }
+          
         }
 
         yield return new OutputCell<T>(col, descriptors.ToArray(), OutputCellType.COLUMN_LABEL);
