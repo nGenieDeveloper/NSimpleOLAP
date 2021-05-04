@@ -65,11 +65,29 @@ namespace NSimpleOLAP.Configuration.Fluent
 
     private IEnumerable<DimensionConfig> GetDimensions()
     {
+      var levels = new Dictionary<string, string>();
+
       foreach (var item in _dimensions)
       {
         DimensionBuilder builder = new DimensionBuilder().SetName(item.Key);
         item.Value(builder);
-        yield return builder.Create();
+        var config = builder.Create();
+
+        if (config.DimensionType == Common.DimensionType.Levels
+          && !levels.ContainsKey(config.Name))
+        {
+          foreach (var level in config.LevelLabels)
+          {
+            levels.Add(level, config.Name);
+          }
+        }
+        else if (config.DimensionType == Common.DimensionType.Levels
+          && levels.ContainsKey(config.Name))
+        {
+          config.ParentDimension = levels[config.Name];
+        }
+
+        yield return config;
       }
     }
 

@@ -96,5 +96,12 @@ namespace NSimpleOLAP.Configuration
       get { return (string[])this["levelLabels"]; }
       set { this["levelLabels"] = value; }
     }
+
+    [ConfigurationProperty("parentDimension")]
+    public string ParentDimension
+    {
+      get { return (string)this["parentDimension"]; }
+      set { this["parentDimension"] = value; }
+    }
   }
 }

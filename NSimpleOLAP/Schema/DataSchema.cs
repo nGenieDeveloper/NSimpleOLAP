@@ -83,6 +83,8 @@ namespace NSimpleOLAP.Schema
 
     private void InitializeDimensions()
     {
+      var levels = new Dictionary<string, string[]>();
+
       foreach (DimensionConfig item in this.Config.Dimensions)
       {
         if (item.DimensionType == DimensionType.Numeric 
@@ -115,6 +117,42 @@ namespace NSimpleOLAP.Schema
               .ToList();
 
             query.ForEach(x => dtItem.LevelDimensions.Add(x));
+          }
+        }
+        if (item.DimensionType == DimensionType.Levels)
+        {          
+          if (string.IsNullOrEmpty(item.ParentDimension))
+          {
+            var ldim = new DimensionLevel<T>(item, 0);
+
+            levels.Add(item.Name, item.LevelLabels);
+            this.Dimensions.Add(ldim);
+          }
+          else
+          {
+            var dLevels = levels[item.ParentDimension];
+            var index = Array.FindIndex(dLevels, x => x.Equals(item.Name));
+            var ldim = new DimensionLevel<T>(item, index);
+            var parentDim =(DimensionLevel<T>) this.Dimensions[item.ParentDimension];
+
+            parentDim.LevelDimensions.Add(ldim);
+            ldim.LevelDimensions.Add(parentDim);
+            this.Dimensions.Add(ldim);
+          }
+        }
+      }
+
+      foreach (var parentLevel in levels.Keys)
+      {
+        var parentDim = (DimensionLevel<T>)this.Dimensions[parentLevel];
+
+        foreach (var child in parentDim.LevelDimensions)
+        {
+          foreach (var child2 in parentDim.LevelDimensions)
+          {
+            if (!child.ID.Equals(child2.ID)
+              && !child2.ID.Equals(parentDim))
+              child.LevelDimensions.Add(child2);
           }
         }
       }

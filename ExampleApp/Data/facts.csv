@@ -1,4 +1,4 @@
-﻿category, sex, place, Date, expenses, items
+﻿category, gender, place, Date, expenses, items
 1, 1, 2, 2021-01-15,1000.12, 30
 2, 2, 2, 2021-03-05,200.50, 5
 4, 2, 5, 2021-10-17,11500.00, 101

@@ -74,8 +74,11 @@ namespace NSimpleOLAP.Configuration.Fluent
       return this;
     }
 
-    public DimensionBuilder SetLevelLabels(params string[] levels)
+    public DimensionBuilder SetLevelDimensions(params string[] levels)
     {
+      if (_element.DimensionType != DimensionType.Date)
+        _element.DimensionType = DimensionType.Levels;
+      
       _element.LevelLabels = levels;
       Validate();
       return this;
@@ -91,6 +94,7 @@ namespace NSimpleOLAP.Configuration.Fluent
             !string.IsNullOrEmpty(_element.ValueFieldName))
           throw new Exception("Date dimensions don't need a descriptor table mappings.");
         if (_element.LevelLabels?.Length > 0 && 
+           _element.DimensionType == DimensionType.Date &&
             _element.Levels.Count != _element.LevelLabels.Length)
           throw new Exception("The number of Date Time Levels don\'t match the number of Level Labels.");
       }
